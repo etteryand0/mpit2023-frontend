@@ -66,7 +66,7 @@ jobs:
         release_id: ${{ needs.release.outputs.release_id }}
 
   deploy:
-    needs: [release]
+    needs: [release, metadata, build]
     name: Deploy release build
     runs-on: self-hosted
     steps:
