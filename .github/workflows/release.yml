@@ -1,0 +1,82 @@
+name: Build and Release
+
+# Run on every commit tag which begins with "v" (e.g., v0.1.4)
+on:
+  push:
+    tags:
+      - "v*"
+
+# Automatically create a Github Release, with release details specified (the relevant commits)
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref_name }}
+        release_name: ${{ github.ref_name }}
+        draft: true
+        prerelease: false
+  
+  build:
+    name: Build application
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+    # Build application
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with: 
+        node-version: 16.x
+    - run: yarn
+    - run: yarn build
+
+    # Create Archive
+    - name: Create Archive
+      run: tar czf dist.tar.gz -C dist .
+    
+    # Upload built app
+    - name: Upload built app
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.release.outputs.upload_url }}
+        asset_path: dist.tar.gz
+        asset_name: dist.tar.gz
+        asset_content_type: application/gzip
+  
+  metadata:
+    name: Publish Release
+    needs: [release, build]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ needs.release.outputs.release_id }}
+
+  deploy:
+    needs: [release]
+    name: Deploy release build
+    runs-on: self-hosted
+    steps:
+    - name: Fetch built app
+      uses: dsaltares/fetch-gh-release-asset@master
+      with:
+        file: dist.tar.gz
+        token: ${{ secrets.GITHUB_TOKEN }}
+        version: ${{ needs.release.outputs.release_id }}
+    - name: Clear app folder
+      run: rm -rf /var/www/sergin.space/html/*
+    - name: Extract build archive
+      run: tar -xvzf dist.tar.gz -C /var/www/sergin.space/html
