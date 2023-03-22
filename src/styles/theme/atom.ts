@@ -8,7 +8,7 @@ export const themeAtom = atom<Theme>(get => {
   const themeKey = get(themeKeyAtom);
 
   if (themeKey === 'system') {
-    return isSystemDark ? themes.dark : themes.light;
+    return isSystemDark ? themes.light : themes.light;
   }
 
   return themes[themeKey];
