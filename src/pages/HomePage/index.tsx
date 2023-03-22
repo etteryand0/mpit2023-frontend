@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import Header from '@/components/Header';
 import { Col, Row, Button as ANTButton } from 'antd';
 import Paper from '@/components/Paper';
+import Card from '@/components/Card';
 
 const Section = styled.section`
   min-height: 100svh;
@@ -96,6 +97,25 @@ function HomePage() {
                 </Paper>
               </Col>
             </Row>
+          </Col>
+        </Row>
+      </Section>
+      <Section>
+        <Typography.Title level={2} color="primary" align="center">
+          Подзаголовок
+        </Typography.Title>
+        <Typography.Title level={1} align="center">
+          Заголовок
+        </Typography.Title>
+        <Row gutter={[20, 20]}>
+          <Col span={8}>
+            <Card></Card>
+          </Col>
+          <Col span={8}>
+            <Card></Card>
+          </Col>
+          <Col span={8}>
+            <Card></Card>
           </Col>
         </Row>
       </Section>

@@ -13,6 +13,7 @@ const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding-inline: ${({ theme }) => theme.horizontalPadding};
+  z-index: 1;
 `;
 
 const NavItem = styled.div`

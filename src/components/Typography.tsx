@@ -71,8 +71,8 @@ const H5 = styled.h2<TitleCSSProps>`
 
 const Paragraph = styled.p`
   color: ${({ theme }) => theme.textParagraph};
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 18px;
+  line-height: 26px;
 `;
 
 const Title = ({ level, children, ...props }: TitleProps) => {

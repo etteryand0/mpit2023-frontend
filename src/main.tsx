@@ -10,6 +10,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import 'sanitize.css/sanitize.css';
+import 'react-spring-bottom-sheet/dist/style.css';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -33,11 +34,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  <>
     <ThemeProvider>
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
     </ThemeProvider>
-  </React.StrictMode>,
+  </>,
 );

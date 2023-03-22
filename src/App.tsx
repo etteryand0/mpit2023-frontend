@@ -4,13 +4,14 @@ import { DevTools } from 'jotai-devtools';
 
 import { GlobalStyle } from './styles/global-styles';
 
-import HomePage from './pages/HomePage';
+// import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
+import MapPage from './pages/MapPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <MapPage />,
   },
   {
     path: '*',
