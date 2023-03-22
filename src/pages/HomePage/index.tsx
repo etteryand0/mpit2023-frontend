@@ -1,16 +1,25 @@
 import React from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
-import { atom } from 'jotai';
-import { useAtom } from 'jotai/react';
 import { Helmet } from 'react-helmet-async';
 import { useLoginMutation } from '@/generated/graphql';
+import styled from 'styled-components';
+import Typography from '@/components/Typography';
+import Button from '@/components/Button';
+import Header from '@/components/Header';
+import { Col, Row, Button as ANTButton } from 'antd';
+import Paper from '@/components/Paper';
 
-export const countAtom = atom(0);
+const Section = styled.section`
+  min-height: 100svh;
+  min-height: 100vh;
+  padding-inline: ${({ theme }) => theme.horizontalPadding};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.background};
+  /* border: 1px solid #000; */
+`;
 
 function HomePage() {
-  const [count, setCount] = useAtom(countAtom);
   const [doLogin] = useLoginMutation();
 
   const onLogin = async () => {
@@ -29,31 +38,67 @@ function HomePage() {
   };
 
   return (
-    <div className="App">
+    <div>
+      <Header />
       <Helmet>
-        <title>Home</title>
+        <title>Главная страница</title>
       </Helmet>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={onLogin}>login</button>
-        <p>
-          Edit <code>src/app/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Section>
+        <div>
+          <Typography.Title level={2} color="primary">
+            Подзаголовок
+          </Typography.Title>
+          <Typography.Title level={1}>Заголовок</Typography.Title>
+          <Typography.Paragraph>
+            Lorem ipsum dolor sit amet consectetur. Interdum sit ut pulvinar
+            vulputate quis pellentesque. Nec dignissim est viverra augue mi.
+          </Typography.Paragraph>
+          <Button size="large">Кнопка</Button>
+        </div>
+      </Section>
+      <Section>
+        <div>
+          <Typography.Title level={2} color="primary" align="center">
+            Подзаголовок
+          </Typography.Title>
+          <Typography.Title level={1} align="center">
+            Заголовок
+          </Typography.Title>
+        </div>
+        <Row gutter={[20, 20]}>
+          <Col span={12}>
+            <Paper height="100%">
+              <Typography.Title level={3}>Подзаголовок</Typography.Title>
+              <Typography.Paragraph>
+                Lorem ipsum dolor sit amet consectetur. Interdum sit ut pulvinar
+                vulputate quis pellentesque.
+              </Typography.Paragraph>
+            </Paper>
+          </Col>
+          <Col span={12}>
+            <Row gutter={[20, 20]}>
+              <Col span={24}>
+                <Paper>
+                  <Typography.Title level={3}>Подзаголовок</Typography.Title>
+                  <Typography.Paragraph>
+                    Lorem ipsum dolor sit amet consectetur. Interdum sit ut
+                    pulvinar vulputate quis pellentesque.
+                  </Typography.Paragraph>
+                </Paper>
+              </Col>
+              <Col span={24}>
+                <Paper>
+                  <Typography.Title level={3}>Подзаголовок</Typography.Title>
+                  <Typography.Paragraph>
+                    Lorem ipsum dolor sit amet consectetur. Interdum sit ut
+                    pulvinar vulputate quis pellentesque.
+                  </Typography.Paragraph>
+                </Paper>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Section>
     </div>
   );
 }

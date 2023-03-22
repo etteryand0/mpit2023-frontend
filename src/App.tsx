@@ -22,8 +22,8 @@ function App() {
   return (
     <HelmetProvider>
       <DevTools />
-      <Helmet titleTemplate="%s - Vite yopta" defaultTitle="Vite yopta">
-        <meta name="description" content="My Vite TS React boilerplate" />
+      <Helmet titleTemplate="%s - Сообщество" defaultTitle="Сообщество">
+        <meta name="description" content="Сообщество" />
       </Helmet>
       <RouterProvider router={router} />
       <GlobalStyle />
