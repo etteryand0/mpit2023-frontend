@@ -4,6 +4,7 @@ import { useSetAtom } from 'jotai';
 import React from 'react';
 import styled from 'styled-components';
 import { bottomSheetOpenAtom } from '../atom';
+import CreateEvent from './CreateEvent';
 
 const Header = styled.header`
   display: flex;
@@ -34,10 +35,16 @@ interface Props {
 }
 
 const Room = ({ title, image, description }: Props) => {
+  const [open, setOpen] = React.useState(false);
   const setBottomSheetOpen = useSetAtom(bottomSheetOpenAtom);
   if (image && !image?.startsWith('/')) {
     image = 'https://sergin.space/static/' + image;
   }
+
+  if (open) {
+    return <CreateEvent toggle={() => setOpen(false)} />;
+  }
+
   return (
     <div style={{ width: '100%' }}>
       <Header>
@@ -56,7 +63,20 @@ const Room = ({ title, image, description }: Props) => {
       </Header>
       <Typography.Paragraph>{description}</Typography.Paragraph>
       {image ? <EventImage src={image} /> : null}
-      <MascotImage src="/mascot.svg" />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <Button
+          style={{ fontSize: 20, paddingInline: 15, marginTop: 25 }}
+          onClick={() => setOpen(true)}
+        >
+          Заявка на новое мероприятие
+        </Button>
+      </div>
     </div>
   );
 };

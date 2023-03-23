@@ -1,0 +1,22 @@
+query prepareIssueEvent {
+  findManyCategory {
+    id
+    title
+  }
+
+  findManyUser(
+    where: {
+      OR: [
+        { role: { equals: Dean }},
+        { role: { equals: Staff }},
+      ]
+    }
+  ) {
+    id
+    profile {
+      jobTitle
+      name
+      surname
+    }
+  }
+}

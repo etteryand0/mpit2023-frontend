@@ -1,0 +1,12 @@
+query findMyRegisteredEvents{
+  findMyRegisteredEvents {
+    id
+    date
+    shortDescription
+    image
+    title
+    categories {
+      title
+    }
+  }
+}

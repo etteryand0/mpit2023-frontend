@@ -1,0 +1,5 @@
+mutation issueEvent($data: IssueEventInput!) {
+  issueEvent(data: $data) {
+    id
+  }
+}

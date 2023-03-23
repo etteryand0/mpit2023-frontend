@@ -13,3 +13,12 @@ export const bottomSheetOpenEventAtom = atom<BottomSheetOpenEvent>({
   type: 'tabClick',
   payload: null,
 });
+
+// export const bottomSheetNavigationAtom = atom(get => {
+//   const { type } = get(bottomSheetOpenEventAtom);
+
+//   return {
+//     type,
+//     path: ''
+//   }
+// });

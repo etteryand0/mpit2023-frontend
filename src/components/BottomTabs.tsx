@@ -38,8 +38,8 @@ const BottomTabs = ({ activeTab }: BottomTabsProps) => {
     if ((location === undefined || location?.pathname === '/') && to === '/') {
       setBottomOpenSheet(true);
       setBottomSheetOpenEvent({
-        type: 'roomClick',
-        payload: 'act_zal',
+        type: 'tabClick',
+        payload: null,
       });
       // setBottomSheetOpenEvent({
       //   type: 'tabClick',

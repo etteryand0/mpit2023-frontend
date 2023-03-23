@@ -97,10 +97,16 @@ const Controls = ({ floor, setFloor, setScale }: any) => {
 
 const Map = () => {
   const [floor, setFloor] = React.useState(1);
-  const s = (window.innerWidth - 20) / 1135;
+  const sw = (window.innerWidth - 20) / 1135;
+  const sh = (window.innerHeight - 200) / 760;
+  let s = sw < 0.5 ? 0.5 : sw;
+  let tx = 0;
+  if (window.innerWidth > 1135 * sh) {
+    s = sh > 1.5 ? 1.5 : sh;
+    tx = (window.innerWidth - 1135 * s) / 2;
+  }
   const [scale, setScale] = React.useState(s < 0.5 ? 0.5 : s);
-  const [translation, setTranslation] = React.useState({ x: 0, y: 0 });
-  console.log(scale, translation);
+  const [translation, setTranslation] = React.useState({ x: tx, y: 0 });
 
   return (
     <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -114,26 +120,9 @@ const Map = () => {
           setScale(scale);
           setTranslation(translation);
         }}
-        // translationBounds={{
-        //   xMax: 100,
-        //   xMin: -100,
-        //   yMax: 32,
-        //   yMin: -32,
-        // }}
       >
         {floor === 1 ? <FloorOne /> : <FloorTwo />}
       </MapInteractionCSS>
-
-      {/* <TransformWrapper
-        centerZoomedOut
-        alignmentAnimation={{ disabled: true }}
-        limitToBounds={false}
-        initialPositionX={100}
-      >
-        <TransformComponent>
-          {floor === 1 ? <FloorOne /> : <FloorTwo />}
-        </TransformComponent>
-      </TransformWrapper> */}
     </div>
   );
 };

@@ -1,10 +1,11 @@
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import styled from 'styled-components';
-import { bottomSheetOpenAtom } from './atom';
+import { bottomSheetOpenAtom, bottomSheetOpenEventAtom } from './atom';
 import BottomTabs from '@/components/BottomTabs';
 import RoomClick from './RoomClick';
 import Map from './Map';
+import TabClick from './TabClick';
 
 const Container = styled.div`
   background-color: #d8d8d8;
@@ -28,6 +29,17 @@ const Logo = styled.img`
   width: 250px;
 `;
 
+const Type = () => {
+  const bottomSheetOpenEvent = useAtomValue(bottomSheetOpenEventAtom);
+
+  switch (bottomSheetOpenEvent.type) {
+    case 'tabClick':
+      return <TabClick />;
+    case 'roomClick':
+      return <RoomClick />;
+  }
+};
+
 const MapPage = () => {
   const [bottomSheetOpen, setBottomSheetOpen] = useAtom(bottomSheetOpenAtom);
 
@@ -41,13 +53,14 @@ const MapPage = () => {
         onDismiss={() => setBottomSheetOpen(false)}
         skipInitialTransition
         expandOnContentDrag
+        blocking={false}
         snapPoints={({ maxHeight }) => [
           maxHeight - maxHeight / 10,
           maxHeight / 4,
           maxHeight * 0.6,
         ]}
       >
-        <RoomClick />
+        <Type />
       </BottomSheet>
     </Container>
   );

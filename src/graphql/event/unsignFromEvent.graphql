@@ -1,0 +1,5 @@
+mutation unsignFromEvent($eventId: String!) {
+  unsignFromEvent(eventId: $eventId) {
+    id
+  }
+}

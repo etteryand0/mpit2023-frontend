@@ -12,6 +12,7 @@ interface TitleProps {
 type TitleCSSProps = Exclude<TitleProps, 'level' | 'children'>;
 
 const H1 = styled.h1<TitleCSSProps>`
+  white-space: normal;
   font-size: 48px;
   font-weight: 800;
   text-transform: uppercase;
@@ -25,6 +26,7 @@ const H1 = styled.h1<TitleCSSProps>`
 
 const H2 = styled.h2<TitleCSSProps>`
   font-size: 32px;
+  white-space: normal;
   font-weight: 500;
   text-align: ${({ align }) => align};
   text-transform: uppercase;
@@ -37,6 +39,7 @@ const H2 = styled.h2<TitleCSSProps>`
 
 const H3 = styled.h2<TitleCSSProps>`
   font-size: 24px;
+  white-space: normal;
   font-weight: 600;
   text-align: ${({ align }) => align};
   color: ${({ theme, color }) => {

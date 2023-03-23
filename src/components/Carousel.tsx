@@ -9,7 +9,6 @@ const ViewPort = styled.div`
 const Inner = styled.div`
   white-space: nowrap;
   transition: transform 0.3s;
-  /* overflow: hidden; */
 `;
 
 export const CarouselItem = styled.div`

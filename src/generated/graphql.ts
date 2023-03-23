@@ -64,6 +64,13 @@ export type AggregateRoom = {
   _min?: Maybe<RoomMinAggregateOutputType>;
 };
 
+export type AggregateShortLink = {
+  __typename?: 'AggregateShortLink';
+  _count?: Maybe<ShortLinkCountAggregateOutputType>;
+  _max?: Maybe<ShortLinkMaxAggregateOutputType>;
+  _min?: Maybe<ShortLinkMinAggregateOutputType>;
+};
+
 export type AggregateUser = {
   __typename?: 'AggregateUser';
   _count?: Maybe<UserCountAggregateOutputType>;
@@ -827,6 +834,7 @@ export type Event = {
   room: Room;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks: Array<ShortLink>;
   title: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
 };
@@ -861,6 +869,16 @@ export type EventResponsiblesArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
+export type EventShortLinksArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  distinct?: InputMaybe<ShortLinkScalarFieldEnum>;
+  orderBy?: InputMaybe<ShortLinkOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
+};
+
 export type EventCountAggregateOutputType = {
   __typename?: 'EventCountAggregateOutputType';
   _all: Scalars['Int'];
@@ -892,6 +910,7 @@ export type EventCountOutputType = {
   categories: Scalars['Int'];
   participants: Scalars['Int'];
   responsibles: Scalars['Int'];
+  shortLinks: Scalars['Int'];
 };
 
 export type EventCreateInput = {
@@ -907,6 +926,7 @@ export type EventCreateInput = {
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -992,6 +1012,12 @@ export type EventCreateNestedOneWithoutChatInput = {
   create?: InputMaybe<EventUncheckedCreateWithoutChatInput>;
 };
 
+export type EventCreateNestedOneWithoutShortLinksInput = {
+  connect?: InputMaybe<EventWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<EventCreateOrConnectWithoutShortLinksInput>;
+  create?: InputMaybe<EventUncheckedCreateWithoutShortLinksInput>;
+};
+
 export type EventCreateOrConnectWithoutCategoriesInput = {
   create: EventUncheckedCreateWithoutCategoriesInput;
   where: EventWhereUniqueInput;
@@ -1022,6 +1048,11 @@ export type EventCreateOrConnectWithoutRoomInput = {
   where: EventWhereUniqueInput;
 };
 
+export type EventCreateOrConnectWithoutShortLinksInput = {
+  create: EventUncheckedCreateWithoutShortLinksInput;
+  where: EventWhereUniqueInput;
+};
+
 export type EventCreateWithoutCategoriesInput = {
   approved?: InputMaybe<Scalars['Boolean']>;
   chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
@@ -1034,6 +1065,7 @@ export type EventCreateWithoutCategoriesInput = {
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1049,6 +1081,7 @@ export type EventCreateWithoutChatInput = {
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1064,6 +1097,7 @@ export type EventCreateWithoutIssuedByInput = {
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1079,6 +1113,7 @@ export type EventCreateWithoutParticipantsInput = {
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1094,6 +1129,7 @@ export type EventCreateWithoutResponsiblesInput = {
   participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
   room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1108,6 +1144,23 @@ export type EventCreateWithoutRoomInput = {
   issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
   participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutEventInput>;
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutShortLinksInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
   shortDescription: Scalars['String'];
   title: Scalars['String'];
 };
@@ -1201,6 +1254,7 @@ export type EventOrderByWithRelationInput = {
   room?: InputMaybe<RoomOrderByWithRelationInput>;
   roomId?: InputMaybe<SortOrder>;
   shortDescription?: InputMaybe<SortOrder>;
+  shortLinks?: InputMaybe<ShortLinkOrderByRelationAggregateInput>;
   title?: InputMaybe<SortOrder>;
   userId?: InputMaybe<SortOrder>;
 };
@@ -1264,6 +1318,7 @@ export type EventUncheckedCreateInput = {
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1311,6 +1366,7 @@ export type EventUncheckedCreateWithoutCategoriesInput = {
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1326,6 +1382,7 @@ export type EventUncheckedCreateWithoutChatInput = {
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1342,6 +1399,7 @@ export type EventUncheckedCreateWithoutIssuedByInput = {
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
 };
 
@@ -1356,6 +1414,7 @@ export type EventUncheckedCreateWithoutParticipantsInput = {
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1371,6 +1430,7 @@ export type EventUncheckedCreateWithoutResponsiblesInput = {
   participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
   roomId: Scalars['String'];
   shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1385,6 +1445,23 @@ export type EventUncheckedCreateWithoutRoomInput = {
   image?: InputMaybe<Scalars['String']>;
   participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
   responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  shortDescription: Scalars['String'];
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutEventInput>;
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type EventUncheckedCreateWithoutShortLinksInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
   shortDescription: Scalars['String'];
   title: Scalars['String'];
   userId?: InputMaybe<Scalars['String']>;
@@ -1402,6 +1479,7 @@ export type EventUncheckedUpdateInput = {
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
@@ -1543,6 +1621,7 @@ export type EventUncheckedUpdateWithoutCategoriesInput = {
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
@@ -1558,6 +1637,7 @@ export type EventUncheckedUpdateWithoutChatInput = {
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
@@ -1574,6 +1654,7 @@ export type EventUncheckedUpdateWithoutIssuedByInput = {
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1588,6 +1669,7 @@ export type EventUncheckedUpdateWithoutParticipantsInput = {
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
@@ -1603,6 +1685,7 @@ export type EventUncheckedUpdateWithoutResponsiblesInput = {
   participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
   roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
@@ -1617,6 +1700,23 @@ export type EventUncheckedUpdateWithoutRoomInput = {
   image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
   responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutEventNestedInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type EventUncheckedUpdateWithoutShortLinksInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
   userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
@@ -1635,6 +1735,7 @@ export type EventUpdateInput = {
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1748,6 +1849,14 @@ export type EventUpdateOneRequiredWithoutChatNestedInput = {
   upsert?: InputMaybe<EventUpsertWithoutChatInput>;
 };
 
+export type EventUpdateOneRequiredWithoutShortLinksNestedInput = {
+  connect?: InputMaybe<EventWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<EventCreateOrConnectWithoutShortLinksInput>;
+  create?: InputMaybe<EventUncheckedCreateWithoutShortLinksInput>;
+  update?: InputMaybe<EventUncheckedUpdateWithoutShortLinksInput>;
+  upsert?: InputMaybe<EventUpsertWithoutShortLinksInput>;
+};
+
 export type EventUpdateWithWhereUniqueWithoutCategoriesInput = {
   data: EventUncheckedUpdateWithoutCategoriesInput;
   where: EventWhereUniqueInput;
@@ -1785,6 +1894,7 @@ export type EventUpdateWithoutCategoriesInput = {
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1800,6 +1910,7 @@ export type EventUpdateWithoutChatInput = {
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1815,6 +1926,7 @@ export type EventUpdateWithoutIssuedByInput = {
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1830,6 +1942,7 @@ export type EventUpdateWithoutParticipantsInput = {
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1845,6 +1958,7 @@ export type EventUpdateWithoutResponsiblesInput = {
   participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
   room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -1859,6 +1973,23 @@ export type EventUpdateWithoutRoomInput = {
   issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
   participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
   responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutEventNestedInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutShortLinksInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
   shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -1898,6 +2029,11 @@ export type EventUpsertWithoutChatInput = {
   update: EventUncheckedUpdateWithoutChatInput;
 };
 
+export type EventUpsertWithoutShortLinksInput = {
+  create: EventUncheckedCreateWithoutShortLinksInput;
+  update: EventUncheckedUpdateWithoutShortLinksInput;
+};
+
 export type EventWhereInput = {
   AND?: InputMaybe<Array<InputMaybe<EventWhereInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<EventWhereInput>>>;
@@ -1915,6 +2051,7 @@ export type EventWhereInput = {
   room?: InputMaybe<RoomWhereInput>;
   roomId?: InputMaybe<StringFilter>;
   shortDescription?: InputMaybe<StringFilter>;
+  shortLinks?: InputMaybe<ShortLinkListRelationFilter>;
   title?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringNullableFilter>;
 };
@@ -1964,7 +2101,7 @@ export type IssueEventInput = {
   chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
   date: Scalars['DateTime'];
   description: Scalars['String'];
-  id: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['String']>;
   participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
   responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
@@ -2390,6 +2527,7 @@ export type Mutation = {
   createOneMessage: Message;
   createOneProfile: Profile;
   createOneRoom: Room;
+  createOneShortLink: ShortLink;
   createOneUser: User;
   deleteManyCategory: BatchPayload;
   deleteManyChat: BatchPayload;
@@ -2397,6 +2535,7 @@ export type Mutation = {
   deleteManyMessage: BatchPayload;
   deleteManyProfile: BatchPayload;
   deleteManyRoom: BatchPayload;
+  deleteManyShortLink: BatchPayload;
   deleteManyUser: BatchPayload;
   deleteOneCategory?: Maybe<Category>;
   deleteOneChat?: Maybe<Chat>;
@@ -2404,12 +2543,15 @@ export type Mutation = {
   deleteOneMessage?: Maybe<Message>;
   deleteOneProfile?: Maybe<Profile>;
   deleteOneRoom?: Maybe<Room>;
+  deleteOneShortLink?: Maybe<ShortLink>;
   deleteOneUser?: Maybe<User>;
+  generateShortLink: Scalars['String'];
   issueEvent: Event;
   login: Token;
   registerForEvent: Event;
   sendMessage: Message;
   signup: Token;
+  unsignFromEvent: Event;
   updateManyCategory: BatchPayload;
   updateManyChat: BatchPayload;
   updateManyEvent: BatchPayload;
@@ -2424,6 +2566,7 @@ export type Mutation = {
   updateOneMessage: Message;
   updateOneProfile: Profile;
   updateOneRoom: Room;
+  updateOneShortLink: ShortLink;
   updateOneUser: User;
   upsertOneCategory: Category;
   upsertOneChat: Chat;
@@ -2431,6 +2574,7 @@ export type Mutation = {
   upsertOneMessage: Message;
   upsertOneProfile: Profile;
   upsertOneRoom: Room;
+  upsertOneShortLink: ShortLink;
   upsertOneUser: User;
 };
 
@@ -2470,6 +2614,11 @@ export type MutationCreateOneRoomArgs = {
 };
 
 
+export type MutationCreateOneShortLinkArgs = {
+  data: ShortLinkCreateInput;
+};
+
+
 export type MutationCreateOneUserArgs = {
   data: UserCreateInput;
 };
@@ -2502,6 +2651,11 @@ export type MutationDeleteManyProfileArgs = {
 
 export type MutationDeleteManyRoomArgs = {
   where?: InputMaybe<RoomWhereInput>;
+};
+
+
+export type MutationDeleteManyShortLinkArgs = {
+  where?: InputMaybe<ShortLinkWhereInput>;
 };
 
 
@@ -2540,8 +2694,18 @@ export type MutationDeleteOneRoomArgs = {
 };
 
 
+export type MutationDeleteOneShortLinkArgs = {
+  where: ShortLinkWhereUniqueInput;
+};
+
+
 export type MutationDeleteOneUserArgs = {
   where: UserWhereUniqueInput;
+};
+
+
+export type MutationGenerateShortLinkArgs = {
+  eventId: Scalars['String'];
 };
 
 
@@ -2567,6 +2731,11 @@ export type MutationSendMessageArgs = {
 
 export type MutationSignupArgs = {
   data: SignUpInput;
+};
+
+
+export type MutationUnsignFromEventArgs = {
+  eventId: Scalars['String'];
 };
 
 
@@ -2653,6 +2822,12 @@ export type MutationUpdateOneRoomArgs = {
 };
 
 
+export type MutationUpdateOneShortLinkArgs = {
+  data: ShortLinkUpdateInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+
 export type MutationUpdateOneUserArgs = {
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
@@ -2698,6 +2873,13 @@ export type MutationUpsertOneRoomArgs = {
   create: RoomCreateInput;
   update: RoomUpdateInput;
   where: RoomWhereUniqueInput;
+};
+
+
+export type MutationUpsertOneShortLinkArgs = {
+  create: ShortLinkCreateInput;
+  update: ShortLinkUpdateInput;
+  where: ShortLinkWhereUniqueInput;
 };
 
 
@@ -3202,6 +3384,7 @@ export type Query = {
   aggregateMessage?: Maybe<AggregateMessage>;
   aggregateProfile?: Maybe<AggregateProfile>;
   aggregateRoom?: Maybe<AggregateRoom>;
+  aggregateShortLink?: Maybe<AggregateShortLink>;
   aggregateUser?: Maybe<AggregateUser>;
   findFirstCategory?: Maybe<Category>;
   findFirstChat?: Maybe<Chat>;
@@ -3209,6 +3392,7 @@ export type Query = {
   findFirstMessage?: Maybe<Message>;
   findFirstProfile?: Maybe<Profile>;
   findFirstRoom?: Maybe<Room>;
+  findFirstShortLink?: Maybe<ShortLink>;
   findFirstUser?: Maybe<User>;
   findManyCategory: Array<Category>;
   findManyCategoryCount: Scalars['Int'];
@@ -3222,14 +3406,18 @@ export type Query = {
   findManyProfileCount: Scalars['Int'];
   findManyRoom: Array<Room>;
   findManyRoomCount: Scalars['Int'];
+  findManyShortLink: Array<ShortLink>;
+  findManyShortLinkCount: Scalars['Int'];
   findManyUser: Array<User>;
   findManyUserCount: Scalars['Int'];
+  findMyRegisteredEvents: Array<Event>;
   findUniqueCategory?: Maybe<Category>;
   findUniqueChat?: Maybe<Chat>;
   findUniqueEvent?: Maybe<Event>;
   findUniqueMessage?: Maybe<Message>;
   findUniqueProfile?: Maybe<Profile>;
   findUniqueRoom?: Maybe<Room>;
+  findUniqueShortLink?: Maybe<ShortLink>;
   findUniqueUser?: Maybe<User>;
   me: User;
 };
@@ -3286,6 +3474,15 @@ export type QueryAggregateRoomArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<RoomWhereInput>;
+};
+
+
+export type QueryAggregateShortLinkArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<ShortLinkOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
 };
 
 
@@ -3355,6 +3552,16 @@ export type QueryFindFirstRoomArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<RoomWhereInput>;
+};
+
+
+export type QueryFindFirstShortLinkArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ShortLinkScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ShortLinkOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
 };
 
 
@@ -3488,6 +3695,26 @@ export type QueryFindManyRoomCountArgs = {
 };
 
 
+export type QueryFindManyShortLinkArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ShortLinkScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ShortLinkOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
+};
+
+
+export type QueryFindManyShortLinkCountArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ShortLinkScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ShortLinkOrderByWithRelationInput>>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
+};
+
+
 export type QueryFindManyUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
   distinct?: InputMaybe<Array<InputMaybe<UserScalarFieldEnum>>>;
@@ -3535,6 +3762,11 @@ export type QueryFindUniqueProfileArgs = {
 
 export type QueryFindUniqueRoomArgs = {
   where: RoomWhereUniqueInput;
+};
+
+
+export type QueryFindUniqueShortLinkArgs = {
+  where: ShortLinkWhereUniqueInput;
 };
 
 
@@ -3811,6 +4043,354 @@ export type SendMessageInput = {
   message: Scalars['String'];
 };
 
+export type ShortLink = {
+  __typename?: 'ShortLink';
+  event: Event;
+  eventId: Scalars['String'];
+  path: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+};
+
+export type ShortLinkCountAggregateOutputType = {
+  __typename?: 'ShortLinkCountAggregateOutputType';
+  _all: Scalars['Int'];
+  eventId: Scalars['Int'];
+  path: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type ShortLinkCountOrderByAggregateInput = {
+  eventId?: InputMaybe<SortOrder>;
+  path?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type ShortLinkCreateInput = {
+  event: EventCreateNestedOneWithoutShortLinksInput;
+  path: Scalars['String'];
+  user: UserCreateNestedOneWithoutShortLinksInput;
+};
+
+export type ShortLinkCreateManyEventInput = {
+  path: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type ShortLinkCreateManyEventInputEnvelope = {
+  data: ShortLinkCreateManyEventInput;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type ShortLinkCreateManyInput = {
+  eventId: Scalars['String'];
+  path: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type ShortLinkCreateManyUserInput = {
+  eventId: Scalars['String'];
+  path: Scalars['String'];
+};
+
+export type ShortLinkCreateManyUserInputEnvelope = {
+  data: ShortLinkCreateManyUserInput;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type ShortLinkCreateNestedManyWithoutEventInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutEventInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutEventInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyEventInputEnvelope>;
+};
+
+export type ShortLinkCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutUserInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutUserInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyUserInputEnvelope>;
+};
+
+export type ShortLinkCreateOrConnectWithoutEventInput = {
+  create: ShortLinkUncheckedCreateWithoutEventInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkCreateOrConnectWithoutUserInput = {
+  create: ShortLinkUncheckedCreateWithoutUserInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkCreateWithoutEventInput = {
+  path: Scalars['String'];
+  user: UserCreateNestedOneWithoutShortLinksInput;
+};
+
+export type ShortLinkCreateWithoutUserInput = {
+  event: EventCreateNestedOneWithoutShortLinksInput;
+  path: Scalars['String'];
+};
+
+export type ShortLinkListRelationFilter = {
+  every?: InputMaybe<ShortLinkWhereInput>;
+  none?: InputMaybe<ShortLinkWhereInput>;
+  some?: InputMaybe<ShortLinkWhereInput>;
+};
+
+export type ShortLinkMaxAggregateOutputType = {
+  __typename?: 'ShortLinkMaxAggregateOutputType';
+  eventId?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type ShortLinkMaxOrderByAggregateInput = {
+  eventId?: InputMaybe<SortOrder>;
+  path?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type ShortLinkMinAggregateOutputType = {
+  __typename?: 'ShortLinkMinAggregateOutputType';
+  eventId?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type ShortLinkMinOrderByAggregateInput = {
+  eventId?: InputMaybe<SortOrder>;
+  path?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type ShortLinkOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type ShortLinkOrderByWithAggregationInput = {
+  _count?: InputMaybe<ShortLinkCountOrderByAggregateInput>;
+  _max?: InputMaybe<ShortLinkMaxOrderByAggregateInput>;
+  _min?: InputMaybe<ShortLinkMinOrderByAggregateInput>;
+  eventId?: InputMaybe<SortOrder>;
+  path?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export type ShortLinkOrderByWithRelationInput = {
+  event?: InputMaybe<EventOrderByWithRelationInput>;
+  eventId?: InputMaybe<SortOrder>;
+  path?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
+export enum ShortLinkScalarFieldEnum {
+  EventId = 'eventId',
+  Path = 'path',
+  UserId = 'userId'
+}
+
+export type ShortLinkScalarWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  eventId?: InputMaybe<StringFilter>;
+  path?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type ShortLinkScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereWithAggregatesInput>>>;
+  eventId?: InputMaybe<StringWithAggregatesFilter>;
+  path?: InputMaybe<StringWithAggregatesFilter>;
+  userId?: InputMaybe<StringWithAggregatesFilter>;
+};
+
+export type ShortLinkUncheckedCreateInput = {
+  eventId: Scalars['String'];
+  path: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type ShortLinkUncheckedCreateNestedManyWithoutEventInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutEventInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutEventInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyEventInputEnvelope>;
+};
+
+export type ShortLinkUncheckedCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutUserInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutUserInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyUserInputEnvelope>;
+};
+
+export type ShortLinkUncheckedCreateWithoutEventInput = {
+  path: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type ShortLinkUncheckedCreateWithoutUserInput = {
+  eventId: Scalars['String'];
+  path: Scalars['String'];
+};
+
+export type ShortLinkUncheckedUpdateInput = {
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUncheckedUpdateManyInput = {
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUncheckedUpdateManyWithoutEventNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutEventInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutEventInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyEventInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ShortLinkUpdateWithWhereUniqueWithoutEventInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ShortLinkUpdateManyWithWhereWithoutEventInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ShortLinkUpsertWithWhereUniqueWithoutEventInput>>>;
+};
+
+export type ShortLinkUncheckedUpdateManyWithoutShortLinksInput = {
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUncheckedUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutUserInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutUserInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ShortLinkUpdateWithWhereUniqueWithoutUserInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ShortLinkUpdateManyWithWhereWithoutUserInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ShortLinkUpsertWithWhereUniqueWithoutUserInput>>>;
+};
+
+export type ShortLinkUncheckedUpdateWithoutEventInput = {
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUncheckedUpdateWithoutUserInput = {
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUpdateInput = {
+  event?: InputMaybe<EventUpdateOneRequiredWithoutShortLinksNestedInput>;
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutShortLinksNestedInput>;
+};
+
+export type ShortLinkUpdateManyMutationInput = {
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUpdateManyWithWhereWithoutEventInput = {
+  data: ShortLinkUncheckedUpdateManyWithoutShortLinksInput;
+  where: ShortLinkScalarWhereInput;
+};
+
+export type ShortLinkUpdateManyWithWhereWithoutUserInput = {
+  data: ShortLinkUncheckedUpdateManyWithoutShortLinksInput;
+  where: ShortLinkScalarWhereInput;
+};
+
+export type ShortLinkUpdateManyWithoutEventNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutEventInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutEventInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyEventInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ShortLinkUpdateWithWhereUniqueWithoutEventInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ShortLinkUpdateManyWithWhereWithoutEventInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ShortLinkUpsertWithWhereUniqueWithoutEventInput>>>;
+};
+
+export type ShortLinkUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ShortLinkCreateOrConnectWithoutUserInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ShortLinkCreateWithoutUserInput>>>;
+  createMany?: InputMaybe<ShortLinkCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ShortLinkScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ShortLinkWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ShortLinkUpdateWithWhereUniqueWithoutUserInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ShortLinkUpdateManyWithWhereWithoutUserInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ShortLinkUpsertWithWhereUniqueWithoutUserInput>>>;
+};
+
+export type ShortLinkUpdateWithWhereUniqueWithoutEventInput = {
+  data: ShortLinkUncheckedUpdateWithoutEventInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkUpdateWithWhereUniqueWithoutUserInput = {
+  data: ShortLinkUncheckedUpdateWithoutUserInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkUpdateWithoutEventInput = {
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutShortLinksNestedInput>;
+};
+
+export type ShortLinkUpdateWithoutUserInput = {
+  event?: InputMaybe<EventUpdateOneRequiredWithoutShortLinksNestedInput>;
+  path?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ShortLinkUpsertWithWhereUniqueWithoutEventInput = {
+  create: ShortLinkUncheckedCreateWithoutEventInput;
+  update: ShortLinkUncheckedUpdateWithoutEventInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkUpsertWithWhereUniqueWithoutUserInput = {
+  create: ShortLinkUncheckedCreateWithoutUserInput;
+  update: ShortLinkUncheckedUpdateWithoutUserInput;
+  where: ShortLinkWhereUniqueInput;
+};
+
+export type ShortLinkWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<ShortLinkWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ShortLinkWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ShortLinkWhereInput>>>;
+  event?: InputMaybe<EventWhereInput>;
+  eventId?: InputMaybe<StringFilter>;
+  path?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserWhereInput>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type ShortLinkWhereUniqueInput = {
+  eventId?: InputMaybe<Scalars['String']>;
+  path?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
 export type SignInInput = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -3950,6 +4530,7 @@ export type User = {
   password: Scalars['String'];
   profile?: Maybe<Profile>;
   role: UserRole;
+  shortLinks: Array<ShortLink>;
   username: Scalars['String'];
 };
 
@@ -4003,6 +4584,16 @@ export type UserMessagesArgs = {
   where?: InputMaybe<MessageWhereInput>;
 };
 
+
+export type UserShortLinksArgs = {
+  cursor?: InputMaybe<ShortLinkWhereUniqueInput>;
+  distinct?: InputMaybe<ShortLinkScalarFieldEnum>;
+  orderBy?: InputMaybe<ShortLinkOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ShortLinkWhereInput>;
+};
+
 export type UserCountAggregateOutputType = {
   __typename?: 'UserCountAggregateOutputType';
   _all: Scalars['Int'];
@@ -4030,6 +4621,7 @@ export type UserCountOutputType = {
   eventsParticipating: Scalars['Int'];
   eventsResponsible: Scalars['Int'];
   messages: Scalars['Int'];
+  shortLinks: Scalars['Int'];
 };
 
 export type UserCreateInput = {
@@ -4045,6 +4637,7 @@ export type UserCreateInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4105,6 +4698,12 @@ export type UserCreateNestedOneWithoutProfileInput = {
   create?: InputMaybe<UserUncheckedCreateWithoutProfileInput>;
 };
 
+export type UserCreateNestedOneWithoutShortLinksInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutShortLinksInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutShortLinksInput>;
+};
+
 export type UserCreateOrConnectWithoutChatsInput = {
   create: UserUncheckedCreateWithoutChatsInput;
   where: UserWhereUniqueInput;
@@ -4145,6 +4744,11 @@ export type UserCreateOrConnectWithoutProfileInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateOrConnectWithoutShortLinksInput = {
+  create: UserUncheckedCreateWithoutShortLinksInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateWithoutChatsInput = {
   child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
@@ -4157,6 +4761,7 @@ export type UserCreateWithoutChatsInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4172,6 +4777,7 @@ export type UserCreateWithoutChildInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4187,6 +4793,7 @@ export type UserCreateWithoutEventsIssuedInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4202,6 +4809,7 @@ export type UserCreateWithoutEventsParticipatingInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4217,6 +4825,7 @@ export type UserCreateWithoutEventsResponsibleInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4232,6 +4841,7 @@ export type UserCreateWithoutMessagesInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4247,6 +4857,7 @@ export type UserCreateWithoutParentInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4261,6 +4872,23 @@ export type UserCreateWithoutProfileInput = {
   messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
   parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
   password: Scalars['String'];
+  role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkCreateNestedManyWithoutUserInput>;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutShortLinksInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
   role: UserRole;
   username: Scalars['String'];
 };
@@ -4339,6 +4967,7 @@ export type UserOrderByWithRelationInput = {
   password?: InputMaybe<SortOrder>;
   profile?: InputMaybe<ProfileOrderByWithRelationInput>;
   role?: InputMaybe<SortOrder>;
+  shortLinks?: InputMaybe<ShortLinkOrderByRelationAggregateInput>;
   username?: InputMaybe<SortOrder>;
 };
 
@@ -4400,6 +5029,7 @@ export type UserUncheckedCreateInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4439,6 +5069,7 @@ export type UserUncheckedCreateWithoutChatsInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4454,6 +5085,7 @@ export type UserUncheckedCreateWithoutChildInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4469,6 +5101,7 @@ export type UserUncheckedCreateWithoutEventsIssuedInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4484,6 +5117,7 @@ export type UserUncheckedCreateWithoutEventsParticipatingInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4499,6 +5133,7 @@ export type UserUncheckedCreateWithoutEventsResponsibleInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4514,6 +5149,7 @@ export type UserUncheckedCreateWithoutMessagesInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4529,6 +5165,7 @@ export type UserUncheckedCreateWithoutParentInput = {
   password: Scalars['String'];
   profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
   username: Scalars['String'];
 };
 
@@ -4543,6 +5180,23 @@ export type UserUncheckedCreateWithoutProfileInput = {
   messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
   parentId?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
+  role: UserRole;
+  shortLinks?: InputMaybe<ShortLinkUncheckedCreateNestedManyWithoutUserInput>;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutShortLinksInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
   role: UserRole;
   username: Scalars['String'];
 };
@@ -4560,6 +5214,7 @@ export type UserUncheckedUpdateInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4660,6 +5315,7 @@ export type UserUncheckedUpdateWithoutChatsInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4675,6 +5331,7 @@ export type UserUncheckedUpdateWithoutChildInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4690,6 +5347,7 @@ export type UserUncheckedUpdateWithoutEventsIssuedInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4705,6 +5363,7 @@ export type UserUncheckedUpdateWithoutEventsParticipatingInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4720,6 +5379,7 @@ export type UserUncheckedUpdateWithoutEventsResponsibleInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4735,6 +5395,7 @@ export type UserUncheckedUpdateWithoutMessagesInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4750,6 +5411,7 @@ export type UserUncheckedUpdateWithoutParentInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4764,6 +5426,23 @@ export type UserUncheckedUpdateWithoutProfileInput = {
   messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
   parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUncheckedUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutShortLinksInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -4781,6 +5460,7 @@ export type UserUpdateInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4862,6 +5542,14 @@ export type UserUpdateOneRequiredWithoutProfileNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutProfileInput>;
 };
 
+export type UserUpdateOneRequiredWithoutShortLinksNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutShortLinksInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutShortLinksInput>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutShortLinksInput>;
+  upsert?: InputMaybe<UserUpsertWithoutShortLinksInput>;
+};
+
 export type UserUpdateOneWithoutChildNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutChildInput>;
@@ -4919,6 +5607,7 @@ export type UserUpdateWithoutChatsInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4934,6 +5623,7 @@ export type UserUpdateWithoutChildInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4949,6 +5639,7 @@ export type UserUpdateWithoutEventsIssuedInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4964,6 +5655,7 @@ export type UserUpdateWithoutEventsParticipatingInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4979,6 +5671,7 @@ export type UserUpdateWithoutEventsResponsibleInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -4994,6 +5687,7 @@ export type UserUpdateWithoutMessagesInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -5009,6 +5703,7 @@ export type UserUpdateWithoutParentInput = {
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
   profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -5023,6 +5718,23 @@ export type UserUpdateWithoutProfileInput = {
   messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
   parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  shortLinks?: InputMaybe<ShortLinkUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutShortLinksInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
   role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
   username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
@@ -5070,6 +5782,11 @@ export type UserUpsertWithoutProfileInput = {
   update: UserUncheckedUpdateWithoutProfileInput;
 };
 
+export type UserUpsertWithoutShortLinksInput = {
+  create: UserUncheckedCreateWithoutShortLinksInput;
+  update: UserUncheckedUpdateWithoutShortLinksInput;
+};
+
 export type UserWhereInput = {
   AND?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
@@ -5087,6 +5804,7 @@ export type UserWhereInput = {
   password?: InputMaybe<StringFilter>;
   profile?: InputMaybe<ProfileWhereInput>;
   role?: InputMaybe<EnumUserRoleFilter>;
+  shortLinks?: InputMaybe<ShortLinkListRelationFilter>;
   username?: InputMaybe<StringFilter>;
 };
 
@@ -5110,12 +5828,29 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'Token', token?: string | null } };
 
+export type FindMyRegisteredEventsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindMyRegisteredEventsQuery = { __typename?: 'Query', findMyRegisteredEvents: Array<{ __typename?: 'Event', id: string, date: any, shortDescription: string, image?: string | null, title: string, categories: Array<{ __typename?: 'Category', title: string }> }> };
+
 export type FindUniqueEventQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
 export type FindUniqueEventQuery = { __typename?: 'Query', findUniqueEvent?: { __typename?: 'Event', title: string, description: string, shortDescription: string, date: any, image?: string | null, categories: Array<{ __typename?: 'Category', title: string }>, responsibles: Array<{ __typename?: 'User', profile?: { __typename?: 'Profile', name?: string | null, jobTitle?: string | null } | null }> } | null };
+
+export type IssueEventMutationVariables = Exact<{
+  data: IssueEventInput;
+}>;
+
+
+export type IssueEventMutation = { __typename?: 'Mutation', issueEvent: { __typename?: 'Event', id: string } };
+
+export type PrepareIssueEventQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PrepareIssueEventQuery = { __typename?: 'Query', findManyCategory: Array<{ __typename?: 'Category', id: number, title: string }>, findManyUser: Array<{ __typename?: 'User', id: string, profile?: { __typename?: 'Profile', jobTitle?: string | null, name?: string | null, surname?: string | null } | null }> };
 
 export type RegisterForEventMutationVariables = Exact<{
   eventId: Scalars['String'];
@@ -5125,12 +5860,26 @@ export type RegisterForEventMutationVariables = Exact<{
 
 export type RegisterForEventMutation = { __typename?: 'Mutation', updateOneEvent: { __typename?: 'Event', title: string, participants: Array<{ __typename?: 'User', username: string }> } };
 
+export type UnsignFromEventMutationVariables = Exact<{
+  eventId: Scalars['String'];
+}>;
+
+
+export type UnsignFromEventMutation = { __typename?: 'Mutation', unsignFromEvent: { __typename?: 'Event', id: string } };
+
 export type FindUniqueRoomQueryVariables = Exact<{
   roomId: Scalars['String'];
 }>;
 
 
 export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string> } | null, findManyEvent: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> };
+
+export type GenerateShortLinkMutationVariables = Exact<{
+  eventId: Scalars['String'];
+}>;
+
+
+export type GenerateShortLinkMutation = { __typename?: 'Mutation', generateShortLink: string };
 
 export type UpdateMyProfileMutationVariables = Exact<{
   data: UpdateMyProfileInput;
@@ -5206,6 +5955,47 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const FindMyRegisteredEventsDocument = gql`
+    query findMyRegisteredEvents {
+  findMyRegisteredEvents {
+    id
+    date
+    shortDescription
+    image
+    title
+    categories {
+      title
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindMyRegisteredEventsQuery__
+ *
+ * To run a query within a React component, call `useFindMyRegisteredEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMyRegisteredEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMyRegisteredEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindMyRegisteredEventsQuery(baseOptions?: Apollo.QueryHookOptions<FindMyRegisteredEventsQuery, FindMyRegisteredEventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMyRegisteredEventsQuery, FindMyRegisteredEventsQueryVariables>(FindMyRegisteredEventsDocument, options);
+      }
+export function useFindMyRegisteredEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMyRegisteredEventsQuery, FindMyRegisteredEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMyRegisteredEventsQuery, FindMyRegisteredEventsQueryVariables>(FindMyRegisteredEventsDocument, options);
+        }
+export type FindMyRegisteredEventsQueryHookResult = ReturnType<typeof useFindMyRegisteredEventsQuery>;
+export type FindMyRegisteredEventsLazyQueryHookResult = ReturnType<typeof useFindMyRegisteredEventsLazyQuery>;
+export type FindMyRegisteredEventsQueryResult = Apollo.QueryResult<FindMyRegisteredEventsQuery, FindMyRegisteredEventsQueryVariables>;
 export const FindUniqueEventDocument = gql`
     query findUniqueEvent($id: String!) {
   findUniqueEvent(where: {id: $id}) {
@@ -5254,6 +6044,82 @@ export function useFindUniqueEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FindUniqueEventQueryHookResult = ReturnType<typeof useFindUniqueEventQuery>;
 export type FindUniqueEventLazyQueryHookResult = ReturnType<typeof useFindUniqueEventLazyQuery>;
 export type FindUniqueEventQueryResult = Apollo.QueryResult<FindUniqueEventQuery, FindUniqueEventQueryVariables>;
+export const IssueEventDocument = gql`
+    mutation issueEvent($data: IssueEventInput!) {
+  issueEvent(data: $data) {
+    id
+  }
+}
+    `;
+export type IssueEventMutationFn = Apollo.MutationFunction<IssueEventMutation, IssueEventMutationVariables>;
+
+/**
+ * __useIssueEventMutation__
+ *
+ * To run a mutation, you first call `useIssueEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useIssueEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [issueEventMutation, { data, loading, error }] = useIssueEventMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useIssueEventMutation(baseOptions?: Apollo.MutationHookOptions<IssueEventMutation, IssueEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<IssueEventMutation, IssueEventMutationVariables>(IssueEventDocument, options);
+      }
+export type IssueEventMutationHookResult = ReturnType<typeof useIssueEventMutation>;
+export type IssueEventMutationResult = Apollo.MutationResult<IssueEventMutation>;
+export type IssueEventMutationOptions = Apollo.BaseMutationOptions<IssueEventMutation, IssueEventMutationVariables>;
+export const PrepareIssueEventDocument = gql`
+    query prepareIssueEvent {
+  findManyCategory {
+    id
+    title
+  }
+  findManyUser(where: {OR: [{role: {equals: Dean}}, {role: {equals: Staff}}]}) {
+    id
+    profile {
+      jobTitle
+      name
+      surname
+    }
+  }
+}
+    `;
+
+/**
+ * __usePrepareIssueEventQuery__
+ *
+ * To run a query within a React component, call `usePrepareIssueEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePrepareIssueEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePrepareIssueEventQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePrepareIssueEventQuery(baseOptions?: Apollo.QueryHookOptions<PrepareIssueEventQuery, PrepareIssueEventQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PrepareIssueEventQuery, PrepareIssueEventQueryVariables>(PrepareIssueEventDocument, options);
+      }
+export function usePrepareIssueEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PrepareIssueEventQuery, PrepareIssueEventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PrepareIssueEventQuery, PrepareIssueEventQueryVariables>(PrepareIssueEventDocument, options);
+        }
+export type PrepareIssueEventQueryHookResult = ReturnType<typeof usePrepareIssueEventQuery>;
+export type PrepareIssueEventLazyQueryHookResult = ReturnType<typeof usePrepareIssueEventLazyQuery>;
+export type PrepareIssueEventQueryResult = Apollo.QueryResult<PrepareIssueEventQuery, PrepareIssueEventQueryVariables>;
 export const RegisterForEventDocument = gql`
     mutation registerForEvent($eventId: String!, $username: String!) {
   updateOneEvent(
@@ -5294,6 +6160,39 @@ export function useRegisterForEventMutation(baseOptions?: Apollo.MutationHookOpt
 export type RegisterForEventMutationHookResult = ReturnType<typeof useRegisterForEventMutation>;
 export type RegisterForEventMutationResult = Apollo.MutationResult<RegisterForEventMutation>;
 export type RegisterForEventMutationOptions = Apollo.BaseMutationOptions<RegisterForEventMutation, RegisterForEventMutationVariables>;
+export const UnsignFromEventDocument = gql`
+    mutation unsignFromEvent($eventId: String!) {
+  unsignFromEvent(eventId: $eventId) {
+    id
+  }
+}
+    `;
+export type UnsignFromEventMutationFn = Apollo.MutationFunction<UnsignFromEventMutation, UnsignFromEventMutationVariables>;
+
+/**
+ * __useUnsignFromEventMutation__
+ *
+ * To run a mutation, you first call `useUnsignFromEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnsignFromEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unsignFromEventMutation, { data, loading, error }] = useUnsignFromEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useUnsignFromEventMutation(baseOptions?: Apollo.MutationHookOptions<UnsignFromEventMutation, UnsignFromEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UnsignFromEventMutation, UnsignFromEventMutationVariables>(UnsignFromEventDocument, options);
+      }
+export type UnsignFromEventMutationHookResult = ReturnType<typeof useUnsignFromEventMutation>;
+export type UnsignFromEventMutationResult = Apollo.MutationResult<UnsignFromEventMutation>;
+export type UnsignFromEventMutationOptions = Apollo.BaseMutationOptions<UnsignFromEventMutation, UnsignFromEventMutationVariables>;
 export const FindUniqueRoomDocument = gql`
     query findUniqueRoom($roomId: String!) {
   findUniqueRoom(where: {id: $roomId}) {
@@ -5339,6 +6238,37 @@ export function useFindUniqueRoomLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type FindUniqueRoomQueryHookResult = ReturnType<typeof useFindUniqueRoomQuery>;
 export type FindUniqueRoomLazyQueryHookResult = ReturnType<typeof useFindUniqueRoomLazyQuery>;
 export type FindUniqueRoomQueryResult = Apollo.QueryResult<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>;
+export const GenerateShortLinkDocument = gql`
+    mutation generateShortLink($eventId: String!) {
+  generateShortLink(eventId: $eventId)
+}
+    `;
+export type GenerateShortLinkMutationFn = Apollo.MutationFunction<GenerateShortLinkMutation, GenerateShortLinkMutationVariables>;
+
+/**
+ * __useGenerateShortLinkMutation__
+ *
+ * To run a mutation, you first call `useGenerateShortLinkMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGenerateShortLinkMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [generateShortLinkMutation, { data, loading, error }] = useGenerateShortLinkMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useGenerateShortLinkMutation(baseOptions?: Apollo.MutationHookOptions<GenerateShortLinkMutation, GenerateShortLinkMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateShortLinkMutation, GenerateShortLinkMutationVariables>(GenerateShortLinkDocument, options);
+      }
+export type GenerateShortLinkMutationHookResult = ReturnType<typeof useGenerateShortLinkMutation>;
+export type GenerateShortLinkMutationResult = Apollo.MutationResult<GenerateShortLinkMutation>;
+export type GenerateShortLinkMutationOptions = Apollo.BaseMutationOptions<GenerateShortLinkMutation, GenerateShortLinkMutationVariables>;
 export const UpdateMyProfileDocument = gql`
     mutation updateMyProfile($data: UpdateMyProfileInput!) {
   updateMyProfile(data: $data) {

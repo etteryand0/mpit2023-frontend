@@ -30,6 +30,7 @@ export const Category = styled.div`
 `;
 
 export const CategoryList = styled.div`
+  flex-wrap: wrap;
   display: flex;
   flex-direction: row;
   gap: 12px;
@@ -54,7 +55,7 @@ export const CardWithButton = (props: CardWithButtonProps) => {
   };
 
   return (
-    <div>
+    <div style={{ overflow: 'hidden' }}>
       <Card {...props} />
       <CategoryList>
         <Category>Дизайн</Category>
@@ -86,7 +87,12 @@ export const Card = ({
       <Header>
         <Typography.Title
           level={2}
-          style={{ margin: 0, fontWeight: 600, textTransform: 'none' }}
+          style={{
+            margin: 0,
+            fontWeight: 600,
+            textTransform: 'none',
+            whiteSpace: 'normal',
+          }}
         >
           {title}
         </Typography.Title>

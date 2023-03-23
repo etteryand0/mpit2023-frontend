@@ -1,0 +1,3 @@
+mutation generateShortLink ($eventId: String!) {
+  generateShortLink(eventId: $eventId)
+}
