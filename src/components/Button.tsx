@@ -1,4 +1,5 @@
 import { Theme } from '@/styles/theme';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface ButtonProps {
@@ -6,18 +7,19 @@ interface ButtonProps {
   color?: keyof Theme;
 }
 
-const Button = styled.button<ButtonProps>`
+const Button = styled.div<ButtonProps>`
   background-color: ${({ theme, color }) =>
     color ? theme[color] : theme.primary};
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  padding: 20px 65px;
+  padding: 12px 60px;
   border-radius: 100vw;
   font-size: 20px;
-  --webkit-appearance: button;
   border: 1px solid transparent;
+  font-weight: 500;
+  text-decoration: none;
 
   outline: none;
   position: relative;

@@ -9,11 +9,13 @@ const ViewPort = styled.div`
 const Inner = styled.div`
   white-space: nowrap;
   transition: transform 0.3s;
+  /* overflow: hidden; */
 `;
 
 export const CarouselItem = styled.div`
   display: inline-flex;
   min-height: 200px;
+  padding-inline: 40px;
   width: 100%;
 `;
 

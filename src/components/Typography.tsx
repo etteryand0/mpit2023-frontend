@@ -5,6 +5,7 @@ interface TitleProps {
   level?: 1 | 2 | 3 | 4 | 5;
   color?: 'primary' | 'text' | 'textParagraph';
   align?: 'center' | 'left' | 'right';
+  style?: any;
   children: React.ReactNode;
 }
 
@@ -73,6 +74,7 @@ const Paragraph = styled.p`
   color: ${({ theme }) => theme.textParagraph};
   font-size: 18px;
   line-height: 26px;
+  white-space: normal;
 `;
 
 const Title = ({ level, children, ...props }: TitleProps) => {

@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
-import { bottomSheetOpenAtom } from '@/pages/MapPage/atom';
+import {
+  bottomSheetOpenAtom,
+  bottomSheetOpenEventAtom,
+} from '@/pages/MapPage/atom';
 import { themes } from '@/styles/theme';
 import { useSetAtom } from 'jotai';
 import { useNavigate, useNavigation } from 'react-router-dom';
@@ -29,10 +32,19 @@ const BottomTabs = ({ activeTab }: BottomTabsProps) => {
   const navigate = useNavigate();
   const { location } = useNavigation();
   const setBottomOpenSheet = useSetAtom(bottomSheetOpenAtom);
+  const setBottomSheetOpenEvent = useSetAtom(bottomSheetOpenEventAtom);
 
   const onClick = (to: string) => {
     if ((location === undefined || location?.pathname === '/') && to === '/') {
       setBottomOpenSheet(true);
+      setBottomSheetOpenEvent({
+        type: 'roomClick',
+        payload: 'act_zal',
+      });
+      // setBottomSheetOpenEvent({
+      //   type: 'tabClick',
+      //   payload: null,
+      // });
       return;
     }
 

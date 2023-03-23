@@ -2,15 +2,9 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -35,47 +29,39 @@ export type AggregateCategory = {
   _sum?: Maybe<CategorySumAggregateOutputType>;
 };
 
-export type AggregateDonation = {
-  __typename?: 'AggregateDonation';
-  _avg?: Maybe<DonationAvgAggregateOutputType>;
-  _count?: Maybe<DonationCountAggregateOutputType>;
-  _max?: Maybe<DonationMaxAggregateOutputType>;
-  _min?: Maybe<DonationMinAggregateOutputType>;
-  _sum?: Maybe<DonationSumAggregateOutputType>;
+export type AggregateChat = {
+  __typename?: 'AggregateChat';
+  _count?: Maybe<ChatCountAggregateOutputType>;
+  _max?: Maybe<ChatMaxAggregateOutputType>;
+  _min?: Maybe<ChatMinAggregateOutputType>;
 };
 
-export type AggregateKid = {
-  __typename?: 'AggregateKid';
-  _count?: Maybe<KidCountAggregateOutputType>;
-  _max?: Maybe<KidMaxAggregateOutputType>;
-  _min?: Maybe<KidMinAggregateOutputType>;
+export type AggregateEvent = {
+  __typename?: 'AggregateEvent';
+  _count?: Maybe<EventCountAggregateOutputType>;
+  _max?: Maybe<EventMaxAggregateOutputType>;
+  _min?: Maybe<EventMinAggregateOutputType>;
 };
 
-export type AggregateProject = {
-  __typename?: 'AggregateProject';
-  _avg?: Maybe<ProjectAvgAggregateOutputType>;
-  _count?: Maybe<ProjectCountAggregateOutputType>;
-  _max?: Maybe<ProjectMaxAggregateOutputType>;
-  _min?: Maybe<ProjectMinAggregateOutputType>;
-  _sum?: Maybe<ProjectSumAggregateOutputType>;
+export type AggregateMessage = {
+  __typename?: 'AggregateMessage';
+  _count?: Maybe<MessageCountAggregateOutputType>;
+  _max?: Maybe<MessageMaxAggregateOutputType>;
+  _min?: Maybe<MessageMinAggregateOutputType>;
 };
 
-export type AggregateProjectCheckPoint = {
-  __typename?: 'AggregateProjectCheckPoint';
-  _avg?: Maybe<ProjectCheckPointAvgAggregateOutputType>;
-  _count?: Maybe<ProjectCheckPointCountAggregateOutputType>;
-  _max?: Maybe<ProjectCheckPointMaxAggregateOutputType>;
-  _min?: Maybe<ProjectCheckPointMinAggregateOutputType>;
-  _sum?: Maybe<ProjectCheckPointSumAggregateOutputType>;
+export type AggregateProfile = {
+  __typename?: 'AggregateProfile';
+  _count?: Maybe<ProfileCountAggregateOutputType>;
+  _max?: Maybe<ProfileMaxAggregateOutputType>;
+  _min?: Maybe<ProfileMinAggregateOutputType>;
 };
 
-export type AggregateReward = {
-  __typename?: 'AggregateReward';
-  _avg?: Maybe<RewardAvgAggregateOutputType>;
-  _count?: Maybe<RewardCountAggregateOutputType>;
-  _max?: Maybe<RewardMaxAggregateOutputType>;
-  _min?: Maybe<RewardMinAggregateOutputType>;
-  _sum?: Maybe<RewardSumAggregateOutputType>;
+export type AggregateRoom = {
+  __typename?: 'AggregateRoom';
+  _count?: Maybe<RoomCountAggregateOutputType>;
+  _max?: Maybe<RoomMaxAggregateOutputType>;
+  _min?: Maybe<RoomMinAggregateOutputType>;
 };
 
 export type AggregateUser = {
@@ -110,18 +96,19 @@ export type BoolWithAggregatesFilter = {
 export type Category = {
   __typename?: 'Category';
   _count: CategoryCountOutputType;
+  events: Array<Event>;
   id: Scalars['Int'];
-  projects: Array<Project>;
   title: Scalars['String'];
 };
 
-export type CategoryProjectsArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<ProjectScalarFieldEnum>;
-  orderBy?: InputMaybe<ProjectOrderByWithRelationInput>;
+
+export type CategoryEventsArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<EventScalarFieldEnum>;
+  orderBy?: InputMaybe<EventOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
 export type CategoryAvgAggregateOutputType = {
@@ -147,11 +134,11 @@ export type CategoryCountOrderByAggregateInput = {
 
 export type CategoryCountOutputType = {
   __typename?: 'CategoryCountOutputType';
-  projects: Scalars['Int'];
+  events: Scalars['Int'];
 };
 
 export type CategoryCreateInput = {
-  projects?: InputMaybe<ProjectCreateNestedManyWithoutCategoriesInput>;
+  events?: InputMaybe<EventCreateNestedManyWithoutCategoriesInput>;
   title: Scalars['String'];
 };
 
@@ -160,20 +147,18 @@ export type CategoryCreateManyInput = {
   title: Scalars['String'];
 };
 
-export type CategoryCreateNestedManyWithoutProjectsInput = {
+export type CategoryCreateNestedManyWithoutEventsInput = {
   connect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<CategoryCreateOrConnectWithoutProjectsInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutProjectsInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<CategoryCreateOrConnectWithoutEventsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutEventsInput>>>;
 };
 
-export type CategoryCreateOrConnectWithoutProjectsInput = {
-  create: CategoryUncheckedCreateWithoutProjectsInput;
+export type CategoryCreateOrConnectWithoutEventsInput = {
+  create: CategoryUncheckedCreateWithoutEventsInput;
   where: CategoryWhereUniqueInput;
 };
 
-export type CategoryCreateWithoutProjectsInput = {
+export type CategoryCreateWithoutEventsInput = {
   title: Scalars['String'];
 };
 
@@ -220,14 +205,14 @@ export type CategoryOrderByWithAggregationInput = {
 };
 
 export type CategoryOrderByWithRelationInput = {
+  events?: InputMaybe<EventOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
-  projects?: InputMaybe<ProjectOrderByRelationAggregateInput>;
   title?: InputMaybe<SortOrder>;
 };
 
 export enum CategoryScalarFieldEnum {
   Id = 'id',
-  Title = 'title',
+  Title = 'title'
 }
 
 export type CategoryScalarWhereInput = {
@@ -256,27 +241,25 @@ export type CategorySumOrderByAggregateInput = {
 };
 
 export type CategoryUncheckedCreateInput = {
+  events?: InputMaybe<EventUncheckedCreateNestedManyWithoutCategoriesInput>;
   id?: InputMaybe<Scalars['Int']>;
-  projects?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutCategoriesInput>;
   title: Scalars['String'];
 };
 
-export type CategoryUncheckedCreateNestedManyWithoutProjectsInput = {
+export type CategoryUncheckedCreateNestedManyWithoutEventsInput = {
   connect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<CategoryCreateOrConnectWithoutProjectsInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutProjectsInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<CategoryCreateOrConnectWithoutEventsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutEventsInput>>>;
 };
 
-export type CategoryUncheckedCreateWithoutProjectsInput = {
+export type CategoryUncheckedCreateWithoutEventsInput = {
   id?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
 };
 
 export type CategoryUncheckedUpdateInput = {
+  events?: InputMaybe<EventUncheckedUpdateManyWithoutCategoriesNestedInput>;
   id?: InputMaybe<IntFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUncheckedUpdateManyWithoutCategoriesNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -290,34 +273,26 @@ export type CategoryUncheckedUpdateManyWithoutCategoriesInput = {
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type CategoryUncheckedUpdateManyWithoutProjectsNestedInput = {
+export type CategoryUncheckedUpdateManyWithoutEventsNestedInput = {
   connect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<CategoryCreateOrConnectWithoutProjectsInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutProjectsInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<CategoryCreateOrConnectWithoutEventsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutEventsInput>>>;
   delete?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
   deleteMany?: InputMaybe<Array<InputMaybe<CategoryScalarWhereInput>>>;
   disconnect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
   set?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<CategoryUpdateWithWhereUniqueWithoutProjectsInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<CategoryUpdateManyWithWhereWithoutProjectsInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<CategoryUpsertWithWhereUniqueWithoutProjectsInput>>
-  >;
+  update?: InputMaybe<Array<InputMaybe<CategoryUpdateWithWhereUniqueWithoutEventsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<CategoryUpdateManyWithWhereWithoutEventsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<CategoryUpsertWithWhereUniqueWithoutEventsInput>>>;
 };
 
-export type CategoryUncheckedUpdateWithoutProjectsInput = {
+export type CategoryUncheckedUpdateWithoutEventsInput = {
   id?: InputMaybe<IntFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type CategoryUpdateInput = {
-  projects?: InputMaybe<ProjectUpdateManyWithoutCategoriesNestedInput>;
+  events?: InputMaybe<EventUpdateManyWithoutCategoriesNestedInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
@@ -325,44 +300,36 @@ export type CategoryUpdateManyMutationInput = {
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type CategoryUpdateManyWithWhereWithoutProjectsInput = {
+export type CategoryUpdateManyWithWhereWithoutEventsInput = {
   data: CategoryUncheckedUpdateManyWithoutCategoriesInput;
   where: CategoryScalarWhereInput;
 };
 
-export type CategoryUpdateManyWithoutProjectsNestedInput = {
+export type CategoryUpdateManyWithoutEventsNestedInput = {
   connect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<CategoryCreateOrConnectWithoutProjectsInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutProjectsInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<CategoryCreateOrConnectWithoutEventsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<CategoryCreateWithoutEventsInput>>>;
   delete?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
   deleteMany?: InputMaybe<Array<InputMaybe<CategoryScalarWhereInput>>>;
   disconnect?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
   set?: InputMaybe<Array<InputMaybe<CategoryWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<CategoryUpdateWithWhereUniqueWithoutProjectsInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<CategoryUpdateManyWithWhereWithoutProjectsInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<CategoryUpsertWithWhereUniqueWithoutProjectsInput>>
-  >;
+  update?: InputMaybe<Array<InputMaybe<CategoryUpdateWithWhereUniqueWithoutEventsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<CategoryUpdateManyWithWhereWithoutEventsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<CategoryUpsertWithWhereUniqueWithoutEventsInput>>>;
 };
 
-export type CategoryUpdateWithWhereUniqueWithoutProjectsInput = {
-  data: CategoryUncheckedUpdateWithoutProjectsInput;
+export type CategoryUpdateWithWhereUniqueWithoutEventsInput = {
+  data: CategoryUncheckedUpdateWithoutEventsInput;
   where: CategoryWhereUniqueInput;
 };
 
-export type CategoryUpdateWithoutProjectsInput = {
+export type CategoryUpdateWithoutEventsInput = {
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type CategoryUpsertWithWhereUniqueWithoutProjectsInput = {
-  create: CategoryUncheckedCreateWithoutProjectsInput;
-  update: CategoryUncheckedUpdateWithoutProjectsInput;
+export type CategoryUpsertWithWhereUniqueWithoutEventsInput = {
+  create: CategoryUncheckedCreateWithoutEventsInput;
+  update: CategoryUncheckedUpdateWithoutEventsInput;
   where: CategoryWhereUniqueInput;
 };
 
@@ -370,14 +337,428 @@ export type CategoryWhereInput = {
   AND?: InputMaybe<Array<InputMaybe<CategoryWhereInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<CategoryWhereInput>>>;
   OR?: InputMaybe<Array<InputMaybe<CategoryWhereInput>>>;
+  events?: InputMaybe<EventListRelationFilter>;
   id?: InputMaybe<IntFilter>;
-  projects?: InputMaybe<ProjectListRelationFilter>;
   title?: InputMaybe<StringFilter>;
 };
 
 export type CategoryWhereUniqueInput = {
   id?: InputMaybe<Scalars['Int']>;
-  title?: InputMaybe<Scalars['String']>;
+};
+
+export type Chat = {
+  __typename?: 'Chat';
+  _count: ChatCountOutputType;
+  createdAt: Scalars['DateTime'];
+  event: Event;
+  eventId: Scalars['String'];
+  id: Scalars['String'];
+  members: Array<User>;
+  messages: Array<Message>;
+};
+
+
+export type ChatMembersArgs = {
+  cursor?: InputMaybe<UserWhereUniqueInput>;
+  distinct?: InputMaybe<UserScalarFieldEnum>;
+  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserWhereInput>;
+};
+
+
+export type ChatMessagesArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  distinct?: InputMaybe<MessageScalarFieldEnum>;
+  orderBy?: InputMaybe<MessageOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<MessageWhereInput>;
+};
+
+export type ChatCountAggregateOutputType = {
+  __typename?: 'ChatCountAggregateOutputType';
+  _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  eventId: Scalars['Int'];
+  id: Scalars['Int'];
+};
+
+export type ChatCountOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type ChatCountOutputType = {
+  __typename?: 'ChatCountOutputType';
+  members: Scalars['Int'];
+  messages: Scalars['Int'];
+};
+
+export type ChatCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  event: EventCreateNestedOneWithoutChatInput;
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserCreateNestedManyWithoutChatsInput>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatCreateManyInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+};
+
+export type ChatCreateNestedManyWithoutMembersInput = {
+  connect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ChatCreateOrConnectWithoutMembersInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ChatCreateWithoutMembersInput>>>;
+};
+
+export type ChatCreateNestedOneWithoutEventInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutEventInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutEventInput>;
+};
+
+export type ChatCreateNestedOneWithoutMessagesInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutMessagesInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutMessagesInput>;
+};
+
+export type ChatCreateOrConnectWithoutEventInput = {
+  create: ChatUncheckedCreateWithoutEventInput;
+  where: ChatWhereUniqueInput;
+};
+
+export type ChatCreateOrConnectWithoutMembersInput = {
+  create: ChatUncheckedCreateWithoutMembersInput;
+  where: ChatWhereUniqueInput;
+};
+
+export type ChatCreateOrConnectWithoutMessagesInput = {
+  create: ChatUncheckedCreateWithoutMessagesInput;
+  where: ChatWhereUniqueInput;
+};
+
+export type ChatCreateWithoutEventInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserCreateNestedManyWithoutChatsInput>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatCreateWithoutMembersInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  event: EventCreateNestedOneWithoutChatInput;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatCreateWithoutMessagesInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  event: EventCreateNestedOneWithoutChatInput;
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserCreateNestedManyWithoutChatsInput>;
+};
+
+export type ChatListRelationFilter = {
+  every?: InputMaybe<ChatWhereInput>;
+  none?: InputMaybe<ChatWhereInput>;
+  some?: InputMaybe<ChatWhereInput>;
+};
+
+export type ChatMaxAggregateOutputType = {
+  __typename?: 'ChatMaxAggregateOutputType';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  eventId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+};
+
+export type ChatMaxOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type ChatMinAggregateOutputType = {
+  __typename?: 'ChatMinAggregateOutputType';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  eventId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+};
+
+export type ChatMinOrderByAggregateInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type ChatOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type ChatOrderByWithAggregationInput = {
+  _count?: InputMaybe<ChatCountOrderByAggregateInput>;
+  _max?: InputMaybe<ChatMaxOrderByAggregateInput>;
+  _min?: InputMaybe<ChatMinOrderByAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  eventId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+};
+
+export type ChatOrderByWithRelationInput = {
+  createdAt?: InputMaybe<SortOrder>;
+  event?: InputMaybe<EventOrderByWithRelationInput>;
+  eventId?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  members?: InputMaybe<UserOrderByRelationAggregateInput>;
+  messages?: InputMaybe<MessageOrderByRelationAggregateInput>;
+};
+
+export type ChatRelationFilter = {
+  is?: InputMaybe<ChatWhereInput>;
+  isNot?: InputMaybe<ChatWhereInput>;
+};
+
+export enum ChatScalarFieldEnum {
+  CreatedAt = 'createdAt',
+  EventId = 'eventId',
+  Id = 'id'
+}
+
+export type ChatScalarWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<ChatScalarWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ChatScalarWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ChatScalarWhereInput>>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  eventId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+};
+
+export type ChatScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<ChatScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ChatScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ChatScalarWhereWithAggregatesInput>>>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  eventId?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<StringWithAggregatesFilter>;
+};
+
+export type ChatUncheckedCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserUncheckedCreateNestedManyWithoutChatsInput>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatUncheckedCreateNestedManyWithoutMembersInput = {
+  connect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ChatCreateOrConnectWithoutMembersInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ChatCreateWithoutMembersInput>>>;
+};
+
+export type ChatUncheckedCreateNestedOneWithoutEventInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutEventInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutEventInput>;
+};
+
+export type ChatUncheckedCreateWithoutEventInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserUncheckedCreateNestedManyWithoutChatsInput>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatUncheckedCreateWithoutMembersInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutChatInput>;
+};
+
+export type ChatUncheckedCreateWithoutMessagesInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  members?: InputMaybe<UserUncheckedCreateNestedManyWithoutChatsInput>;
+};
+
+export type ChatUncheckedUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUncheckedUpdateManyWithoutChatsNestedInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUncheckedUpdateManyInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ChatUncheckedUpdateManyWithoutChatsInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ChatUncheckedUpdateManyWithoutMembersNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ChatCreateOrConnectWithoutMembersInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ChatCreateWithoutMembersInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ChatScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ChatUpdateWithWhereUniqueWithoutMembersInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ChatUpdateManyWithWhereWithoutMembersInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ChatUpsertWithWhereUniqueWithoutMembersInput>>>;
+};
+
+export type ChatUncheckedUpdateOneWithoutEventNestedInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutEventInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutEventInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ChatUncheckedUpdateWithoutEventInput>;
+  upsert?: InputMaybe<ChatUpsertWithoutEventInput>;
+};
+
+export type ChatUncheckedUpdateWithoutEventInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUncheckedUpdateManyWithoutChatsNestedInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUncheckedUpdateWithoutMembersInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUncheckedUpdateWithoutMessagesInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUncheckedUpdateManyWithoutChatsNestedInput>;
+};
+
+export type ChatUpdateInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  event?: InputMaybe<EventUpdateOneRequiredWithoutChatNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUpdateManyWithoutChatsNestedInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUpdateManyMutationInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type ChatUpdateManyWithWhereWithoutMembersInput = {
+  data: ChatUncheckedUpdateManyWithoutChatsInput;
+  where: ChatScalarWhereInput;
+};
+
+export type ChatUpdateManyWithoutMembersNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<ChatCreateOrConnectWithoutMembersInput>>>;
+  create?: InputMaybe<Array<InputMaybe<ChatCreateWithoutMembersInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<ChatScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<ChatWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<ChatUpdateWithWhereUniqueWithoutMembersInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<ChatUpdateManyWithWhereWithoutMembersInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<ChatUpsertWithWhereUniqueWithoutMembersInput>>>;
+};
+
+export type ChatUpdateOneRequiredWithoutMessagesNestedInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutMessagesInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutMessagesInput>;
+  update?: InputMaybe<ChatUncheckedUpdateWithoutMessagesInput>;
+  upsert?: InputMaybe<ChatUpsertWithoutMessagesInput>;
+};
+
+export type ChatUpdateOneWithoutEventNestedInput = {
+  connect?: InputMaybe<ChatWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ChatCreateOrConnectWithoutEventInput>;
+  create?: InputMaybe<ChatUncheckedCreateWithoutEventInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ChatUncheckedUpdateWithoutEventInput>;
+  upsert?: InputMaybe<ChatUpsertWithoutEventInput>;
+};
+
+export type ChatUpdateWithWhereUniqueWithoutMembersInput = {
+  data: ChatUncheckedUpdateWithoutMembersInput;
+  where: ChatWhereUniqueInput;
+};
+
+export type ChatUpdateWithoutEventInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUpdateManyWithoutChatsNestedInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUpdateWithoutMembersInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  event?: InputMaybe<EventUpdateOneRequiredWithoutChatNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutChatNestedInput>;
+};
+
+export type ChatUpdateWithoutMessagesInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  event?: InputMaybe<EventUpdateOneRequiredWithoutChatNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  members?: InputMaybe<UserUpdateManyWithoutChatsNestedInput>;
+};
+
+export type ChatUpsertWithWhereUniqueWithoutMembersInput = {
+  create: ChatUncheckedCreateWithoutMembersInput;
+  update: ChatUncheckedUpdateWithoutMembersInput;
+  where: ChatWhereUniqueInput;
+};
+
+export type ChatUpsertWithoutEventInput = {
+  create: ChatUncheckedCreateWithoutEventInput;
+  update: ChatUncheckedUpdateWithoutEventInput;
+};
+
+export type ChatUpsertWithoutMessagesInput = {
+  create: ChatUncheckedCreateWithoutMessagesInput;
+  update: ChatUncheckedUpdateWithoutMessagesInput;
+};
+
+export type ChatWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<ChatWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ChatWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ChatWhereInput>>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  event?: InputMaybe<EventWhereInput>;
+  eventId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  members?: InputMaybe<UserListRelationFilter>;
+  messages?: InputMaybe<MessageListRelationFilter>;
+};
+
+export type ChatWhereUniqueInput = {
+  eventId?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -409,668 +790,1136 @@ export type DateTimeWithAggregatesFilter = {
   notIn?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
 };
 
-export type Donation = {
-  __typename?: 'Donation';
-  amount: Scalars['Int'];
+export type EnumUserRoleFieldUpdateOperationsInput = {
+  set?: InputMaybe<UserRole>;
+};
+
+export type EnumUserRoleFilter = {
+  equals?: InputMaybe<UserRole>;
+  in?: InputMaybe<Array<InputMaybe<UserRole>>>;
+  not?: InputMaybe<NestedEnumUserRoleFilter>;
+  notIn?: InputMaybe<Array<InputMaybe<UserRole>>>;
+};
+
+export type EnumUserRoleWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumUserRoleFilter>;
+  _min?: InputMaybe<NestedEnumUserRoleFilter>;
+  equals?: InputMaybe<UserRole>;
+  in?: InputMaybe<Array<InputMaybe<UserRole>>>;
+  not?: InputMaybe<NestedEnumUserRoleWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<InputMaybe<UserRole>>>;
+};
+
+export type Event = {
+  __typename?: 'Event';
+  _count: EventCountOutputType;
+  approved: Scalars['Boolean'];
+  categories: Array<Category>;
+  chat?: Maybe<Chat>;
   date: Scalars['DateTime'];
+  description: Scalars['String'];
   id: Scalars['String'];
-  message?: Maybe<Scalars['String']>;
-  project: Project;
-  projectId: Scalars['String'];
-  reward?: Maybe<Reward>;
-  rewardId?: Maybe<Scalars['String']>;
-  sender: User;
-  senderId: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  issuedBy?: Maybe<User>;
+  participants: Array<User>;
+  responsibles: Array<User>;
+  room: Room;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type DonationAvgAggregateOutputType = {
-  __typename?: 'DonationAvgAggregateOutputType';
-  amount?: Maybe<Scalars['Float']>;
+
+export type EventCategoriesArgs = {
+  cursor?: InputMaybe<CategoryWhereUniqueInput>;
+  distinct?: InputMaybe<CategoryScalarFieldEnum>;
+  orderBy?: InputMaybe<CategoryOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type DonationAvgOrderByAggregateInput = {
-  amount?: InputMaybe<SortOrder>;
+
+export type EventParticipantsArgs = {
+  cursor?: InputMaybe<UserWhereUniqueInput>;
+  distinct?: InputMaybe<UserScalarFieldEnum>;
+  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserWhereInput>;
 };
 
-export type DonationCountAggregateOutputType = {
-  __typename?: 'DonationCountAggregateOutputType';
+
+export type EventResponsiblesArgs = {
+  cursor?: InputMaybe<UserWhereUniqueInput>;
+  distinct?: InputMaybe<UserScalarFieldEnum>;
+  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<UserWhereInput>;
+};
+
+export type EventCountAggregateOutputType = {
+  __typename?: 'EventCountAggregateOutputType';
   _all: Scalars['Int'];
-  amount: Scalars['Int'];
+  approved: Scalars['Int'];
   date: Scalars['Int'];
+  description: Scalars['Int'];
   id: Scalars['Int'];
-  message: Scalars['Int'];
-  projectId: Scalars['Int'];
-  rewardId: Scalars['Int'];
-  senderId: Scalars['Int'];
+  image: Scalars['Int'];
+  roomId: Scalars['Int'];
+  shortDescription: Scalars['Int'];
+  title: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
-export type DonationCountOrderByAggregateInput = {
-  amount?: InputMaybe<SortOrder>;
+export type EventCountOrderByAggregateInput = {
+  approved?: InputMaybe<SortOrder>;
   date?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  message?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  rewardId?: InputMaybe<SortOrder>;
-  senderId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
+  roomId?: InputMaybe<SortOrder>;
+  shortDescription?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type DonationCreateInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  project: ProjectCreateNestedOneWithoutDonationsInput;
-  reward?: InputMaybe<RewardCreateNestedOneWithoutDonationsInput>;
-  sender: UserCreateNestedOneWithoutDonationsInput;
+export type EventCountOutputType = {
+  __typename?: 'EventCountOutputType';
+  categories: Scalars['Int'];
+  participants: Scalars['Int'];
+  responsibles: Scalars['Int'];
 };
 
-export type DonationCreateManyInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  rewardId?: InputMaybe<Scalars['String']>;
-  senderId: Scalars['String'];
+export type EventCreateInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
 };
 
-export type DonationCreateManyProjectInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  rewardId?: InputMaybe<Scalars['String']>;
-  senderId: Scalars['String'];
+export type EventCreateManyInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
-export type DonationCreateManyProjectInputEnvelope = {
-  data: DonationCreateManyProjectInput;
+export type EventCreateManyIssuedByInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateManyIssuedByInputEnvelope = {
+  data: EventCreateManyIssuedByInput;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type DonationCreateManyRewardInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  senderId: Scalars['String'];
+export type EventCreateManyRoomInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
-export type DonationCreateManyRewardInputEnvelope = {
-  data: DonationCreateManyRewardInput;
+export type EventCreateManyRoomInputEnvelope = {
+  data: EventCreateManyRoomInput;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type DonationCreateManySenderInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  rewardId?: InputMaybe<Scalars['String']>;
+export type EventCreateNestedManyWithoutCategoriesInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutCategoriesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutCategoriesInput>>>;
 };
 
-export type DonationCreateManySenderInputEnvelope = {
-  data: DonationCreateManySenderInput;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+export type EventCreateNestedManyWithoutIssuedByInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutIssuedByInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutIssuedByInput>>>;
+  createMany?: InputMaybe<EventCreateManyIssuedByInputEnvelope>;
 };
 
-export type DonationCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<DonationCreateManyProjectInputEnvelope>;
+export type EventCreateNestedManyWithoutParticipantsInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutParticipantsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutParticipantsInput>>>;
 };
 
-export type DonationCreateNestedManyWithoutRewardInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutRewardInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutRewardInput>>>;
-  createMany?: InputMaybe<DonationCreateManyRewardInputEnvelope>;
+export type EventCreateNestedManyWithoutResponsiblesInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutResponsiblesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutResponsiblesInput>>>;
 };
 
-export type DonationCreateNestedManyWithoutSenderInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutSenderInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutSenderInput>>>;
-  createMany?: InputMaybe<DonationCreateManySenderInputEnvelope>;
+export type EventCreateNestedManyWithoutRoomInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutRoomInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutRoomInput>>>;
+  createMany?: InputMaybe<EventCreateManyRoomInputEnvelope>;
 };
 
-export type DonationCreateOrConnectWithoutProjectInput = {
-  create: DonationUncheckedCreateWithoutProjectInput;
-  where: DonationWhereUniqueInput;
+export type EventCreateNestedOneWithoutChatInput = {
+  connect?: InputMaybe<EventWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<EventCreateOrConnectWithoutChatInput>;
+  create?: InputMaybe<EventUncheckedCreateWithoutChatInput>;
 };
 
-export type DonationCreateOrConnectWithoutRewardInput = {
-  create: DonationUncheckedCreateWithoutRewardInput;
-  where: DonationWhereUniqueInput;
+export type EventCreateOrConnectWithoutCategoriesInput = {
+  create: EventUncheckedCreateWithoutCategoriesInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationCreateOrConnectWithoutSenderInput = {
-  create: DonationUncheckedCreateWithoutSenderInput;
-  where: DonationWhereUniqueInput;
+export type EventCreateOrConnectWithoutChatInput = {
+  create: EventUncheckedCreateWithoutChatInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationCreateWithoutProjectInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  reward?: InputMaybe<RewardCreateNestedOneWithoutDonationsInput>;
-  sender: UserCreateNestedOneWithoutDonationsInput;
+export type EventCreateOrConnectWithoutIssuedByInput = {
+  create: EventUncheckedCreateWithoutIssuedByInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationCreateWithoutRewardInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  project: ProjectCreateNestedOneWithoutDonationsInput;
-  sender: UserCreateNestedOneWithoutDonationsInput;
+export type EventCreateOrConnectWithoutParticipantsInput = {
+  create: EventUncheckedCreateWithoutParticipantsInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationCreateWithoutSenderInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  project: ProjectCreateNestedOneWithoutDonationsInput;
-  reward?: InputMaybe<RewardCreateNestedOneWithoutDonationsInput>;
+export type EventCreateOrConnectWithoutResponsiblesInput = {
+  create: EventUncheckedCreateWithoutResponsiblesInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationListRelationFilter = {
-  every?: InputMaybe<DonationWhereInput>;
-  none?: InputMaybe<DonationWhereInput>;
-  some?: InputMaybe<DonationWhereInput>;
+export type EventCreateOrConnectWithoutRoomInput = {
+  create: EventUncheckedCreateWithoutRoomInput;
+  where: EventWhereUniqueInput;
 };
 
-export type DonationMaxAggregateOutputType = {
-  __typename?: 'DonationMaxAggregateOutputType';
-  amount?: Maybe<Scalars['Int']>;
+export type EventCreateWithoutCategoriesInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutChatInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutIssuedByInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutParticipantsInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutResponsiblesInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventCreateWithoutRoomInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  issuedBy?: InputMaybe<UserCreateNestedOneWithoutEventsIssuedInput>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EventListRelationFilter = {
+  every?: InputMaybe<EventWhereInput>;
+  none?: InputMaybe<EventWhereInput>;
+  some?: InputMaybe<EventWhereInput>;
+};
+
+export type EventMaxAggregateOutputType = {
+  __typename?: 'EventMaxAggregateOutputType';
+  approved?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  projectId?: Maybe<Scalars['String']>;
-  rewardId?: Maybe<Scalars['String']>;
-  senderId?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  roomId?: Maybe<Scalars['String']>;
+  shortDescription?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type DonationMaxOrderByAggregateInput = {
-  amount?: InputMaybe<SortOrder>;
+export type EventMaxOrderByAggregateInput = {
+  approved?: InputMaybe<SortOrder>;
   date?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  message?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  rewardId?: InputMaybe<SortOrder>;
-  senderId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
+  roomId?: InputMaybe<SortOrder>;
+  shortDescription?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type DonationMinAggregateOutputType = {
-  __typename?: 'DonationMinAggregateOutputType';
-  amount?: Maybe<Scalars['Int']>;
+export type EventMinAggregateOutputType = {
+  __typename?: 'EventMinAggregateOutputType';
+  approved?: Maybe<Scalars['Boolean']>;
   date?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  message?: Maybe<Scalars['String']>;
-  projectId?: Maybe<Scalars['String']>;
-  rewardId?: Maybe<Scalars['String']>;
-  senderId?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  roomId?: Maybe<Scalars['String']>;
+  shortDescription?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type DonationMinOrderByAggregateInput = {
-  amount?: InputMaybe<SortOrder>;
+export type EventMinOrderByAggregateInput = {
+  approved?: InputMaybe<SortOrder>;
   date?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  message?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  rewardId?: InputMaybe<SortOrder>;
-  senderId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
+  roomId?: InputMaybe<SortOrder>;
+  shortDescription?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type DonationOrderByRelationAggregateInput = {
+export type EventOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
-export type DonationOrderByWithAggregationInput = {
-  _avg?: InputMaybe<DonationAvgOrderByAggregateInput>;
-  _count?: InputMaybe<DonationCountOrderByAggregateInput>;
-  _max?: InputMaybe<DonationMaxOrderByAggregateInput>;
-  _min?: InputMaybe<DonationMinOrderByAggregateInput>;
-  _sum?: InputMaybe<DonationSumOrderByAggregateInput>;
-  amount?: InputMaybe<SortOrder>;
+export type EventOrderByWithAggregationInput = {
+  _count?: InputMaybe<EventCountOrderByAggregateInput>;
+  _max?: InputMaybe<EventMaxOrderByAggregateInput>;
+  _min?: InputMaybe<EventMinOrderByAggregateInput>;
+  approved?: InputMaybe<SortOrder>;
   date?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  message?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  rewardId?: InputMaybe<SortOrder>;
-  senderId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
+  roomId?: InputMaybe<SortOrder>;
+  shortDescription?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type DonationOrderByWithRelationInput = {
-  amount?: InputMaybe<SortOrder>;
+export type EventOrderByWithRelationInput = {
+  approved?: InputMaybe<SortOrder>;
+  categories?: InputMaybe<CategoryOrderByRelationAggregateInput>;
+  chat?: InputMaybe<ChatOrderByWithRelationInput>;
   date?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  message?: InputMaybe<SortOrder>;
-  project?: InputMaybe<ProjectOrderByWithRelationInput>;
-  projectId?: InputMaybe<SortOrder>;
-  reward?: InputMaybe<RewardOrderByWithRelationInput>;
-  rewardId?: InputMaybe<SortOrder>;
-  sender?: InputMaybe<UserOrderByWithRelationInput>;
-  senderId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
+  issuedBy?: InputMaybe<UserOrderByWithRelationInput>;
+  participants?: InputMaybe<UserOrderByRelationAggregateInput>;
+  responsibles?: InputMaybe<UserOrderByRelationAggregateInput>;
+  room?: InputMaybe<RoomOrderByWithRelationInput>;
+  roomId?: InputMaybe<SortOrder>;
+  shortDescription?: InputMaybe<SortOrder>;
+  title?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export enum DonationScalarFieldEnum {
-  Amount = 'amount',
+export type EventRelationFilter = {
+  is?: InputMaybe<EventWhereInput>;
+  isNot?: InputMaybe<EventWhereInput>;
+};
+
+export enum EventScalarFieldEnum {
+  Approved = 'approved',
   Date = 'date',
+  Description = 'description',
   Id = 'id',
-  Message = 'message',
-  ProjectId = 'projectId',
-  RewardId = 'rewardId',
-  SenderId = 'senderId',
+  Image = 'image',
+  RoomId = 'roomId',
+  ShortDescription = 'shortDescription',
+  Title = 'title',
+  UserId = 'userId'
 }
 
-export type DonationScalarWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  amount?: InputMaybe<IntFilter>;
+export type EventScalarWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  approved?: InputMaybe<BoolFilter>;
   date?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  message?: InputMaybe<StringNullableFilter>;
-  projectId?: InputMaybe<StringFilter>;
-  rewardId?: InputMaybe<StringNullableFilter>;
-  senderId?: InputMaybe<StringFilter>;
+  image?: InputMaybe<StringNullableFilter>;
+  roomId?: InputMaybe<StringFilter>;
+  shortDescription?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
 };
 
-export type DonationScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<InputMaybe<DonationScalarWhereWithAggregatesInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<DonationScalarWhereWithAggregatesInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<DonationScalarWhereWithAggregatesInput>>>;
-  amount?: InputMaybe<IntWithAggregatesFilter>;
+export type EventScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<EventScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<EventScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<EventScalarWhereWithAggregatesInput>>>;
+  approved?: InputMaybe<BoolWithAggregatesFilter>;
   date?: InputMaybe<DateTimeWithAggregatesFilter>;
+  description?: InputMaybe<StringWithAggregatesFilter>;
   id?: InputMaybe<StringWithAggregatesFilter>;
-  message?: InputMaybe<StringNullableWithAggregatesFilter>;
-  projectId?: InputMaybe<StringWithAggregatesFilter>;
-  rewardId?: InputMaybe<StringNullableWithAggregatesFilter>;
-  senderId?: InputMaybe<StringWithAggregatesFilter>;
+  image?: InputMaybe<StringNullableWithAggregatesFilter>;
+  roomId?: InputMaybe<StringWithAggregatesFilter>;
+  shortDescription?: InputMaybe<StringWithAggregatesFilter>;
+  title?: InputMaybe<StringWithAggregatesFilter>;
+  userId?: InputMaybe<StringNullableWithAggregatesFilter>;
 };
 
-export type DonationSumAggregateOutputType = {
-  __typename?: 'DonationSumAggregateOutputType';
-  amount?: Maybe<Scalars['Int']>;
+export type EventUncheckedCreateInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
-export type DonationSumOrderByAggregateInput = {
-  amount?: InputMaybe<SortOrder>;
+export type EventUncheckedCreateNestedManyWithoutCategoriesInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutCategoriesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutCategoriesInput>>>;
 };
 
-export type DonationUncheckedCreateInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  rewardId?: InputMaybe<Scalars['String']>;
-  senderId: Scalars['String'];
+export type EventUncheckedCreateNestedManyWithoutIssuedByInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutIssuedByInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutIssuedByInput>>>;
+  createMany?: InputMaybe<EventCreateManyIssuedByInputEnvelope>;
 };
 
-export type DonationUncheckedCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<DonationCreateManyProjectInputEnvelope>;
+export type EventUncheckedCreateNestedManyWithoutParticipantsInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutParticipantsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutParticipantsInput>>>;
 };
 
-export type DonationUncheckedCreateNestedManyWithoutRewardInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutRewardInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutRewardInput>>>;
-  createMany?: InputMaybe<DonationCreateManyRewardInputEnvelope>;
+export type EventUncheckedCreateNestedManyWithoutResponsiblesInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutResponsiblesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutResponsiblesInput>>>;
 };
 
-export type DonationUncheckedCreateNestedManyWithoutSenderInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutSenderInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutSenderInput>>>;
-  createMany?: InputMaybe<DonationCreateManySenderInputEnvelope>;
+export type EventUncheckedCreateNestedManyWithoutRoomInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutRoomInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutRoomInput>>>;
+  createMany?: InputMaybe<EventCreateManyRoomInputEnvelope>;
 };
 
-export type DonationUncheckedCreateWithoutProjectInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  rewardId?: InputMaybe<Scalars['String']>;
-  senderId: Scalars['String'];
+export type EventUncheckedCreateWithoutCategoriesInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
-export type DonationUncheckedCreateWithoutRewardInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  senderId: Scalars['String'];
+export type EventUncheckedCreateWithoutChatInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 };
 
-export type DonationUncheckedCreateWithoutSenderInput = {
-  amount: Scalars['Int'];
-  date?: InputMaybe<Scalars['DateTime']>;
-  id?: InputMaybe<Scalars['String']>;
-  message?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  rewardId?: InputMaybe<Scalars['String']>;
+export type EventUncheckedCreateWithoutIssuedByInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
 };
 
-export type DonationUncheckedUpdateInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedCreateWithoutParticipantsInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type EventUncheckedCreateWithoutResponsiblesInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  roomId: Scalars['String'];
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type EventUncheckedCreateWithoutRoomInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatUncheckedCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserUncheckedCreateNestedManyWithoutEventsResponsibleInput>;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type EventUncheckedUpdateInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  rewardId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  senderId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUncheckedUpdateManyInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  rewardId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  senderId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUncheckedUpdateManyWithoutDonationsInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyWithoutCategoriesNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutCategoriesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutCategoriesInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutCategoriesInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutCategoriesInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutCategoriesInput>>>;
+};
+
+export type EventUncheckedUpdateManyWithoutEventsInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  senderId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUncheckedUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<DonationCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type DonationUncheckedUpdateManyWithoutRewardNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutRewardInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutRewardInput>>>;
-  createMany?: InputMaybe<DonationCreateManyRewardInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutRewardInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutRewardInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutRewardInput>>
-  >;
-};
-
-export type DonationUncheckedUpdateManyWithoutSenderNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutSenderInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutSenderInput>>>;
-  createMany?: InputMaybe<DonationCreateManySenderInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutSenderInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutSenderInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutSenderInput>>
-  >;
-};
-
-export type DonationUncheckedUpdateWithoutProjectInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyWithoutEventsIssuedInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  rewardId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  senderId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type DonationUncheckedUpdateWithoutRewardInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyWithoutEventsParticipatingInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  senderId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUncheckedUpdateWithoutSenderInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyWithoutEventsResponsibleInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  rewardId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpdateInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateManyWithoutIssuedByNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutIssuedByInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutIssuedByInput>>>;
+  createMany?: InputMaybe<EventCreateManyIssuedByInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutIssuedByInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutIssuedByInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutIssuedByInput>>>;
+};
+
+export type EventUncheckedUpdateManyWithoutParticipantsNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutParticipantsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutParticipantsInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutParticipantsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutParticipantsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutParticipantsInput>>>;
+};
+
+export type EventUncheckedUpdateManyWithoutResponsiblesNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutResponsiblesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutResponsiblesInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutResponsiblesInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutResponsiblesInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutResponsiblesInput>>>;
+};
+
+export type EventUncheckedUpdateManyWithoutRoomNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutRoomInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutRoomInput>>>;
+  createMany?: InputMaybe<EventCreateManyRoomInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutRoomInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutRoomInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutRoomInput>>>;
+};
+
+export type EventUncheckedUpdateWithoutCategoriesInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutDonationsNestedInput>;
-  reward?: InputMaybe<RewardUpdateOneWithoutDonationsNestedInput>;
-  sender?: InputMaybe<UserUpdateOneRequiredWithoutDonationsNestedInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpdateManyMutationInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateWithoutChatInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpdateManyWithWhereWithoutProjectInput = {
-  data: DonationUncheckedUpdateManyWithoutDonationsInput;
-  where: DonationScalarWhereInput;
-};
-
-export type DonationUpdateManyWithWhereWithoutRewardInput = {
-  data: DonationUncheckedUpdateManyWithoutDonationsInput;
-  where: DonationScalarWhereInput;
-};
-
-export type DonationUpdateManyWithWhereWithoutSenderInput = {
-  data: DonationUncheckedUpdateManyWithoutDonationsInput;
-  where: DonationScalarWhereInput;
-};
-
-export type DonationUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<DonationCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type DonationUpdateManyWithoutRewardNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutRewardInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutRewardInput>>>;
-  createMany?: InputMaybe<DonationCreateManyRewardInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutRewardInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutRewardInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutRewardInput>>
-  >;
-};
-
-export type DonationUpdateManyWithoutSenderNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<DonationCreateOrConnectWithoutSenderInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<DonationCreateWithoutSenderInput>>>;
-  createMany?: InputMaybe<DonationCreateManySenderInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<DonationScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<DonationWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<DonationUpdateWithWhereUniqueWithoutSenderInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<DonationUpdateManyWithWhereWithoutSenderInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<DonationUpsertWithWhereUniqueWithoutSenderInput>>
-  >;
-};
-
-export type DonationUpdateWithWhereUniqueWithoutProjectInput = {
-  data: DonationUncheckedUpdateWithoutProjectInput;
-  where: DonationWhereUniqueInput;
-};
-
-export type DonationUpdateWithWhereUniqueWithoutRewardInput = {
-  data: DonationUncheckedUpdateWithoutRewardInput;
-  where: DonationWhereUniqueInput;
-};
-
-export type DonationUpdateWithWhereUniqueWithoutSenderInput = {
-  data: DonationUncheckedUpdateWithoutSenderInput;
-  where: DonationWhereUniqueInput;
-};
-
-export type DonationUpdateWithoutProjectInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateWithoutIssuedByInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  reward?: InputMaybe<RewardUpdateOneWithoutDonationsNestedInput>;
-  sender?: InputMaybe<UserUpdateOneRequiredWithoutDonationsNestedInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpdateWithoutRewardInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateWithoutParticipantsInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutDonationsNestedInput>;
-  sender?: InputMaybe<UserUpdateOneRequiredWithoutDonationsNestedInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpdateWithoutSenderInput = {
-  amount?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type EventUncheckedUpdateWithoutResponsiblesInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
   date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  message?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutDonationsNestedInput>;
-  reward?: InputMaybe<RewardUpdateOneWithoutDonationsNestedInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  roomId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpsertWithWhereUniqueWithoutProjectInput = {
-  create: DonationUncheckedCreateWithoutProjectInput;
-  update: DonationUncheckedUpdateWithoutProjectInput;
-  where: DonationWhereUniqueInput;
+export type EventUncheckedUpdateWithoutRoomInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUncheckedUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  userId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpsertWithWhereUniqueWithoutRewardInput = {
-  create: DonationUncheckedCreateWithoutRewardInput;
-  update: DonationUncheckedUpdateWithoutRewardInput;
-  where: DonationWhereUniqueInput;
+export type EventUpdateInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type DonationUpsertWithWhereUniqueWithoutSenderInput = {
-  create: DonationUncheckedCreateWithoutSenderInput;
-  update: DonationUncheckedUpdateWithoutSenderInput;
-  where: DonationWhereUniqueInput;
+export type EventUpdateManyMutationInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type DonationWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<DonationWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<DonationWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<DonationWhereInput>>>;
-  amount?: InputMaybe<IntFilter>;
+export type EventUpdateManyWithWhereWithoutCategoriesInput = {
+  data: EventUncheckedUpdateManyWithoutEventsInput;
+  where: EventScalarWhereInput;
+};
+
+export type EventUpdateManyWithWhereWithoutIssuedByInput = {
+  data: EventUncheckedUpdateManyWithoutEventsIssuedInput;
+  where: EventScalarWhereInput;
+};
+
+export type EventUpdateManyWithWhereWithoutParticipantsInput = {
+  data: EventUncheckedUpdateManyWithoutEventsParticipatingInput;
+  where: EventScalarWhereInput;
+};
+
+export type EventUpdateManyWithWhereWithoutResponsiblesInput = {
+  data: EventUncheckedUpdateManyWithoutEventsResponsibleInput;
+  where: EventScalarWhereInput;
+};
+
+export type EventUpdateManyWithWhereWithoutRoomInput = {
+  data: EventUncheckedUpdateManyWithoutEventsInput;
+  where: EventScalarWhereInput;
+};
+
+export type EventUpdateManyWithoutCategoriesNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutCategoriesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutCategoriesInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutCategoriesInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutCategoriesInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutCategoriesInput>>>;
+};
+
+export type EventUpdateManyWithoutIssuedByNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutIssuedByInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutIssuedByInput>>>;
+  createMany?: InputMaybe<EventCreateManyIssuedByInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutIssuedByInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutIssuedByInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutIssuedByInput>>>;
+};
+
+export type EventUpdateManyWithoutParticipantsNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutParticipantsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutParticipantsInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutParticipantsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutParticipantsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutParticipantsInput>>>;
+};
+
+export type EventUpdateManyWithoutResponsiblesNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutResponsiblesInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutResponsiblesInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutResponsiblesInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutResponsiblesInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutResponsiblesInput>>>;
+};
+
+export type EventUpdateManyWithoutRoomNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<EventCreateOrConnectWithoutRoomInput>>>;
+  create?: InputMaybe<Array<InputMaybe<EventCreateWithoutRoomInput>>>;
+  createMany?: InputMaybe<EventCreateManyRoomInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<EventScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<EventWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<EventUpdateWithWhereUniqueWithoutRoomInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<EventUpdateManyWithWhereWithoutRoomInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<EventUpsertWithWhereUniqueWithoutRoomInput>>>;
+};
+
+export type EventUpdateOneRequiredWithoutChatNestedInput = {
+  connect?: InputMaybe<EventWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<EventCreateOrConnectWithoutChatInput>;
+  create?: InputMaybe<EventUncheckedCreateWithoutChatInput>;
+  update?: InputMaybe<EventUncheckedUpdateWithoutChatInput>;
+  upsert?: InputMaybe<EventUpsertWithoutChatInput>;
+};
+
+export type EventUpdateWithWhereUniqueWithoutCategoriesInput = {
+  data: EventUncheckedUpdateWithoutCategoriesInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpdateWithWhereUniqueWithoutIssuedByInput = {
+  data: EventUncheckedUpdateWithoutIssuedByInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpdateWithWhereUniqueWithoutParticipantsInput = {
+  data: EventUncheckedUpdateWithoutParticipantsInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpdateWithWhereUniqueWithoutResponsiblesInput = {
+  data: EventUncheckedUpdateWithoutResponsiblesInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpdateWithWhereUniqueWithoutRoomInput = {
+  data: EventUncheckedUpdateWithoutRoomInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpdateWithoutCategoriesInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutChatInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutIssuedByInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutParticipantsInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutResponsiblesInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  room?: InputMaybe<RoomUpdateOneRequiredWithoutEventsNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpdateWithoutRoomInput = {
+  approved?: InputMaybe<BoolFieldUpdateOperationsInput>;
+  categories?: InputMaybe<CategoryUpdateManyWithoutEventsNestedInput>;
+  chat?: InputMaybe<ChatUpdateOneWithoutEventNestedInput>;
+  date?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  issuedBy?: InputMaybe<UserUpdateOneWithoutEventsIssuedNestedInput>;
+  participants?: InputMaybe<UserUpdateManyWithoutEventsParticipatingNestedInput>;
+  responsibles?: InputMaybe<UserUpdateManyWithoutEventsResponsibleNestedInput>;
+  shortDescription?: InputMaybe<StringFieldUpdateOperationsInput>;
+  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type EventUpsertWithWhereUniqueWithoutCategoriesInput = {
+  create: EventUncheckedCreateWithoutCategoriesInput;
+  update: EventUncheckedUpdateWithoutCategoriesInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpsertWithWhereUniqueWithoutIssuedByInput = {
+  create: EventUncheckedCreateWithoutIssuedByInput;
+  update: EventUncheckedUpdateWithoutIssuedByInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpsertWithWhereUniqueWithoutParticipantsInput = {
+  create: EventUncheckedCreateWithoutParticipantsInput;
+  update: EventUncheckedUpdateWithoutParticipantsInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpsertWithWhereUniqueWithoutResponsiblesInput = {
+  create: EventUncheckedCreateWithoutResponsiblesInput;
+  update: EventUncheckedUpdateWithoutResponsiblesInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpsertWithWhereUniqueWithoutRoomInput = {
+  create: EventUncheckedCreateWithoutRoomInput;
+  update: EventUncheckedUpdateWithoutRoomInput;
+  where: EventWhereUniqueInput;
+};
+
+export type EventUpsertWithoutChatInput = {
+  create: EventUncheckedCreateWithoutChatInput;
+  update: EventUncheckedUpdateWithoutChatInput;
+};
+
+export type EventWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<EventWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<EventWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<EventWhereInput>>>;
+  approved?: InputMaybe<BoolFilter>;
+  categories?: InputMaybe<CategoryListRelationFilter>;
+  chat?: InputMaybe<ChatWhereInput>;
   date?: InputMaybe<DateTimeFilter>;
+  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  message?: InputMaybe<StringNullableFilter>;
-  project?: InputMaybe<ProjectWhereInput>;
-  projectId?: InputMaybe<StringFilter>;
-  reward?: InputMaybe<RewardWhereInput>;
-  rewardId?: InputMaybe<StringNullableFilter>;
-  sender?: InputMaybe<UserWhereInput>;
-  senderId?: InputMaybe<StringFilter>;
+  image?: InputMaybe<StringNullableFilter>;
+  issuedBy?: InputMaybe<UserWhereInput>;
+  participants?: InputMaybe<UserListRelationFilter>;
+  responsibles?: InputMaybe<UserListRelationFilter>;
+  room?: InputMaybe<RoomWhereInput>;
+  roomId?: InputMaybe<StringFilter>;
+  shortDescription?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringNullableFilter>;
 };
 
-export type DonationWhereUniqueInput = {
+export type EventWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
@@ -1109,501 +1958,700 @@ export type IntWithAggregatesFilter = {
   notIn?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
-export type Kid = {
-  __typename?: 'Kid';
-  _count: KidCountOutputType;
-  avatar?: Maybe<Scalars['String']>;
-  biography?: Maybe<Scalars['String']>;
+export type IssueEventInput = {
+  approved?: InputMaybe<Scalars['Boolean']>;
+  categories?: InputMaybe<CategoryCreateNestedManyWithoutEventsInput>;
+  chat?: InputMaybe<ChatCreateNestedOneWithoutEventInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
   id: Scalars['String'];
-  links: Array<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  projects: Array<Project>;
+  image?: InputMaybe<Scalars['String']>;
+  participants?: InputMaybe<UserCreateNestedManyWithoutEventsParticipatingInput>;
+  responsibles?: InputMaybe<UserCreateNestedManyWithoutEventsResponsibleInput>;
+  room: RoomCreateNestedOneWithoutEventsInput;
+  shortDescription: Scalars['String'];
+  title: Scalars['String'];
 };
 
-export type KidProjectsArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<ProjectScalarFieldEnum>;
-  orderBy?: InputMaybe<ProjectOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+export type Message = {
+  __typename?: 'Message';
+  chat: Chat;
+  chatId: Scalars['String'];
+  id: Scalars['String'];
+  message: Scalars['String'];
+  sender: User;
+  sentDate: Scalars['DateTime'];
+  userId: Scalars['String'];
 };
 
-export type KidCountAggregateOutputType = {
-  __typename?: 'KidCountAggregateOutputType';
+export type MessageCountAggregateOutputType = {
+  __typename?: 'MessageCountAggregateOutputType';
   _all: Scalars['Int'];
-  avatar: Scalars['Int'];
-  biography: Scalars['Int'];
+  chatId: Scalars['Int'];
   id: Scalars['Int'];
-  links: Scalars['Int'];
-  location: Scalars['Int'];
-  name: Scalars['Int'];
+  message: Scalars['Int'];
+  sentDate: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
-export type KidCountOrderByAggregateInput = {
-  avatar?: InputMaybe<SortOrder>;
-  biography?: InputMaybe<SortOrder>;
+export type MessageCountOrderByAggregateInput = {
+  chatId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  links?: InputMaybe<SortOrder>;
-  location?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  message?: InputMaybe<SortOrder>;
+  sentDate?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type KidCountOutputType = {
-  __typename?: 'KidCountOutputType';
-  projects: Scalars['Int'];
-};
-
-export type KidCreateInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
+export type MessageCreateInput = {
+  chat: ChatCreateNestedOneWithoutMessagesInput;
   id?: InputMaybe<Scalars['String']>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  projects?: InputMaybe<ProjectCreateNestedManyWithoutKidInput>;
+  message: Scalars['String'];
+  sender: UserCreateNestedOneWithoutMessagesInput;
+  sentDate?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type KidCreateManyInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
+export type MessageCreateManyChatInput = {
   id?: InputMaybe<Scalars['String']>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
 };
 
-export type KidCreateNestedOneWithoutProjectsInput = {
-  connect?: InputMaybe<KidWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<KidCreateOrConnectWithoutProjectsInput>;
-  create?: InputMaybe<KidUncheckedCreateWithoutProjectsInput>;
+export type MessageCreateManyChatInputEnvelope = {
+  data: MessageCreateManyChatInput;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type KidCreateOrConnectWithoutProjectsInput = {
-  create: KidUncheckedCreateWithoutProjectsInput;
-  where: KidWhereUniqueInput;
-};
-
-export type KidCreateWithoutProjectsInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
+export type MessageCreateManyInput = {
+  chatId: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
 };
 
-export type KidCreatelinksInput = {
-  set: Scalars['String'];
+export type MessageCreateManySenderInput = {
+  chatId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type KidMaxAggregateOutputType = {
-  __typename?: 'KidMaxAggregateOutputType';
-  avatar?: Maybe<Scalars['String']>;
-  biography?: Maybe<Scalars['String']>;
+export type MessageCreateManySenderInputEnvelope = {
+  data: MessageCreateManySenderInput;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type MessageCreateNestedManyWithoutChatInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutChatInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutChatInput>>>;
+  createMany?: InputMaybe<MessageCreateManyChatInputEnvelope>;
+};
+
+export type MessageCreateNestedManyWithoutSenderInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutSenderInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutSenderInput>>>;
+  createMany?: InputMaybe<MessageCreateManySenderInputEnvelope>;
+};
+
+export type MessageCreateOrConnectWithoutChatInput = {
+  create: MessageUncheckedCreateWithoutChatInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageCreateOrConnectWithoutSenderInput = {
+  create: MessageUncheckedCreateWithoutSenderInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageCreateWithoutChatInput = {
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sender: UserCreateNestedOneWithoutMessagesInput;
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type MessageCreateWithoutSenderInput = {
+  chat: ChatCreateNestedOneWithoutMessagesInput;
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type MessageListRelationFilter = {
+  every?: InputMaybe<MessageWhereInput>;
+  none?: InputMaybe<MessageWhereInput>;
+  some?: InputMaybe<MessageWhereInput>;
+};
+
+export type MessageMaxAggregateOutputType = {
+  __typename?: 'MessageMaxAggregateOutputType';
+  chatId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  sentDate?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type KidMaxOrderByAggregateInput = {
-  avatar?: InputMaybe<SortOrder>;
-  biography?: InputMaybe<SortOrder>;
+export type MessageMaxOrderByAggregateInput = {
+  chatId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  location?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  message?: InputMaybe<SortOrder>;
+  sentDate?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type KidMinAggregateOutputType = {
-  __typename?: 'KidMinAggregateOutputType';
-  avatar?: Maybe<Scalars['String']>;
-  biography?: Maybe<Scalars['String']>;
+export type MessageMinAggregateOutputType = {
+  __typename?: 'MessageMinAggregateOutputType';
+  chatId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
+  sentDate?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type KidMinOrderByAggregateInput = {
-  avatar?: InputMaybe<SortOrder>;
-  biography?: InputMaybe<SortOrder>;
+export type MessageMinOrderByAggregateInput = {
+  chatId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  location?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  message?: InputMaybe<SortOrder>;
+  sentDate?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type KidOrderByWithAggregationInput = {
-  _count?: InputMaybe<KidCountOrderByAggregateInput>;
-  _max?: InputMaybe<KidMaxOrderByAggregateInput>;
-  _min?: InputMaybe<KidMinOrderByAggregateInput>;
-  avatar?: InputMaybe<SortOrder>;
-  biography?: InputMaybe<SortOrder>;
+export type MessageOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type MessageOrderByWithAggregationInput = {
+  _count?: InputMaybe<MessageCountOrderByAggregateInput>;
+  _max?: InputMaybe<MessageMaxOrderByAggregateInput>;
+  _min?: InputMaybe<MessageMinOrderByAggregateInput>;
+  chatId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  links?: InputMaybe<SortOrder>;
-  location?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  message?: InputMaybe<SortOrder>;
+  sentDate?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type KidOrderByWithRelationInput = {
-  avatar?: InputMaybe<SortOrder>;
-  biography?: InputMaybe<SortOrder>;
+export type MessageOrderByWithRelationInput = {
+  chat?: InputMaybe<ChatOrderByWithRelationInput>;
+  chatId?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  links?: InputMaybe<SortOrder>;
-  location?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
-  projects?: InputMaybe<ProjectOrderByRelationAggregateInput>;
+  message?: InputMaybe<SortOrder>;
+  sender?: InputMaybe<UserOrderByWithRelationInput>;
+  sentDate?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type KidRelationFilter = {
-  is?: InputMaybe<KidWhereInput>;
-  isNot?: InputMaybe<KidWhereInput>;
-};
-
-export enum KidScalarFieldEnum {
-  Avatar = 'avatar',
-  Biography = 'biography',
+export enum MessageScalarFieldEnum {
+  ChatId = 'chatId',
   Id = 'id',
-  Links = 'links',
-  Location = 'location',
-  Name = 'name',
+  Message = 'message',
+  SentDate = 'sentDate',
+  UserId = 'userId'
 }
 
-export type KidScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<InputMaybe<KidScalarWhereWithAggregatesInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<KidScalarWhereWithAggregatesInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<KidScalarWhereWithAggregatesInput>>>;
-  avatar?: InputMaybe<StringNullableWithAggregatesFilter>;
-  biography?: InputMaybe<StringNullableWithAggregatesFilter>;
-  id?: InputMaybe<StringWithAggregatesFilter>;
-  links?: InputMaybe<StringNullableListFilter>;
-  location?: InputMaybe<StringNullableWithAggregatesFilter>;
-  name?: InputMaybe<StringWithAggregatesFilter>;
-};
-
-export type KidUncheckedCreateInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  projects?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutKidInput>;
-};
-
-export type KidUncheckedCreateWithoutProjectsInput = {
-  avatar?: InputMaybe<Scalars['String']>;
-  biography?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-};
-
-export type KidUncheckedUpdateInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUncheckedUpdateManyWithoutKidNestedInput>;
-};
-
-export type KidUncheckedUpdateManyInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type KidUncheckedUpdateWithoutProjectsInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type KidUpdateInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUpdateManyWithoutKidNestedInput>;
-};
-
-export type KidUpdateManyMutationInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type KidUpdateOneRequiredWithoutProjectsNestedInput = {
-  connect?: InputMaybe<KidWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<KidCreateOrConnectWithoutProjectsInput>;
-  create?: InputMaybe<KidUncheckedCreateWithoutProjectsInput>;
-  update?: InputMaybe<KidUncheckedUpdateWithoutProjectsInput>;
-  upsert?: InputMaybe<KidUpsertWithoutProjectsInput>;
-};
-
-export type KidUpdateWithoutProjectsInput = {
-  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  biography?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  links?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  location?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  name?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type KidUpdatelinksInput = {
-  push?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  set?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type KidUpsertWithoutProjectsInput = {
-  create: KidUncheckedCreateWithoutProjectsInput;
-  update: KidUncheckedUpdateWithoutProjectsInput;
-};
-
-export type KidWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<KidWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<KidWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<KidWhereInput>>>;
-  avatar?: InputMaybe<StringNullableFilter>;
-  biography?: InputMaybe<StringNullableFilter>;
+export type MessageScalarWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  chatId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  links?: InputMaybe<StringNullableListFilter>;
-  location?: InputMaybe<StringNullableFilter>;
-  name?: InputMaybe<StringFilter>;
-  projects?: InputMaybe<ProjectListRelationFilter>;
+  message?: InputMaybe<StringFilter>;
+  sentDate?: InputMaybe<DateTimeFilter>;
+  userId?: InputMaybe<StringFilter>;
 };
 
-export type KidWhereUniqueInput = {
+export type MessageScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<MessageScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<MessageScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<MessageScalarWhereWithAggregatesInput>>>;
+  chatId?: InputMaybe<StringWithAggregatesFilter>;
+  id?: InputMaybe<StringWithAggregatesFilter>;
+  message?: InputMaybe<StringWithAggregatesFilter>;
+  sentDate?: InputMaybe<DateTimeWithAggregatesFilter>;
+  userId?: InputMaybe<StringWithAggregatesFilter>;
+};
+
+export type MessageUncheckedCreateInput = {
+  chatId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
+};
+
+export type MessageUncheckedCreateNestedManyWithoutChatInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutChatInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutChatInput>>>;
+  createMany?: InputMaybe<MessageCreateManyChatInputEnvelope>;
+};
+
+export type MessageUncheckedCreateNestedManyWithoutSenderInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutSenderInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutSenderInput>>>;
+  createMany?: InputMaybe<MessageCreateManySenderInputEnvelope>;
+};
+
+export type MessageUncheckedCreateWithoutChatInput = {
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
+};
+
+export type MessageUncheckedCreateWithoutSenderInput = {
+  chatId: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
+  message: Scalars['String'];
+  sentDate?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type MessageUncheckedUpdateInput = {
+  chatId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type MessageUncheckedUpdateManyInput = {
+  chatId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type MessageUncheckedUpdateManyWithoutChatNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutChatInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutChatInput>>>;
+  createMany?: InputMaybe<MessageCreateManyChatInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<MessageUpdateWithWhereUniqueWithoutChatInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<MessageUpdateManyWithWhereWithoutChatInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<MessageUpsertWithWhereUniqueWithoutChatInput>>>;
+};
+
+export type MessageUncheckedUpdateManyWithoutMessagesInput = {
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type MessageUncheckedUpdateManyWithoutSenderNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutSenderInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutSenderInput>>>;
+  createMany?: InputMaybe<MessageCreateManySenderInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<MessageUpdateWithWhereUniqueWithoutSenderInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<MessageUpdateManyWithWhereWithoutSenderInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<MessageUpsertWithWhereUniqueWithoutSenderInput>>>;
+};
+
+export type MessageUncheckedUpdateWithoutChatInput = {
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type MessageUncheckedUpdateWithoutSenderInput = {
+  chatId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type MessageUpdateInput = {
+  chat?: InputMaybe<ChatUpdateOneRequiredWithoutMessagesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender?: InputMaybe<UserUpdateOneRequiredWithoutMessagesNestedInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type MessageUpdateManyMutationInput = {
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type MessageUpdateManyWithWhereWithoutChatInput = {
+  data: MessageUncheckedUpdateManyWithoutMessagesInput;
+  where: MessageScalarWhereInput;
+};
+
+export type MessageUpdateManyWithWhereWithoutSenderInput = {
+  data: MessageUncheckedUpdateManyWithoutMessagesInput;
+  where: MessageScalarWhereInput;
+};
+
+export type MessageUpdateManyWithoutChatNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutChatInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutChatInput>>>;
+  createMany?: InputMaybe<MessageCreateManyChatInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<MessageUpdateWithWhereUniqueWithoutChatInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<MessageUpdateManyWithWhereWithoutChatInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<MessageUpsertWithWhereUniqueWithoutChatInput>>>;
+};
+
+export type MessageUpdateManyWithoutSenderNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<MessageCreateOrConnectWithoutSenderInput>>>;
+  create?: InputMaybe<Array<InputMaybe<MessageCreateWithoutSenderInput>>>;
+  createMany?: InputMaybe<MessageCreateManySenderInputEnvelope>;
+  delete?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<MessageScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<MessageWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<MessageUpdateWithWhereUniqueWithoutSenderInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<MessageUpdateManyWithWhereWithoutSenderInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<MessageUpsertWithWhereUniqueWithoutSenderInput>>>;
+};
+
+export type MessageUpdateWithWhereUniqueWithoutChatInput = {
+  data: MessageUncheckedUpdateWithoutChatInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageUpdateWithWhereUniqueWithoutSenderInput = {
+  data: MessageUncheckedUpdateWithoutSenderInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageUpdateWithoutChatInput = {
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sender?: InputMaybe<UserUpdateOneRequiredWithoutMessagesNestedInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type MessageUpdateWithoutSenderInput = {
+  chat?: InputMaybe<ChatUpdateOneRequiredWithoutMessagesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  message?: InputMaybe<StringFieldUpdateOperationsInput>;
+  sentDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type MessageUpsertWithWhereUniqueWithoutChatInput = {
+  create: MessageUncheckedCreateWithoutChatInput;
+  update: MessageUncheckedUpdateWithoutChatInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageUpsertWithWhereUniqueWithoutSenderInput = {
+  create: MessageUncheckedCreateWithoutSenderInput;
+  update: MessageUncheckedUpdateWithoutSenderInput;
+  where: MessageWhereUniqueInput;
+};
+
+export type MessageWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<MessageWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<MessageWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<MessageWhereInput>>>;
+  chat?: InputMaybe<ChatWhereInput>;
+  chatId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  message?: InputMaybe<StringFilter>;
+  sender?: InputMaybe<UserWhereInput>;
+  sentDate?: InputMaybe<DateTimeFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type MessageWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addProject: Project;
+  approveEvent: Event;
   createOneCategory: Category;
-  createOneDonation: Donation;
-  createOneKid: Kid;
-  createOneProject: Project;
-  createOneProjectCheckPoint: ProjectCheckPoint;
-  createOneReward: Reward;
+  createOneChat: Chat;
+  createOneEvent: Event;
+  createOneMessage: Message;
+  createOneProfile: Profile;
+  createOneRoom: Room;
   createOneUser: User;
   deleteManyCategory: BatchPayload;
-  deleteManyDonation: BatchPayload;
-  deleteManyKid: BatchPayload;
-  deleteManyProject: BatchPayload;
-  deleteManyProjectCheckPoint: BatchPayload;
-  deleteManyReward: BatchPayload;
+  deleteManyChat: BatchPayload;
+  deleteManyEvent: BatchPayload;
+  deleteManyMessage: BatchPayload;
+  deleteManyProfile: BatchPayload;
+  deleteManyRoom: BatchPayload;
   deleteManyUser: BatchPayload;
   deleteOneCategory?: Maybe<Category>;
-  deleteOneDonation?: Maybe<Donation>;
-  deleteOneKid?: Maybe<Kid>;
-  deleteOneProject?: Maybe<Project>;
-  deleteOneProjectCheckPoint?: Maybe<ProjectCheckPoint>;
-  deleteOneReward?: Maybe<Reward>;
+  deleteOneChat?: Maybe<Chat>;
+  deleteOneEvent?: Maybe<Event>;
+  deleteOneMessage?: Maybe<Message>;
+  deleteOneProfile?: Maybe<Profile>;
+  deleteOneRoom?: Maybe<Room>;
   deleteOneUser?: Maybe<User>;
-  login?: Maybe<Token>;
+  issueEvent: Event;
+  login: Token;
+  registerForEvent: Event;
+  sendMessage: Message;
   signup: Token;
   updateManyCategory: BatchPayload;
-  updateManyDonation: BatchPayload;
-  updateManyKid: BatchPayload;
-  updateManyProject: BatchPayload;
-  updateManyProjectCheckPoint: BatchPayload;
-  updateManyReward: BatchPayload;
+  updateManyChat: BatchPayload;
+  updateManyEvent: BatchPayload;
+  updateManyMessage: BatchPayload;
+  updateManyProfile: BatchPayload;
+  updateManyRoom: BatchPayload;
   updateManyUser: BatchPayload;
   updateOneCategory: Category;
-  updateOneDonation: Donation;
-  updateOneKid: Kid;
-  updateOneProject: Project;
-  updateOneProjectCheckPoint: ProjectCheckPoint;
-  updateOneReward: Reward;
+  updateOneChat: Chat;
+  updateOneEvent: Event;
+  updateOneMessage: Message;
+  updateOneProfile: Profile;
+  updateOneRoom: Room;
   updateOneUser: User;
   upsertOneCategory: Category;
-  upsertOneDonation: Donation;
-  upsertOneKid: Kid;
-  upsertOneProject: Project;
-  upsertOneProjectCheckPoint: ProjectCheckPoint;
-  upsertOneReward: Reward;
+  upsertOneChat: Chat;
+  upsertOneEvent: Event;
+  upsertOneMessage: Message;
+  upsertOneProfile: Profile;
+  upsertOneRoom: Room;
   upsertOneUser: User;
 };
 
-export type MutationAddProjectArgs = {
-  data: ProjectCreateInput;
+
+export type MutationApproveEventArgs = {
+  eventId: Scalars['String'];
 };
+
 
 export type MutationCreateOneCategoryArgs = {
   data: CategoryCreateInput;
 };
 
-export type MutationCreateOneDonationArgs = {
-  data: DonationCreateInput;
+
+export type MutationCreateOneChatArgs = {
+  data: ChatCreateInput;
 };
 
-export type MutationCreateOneKidArgs = {
-  data: KidCreateInput;
+
+export type MutationCreateOneEventArgs = {
+  data: EventCreateInput;
 };
 
-export type MutationCreateOneProjectArgs = {
-  data: ProjectCreateInput;
+
+export type MutationCreateOneMessageArgs = {
+  data: MessageCreateInput;
 };
 
-export type MutationCreateOneProjectCheckPointArgs = {
-  data: ProjectCheckPointCreateInput;
+
+export type MutationCreateOneProfileArgs = {
+  data: ProfileCreateInput;
 };
 
-export type MutationCreateOneRewardArgs = {
-  data: RewardCreateInput;
+
+export type MutationCreateOneRoomArgs = {
+  data: RoomCreateInput;
 };
+
 
 export type MutationCreateOneUserArgs = {
   data: UserCreateInput;
 };
 
+
 export type MutationDeleteManyCategoryArgs = {
   where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type MutationDeleteManyDonationArgs = {
-  where?: InputMaybe<DonationWhereInput>;
+
+export type MutationDeleteManyChatArgs = {
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type MutationDeleteManyKidArgs = {
-  where?: InputMaybe<KidWhereInput>;
+
+export type MutationDeleteManyEventArgs = {
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type MutationDeleteManyProjectArgs = {
-  where?: InputMaybe<ProjectWhereInput>;
+
+export type MutationDeleteManyMessageArgs = {
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type MutationDeleteManyProjectCheckPointArgs = {
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+
+export type MutationDeleteManyProfileArgs = {
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type MutationDeleteManyRewardArgs = {
-  where?: InputMaybe<RewardWhereInput>;
+
+export type MutationDeleteManyRoomArgs = {
+  where?: InputMaybe<RoomWhereInput>;
 };
+
 
 export type MutationDeleteManyUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
 export type MutationDeleteOneCategoryArgs = {
   where: CategoryWhereUniqueInput;
 };
 
-export type MutationDeleteOneDonationArgs = {
-  where: DonationWhereUniqueInput;
+
+export type MutationDeleteOneChatArgs = {
+  where: ChatWhereUniqueInput;
 };
 
-export type MutationDeleteOneKidArgs = {
-  where: KidWhereUniqueInput;
+
+export type MutationDeleteOneEventArgs = {
+  where: EventWhereUniqueInput;
 };
 
-export type MutationDeleteOneProjectArgs = {
-  where: ProjectWhereUniqueInput;
+
+export type MutationDeleteOneMessageArgs = {
+  where: MessageWhereUniqueInput;
 };
 
-export type MutationDeleteOneProjectCheckPointArgs = {
-  where: ProjectCheckPointWhereUniqueInput;
+
+export type MutationDeleteOneProfileArgs = {
+  where: ProfileWhereUniqueInput;
 };
 
-export type MutationDeleteOneRewardArgs = {
-  where: RewardWhereUniqueInput;
+
+export type MutationDeleteOneRoomArgs = {
+  where: RoomWhereUniqueInput;
 };
+
 
 export type MutationDeleteOneUserArgs = {
   where: UserWhereUniqueInput;
 };
 
-export type MutationLoginArgs = {
-  data?: InputMaybe<SignInInput>;
+
+export type MutationIssueEventArgs = {
+  data: IssueEventInput;
 };
+
+
+export type MutationLoginArgs = {
+  data: SignInInput;
+};
+
+
+export type MutationRegisterForEventArgs = {
+  eventId: Scalars['String'];
+};
+
+
+export type MutationSendMessageArgs = {
+  data: SendMessageInput;
+};
+
 
 export type MutationSignupArgs = {
   data: SignUpInput;
 };
+
 
 export type MutationUpdateManyCategoryArgs = {
   data: CategoryUpdateManyMutationInput;
   where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type MutationUpdateManyDonationArgs = {
-  data: DonationUpdateManyMutationInput;
-  where?: InputMaybe<DonationWhereInput>;
+
+export type MutationUpdateManyChatArgs = {
+  data: ChatUpdateManyMutationInput;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type MutationUpdateManyKidArgs = {
-  data: KidUpdateManyMutationInput;
-  where?: InputMaybe<KidWhereInput>;
+
+export type MutationUpdateManyEventArgs = {
+  data: EventUpdateManyMutationInput;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type MutationUpdateManyProjectArgs = {
-  data: ProjectUpdateManyMutationInput;
-  where?: InputMaybe<ProjectWhereInput>;
+
+export type MutationUpdateManyMessageArgs = {
+  data: MessageUpdateManyMutationInput;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type MutationUpdateManyProjectCheckPointArgs = {
-  data: ProjectCheckPointUpdateManyMutationInput;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+
+export type MutationUpdateManyProfileArgs = {
+  data: ProfileUpdateManyMutationInput;
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type MutationUpdateManyRewardArgs = {
-  data: RewardUpdateManyMutationInput;
-  where?: InputMaybe<RewardWhereInput>;
+
+export type MutationUpdateManyRoomArgs = {
+  data: RoomUpdateManyMutationInput;
+  where?: InputMaybe<RoomWhereInput>;
 };
+
 
 export type MutationUpdateManyUserArgs = {
   data: UserUpdateManyMutationInput;
   where?: InputMaybe<UserWhereInput>;
 };
 
+
 export type MutationUpdateOneCategoryArgs = {
   data: CategoryUpdateInput;
   where: CategoryWhereUniqueInput;
 };
 
-export type MutationUpdateOneDonationArgs = {
-  data: DonationUpdateInput;
-  where: DonationWhereUniqueInput;
+
+export type MutationUpdateOneChatArgs = {
+  data: ChatUpdateInput;
+  where: ChatWhereUniqueInput;
 };
 
-export type MutationUpdateOneKidArgs = {
-  data: KidUpdateInput;
-  where: KidWhereUniqueInput;
+
+export type MutationUpdateOneEventArgs = {
+  data: EventUpdateInput;
+  where: EventWhereUniqueInput;
 };
 
-export type MutationUpdateOneProjectArgs = {
-  data: ProjectUpdateInput;
-  where: ProjectWhereUniqueInput;
+
+export type MutationUpdateOneMessageArgs = {
+  data: MessageUpdateInput;
+  where: MessageWhereUniqueInput;
 };
 
-export type MutationUpdateOneProjectCheckPointArgs = {
-  data: ProjectCheckPointUpdateInput;
-  where: ProjectCheckPointWhereUniqueInput;
+
+export type MutationUpdateOneProfileArgs = {
+  data: ProfileUpdateInput;
+  where: ProfileWhereUniqueInput;
 };
 
-export type MutationUpdateOneRewardArgs = {
-  data: RewardUpdateInput;
-  where: RewardWhereUniqueInput;
+
+export type MutationUpdateOneRoomArgs = {
+  data: RoomUpdateInput;
+  where: RoomWhereUniqueInput;
 };
+
 
 export type MutationUpdateOneUserArgs = {
   data: UserUpdateInput;
   where: UserWhereUniqueInput;
 };
+
 
 export type MutationUpsertOneCategoryArgs = {
   create: CategoryCreateInput;
@@ -1611,35 +2659,41 @@ export type MutationUpsertOneCategoryArgs = {
   where: CategoryWhereUniqueInput;
 };
 
-export type MutationUpsertOneDonationArgs = {
-  create: DonationCreateInput;
-  update: DonationUpdateInput;
-  where: DonationWhereUniqueInput;
+
+export type MutationUpsertOneChatArgs = {
+  create: ChatCreateInput;
+  update: ChatUpdateInput;
+  where: ChatWhereUniqueInput;
 };
 
-export type MutationUpsertOneKidArgs = {
-  create: KidCreateInput;
-  update: KidUpdateInput;
-  where: KidWhereUniqueInput;
+
+export type MutationUpsertOneEventArgs = {
+  create: EventCreateInput;
+  update: EventUpdateInput;
+  where: EventWhereUniqueInput;
 };
 
-export type MutationUpsertOneProjectArgs = {
-  create: ProjectCreateInput;
-  update: ProjectUpdateInput;
-  where: ProjectWhereUniqueInput;
+
+export type MutationUpsertOneMessageArgs = {
+  create: MessageCreateInput;
+  update: MessageUpdateInput;
+  where: MessageWhereUniqueInput;
 };
 
-export type MutationUpsertOneProjectCheckPointArgs = {
-  create: ProjectCheckPointCreateInput;
-  update: ProjectCheckPointUpdateInput;
-  where: ProjectCheckPointWhereUniqueInput;
+
+export type MutationUpsertOneProfileArgs = {
+  create: ProfileCreateInput;
+  update: ProfileUpdateInput;
+  where: ProfileWhereUniqueInput;
 };
 
-export type MutationUpsertOneRewardArgs = {
-  create: RewardCreateInput;
-  update: RewardUpdateInput;
-  where: RewardWhereUniqueInput;
+
+export type MutationUpsertOneRoomArgs = {
+  create: RoomCreateInput;
+  update: RoomUpdateInput;
+  where: RoomWhereUniqueInput;
 };
+
 
 export type MutationUpsertOneUserArgs = {
   create: UserCreateInput;
@@ -1683,6 +2737,23 @@ export type NestedDateTimeWithAggregatesFilter = {
   lte?: InputMaybe<Scalars['DateTime']>;
   not?: InputMaybe<NestedDateTimeWithAggregatesFilter>;
   notIn?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+};
+
+export type NestedEnumUserRoleFilter = {
+  equals?: InputMaybe<UserRole>;
+  in?: InputMaybe<Array<InputMaybe<UserRole>>>;
+  not?: InputMaybe<NestedEnumUserRoleFilter>;
+  notIn?: InputMaybe<Array<InputMaybe<UserRole>>>;
+};
+
+export type NestedEnumUserRoleWithAggregatesFilter = {
+  _count?: InputMaybe<NestedIntFilter>;
+  _max?: InputMaybe<NestedEnumUserRoleFilter>;
+  _min?: InputMaybe<NestedEnumUserRoleFilter>;
+  equals?: InputMaybe<UserRole>;
+  in?: InputMaybe<Array<InputMaybe<UserRole>>>;
+  not?: InputMaybe<NestedEnumUserRoleWithAggregatesFilter>;
+  notIn?: InputMaybe<Array<InputMaybe<UserRole>>>;
 };
 
 export type NestedFloatFilter = {
@@ -1800,1855 +2871,363 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['String']>;
 };
 
-export type Project = {
-  __typename?: 'Project';
-  _count: ProjectCountOutputType;
-  categories: Array<Category>;
-  checkpoints: Array<ProjectCheckPoint>;
-  collectedAmount: Scalars['Int'];
-  content?: Maybe<Scalars['String']>;
-  createdAt: Scalars['DateTime'];
-  donations: Array<Donation>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
+export type Profile = {
+  __typename?: 'Profile';
+  avatar?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  kid: Kid;
-  kidId: Scalars['String'];
-  likes: Array<User>;
-  owner: User;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published: Scalars['Boolean'];
-  rewards: Array<Reward>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
+  jobTitle?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['String'];
 };
 
-export type ProjectCategoriesArgs = {
-  cursor?: InputMaybe<CategoryWhereUniqueInput>;
-  distinct?: InputMaybe<CategoryScalarFieldEnum>;
-  orderBy?: InputMaybe<CategoryOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<CategoryWhereInput>;
-};
-
-export type ProjectCheckpointsArgs = {
-  cursor?: InputMaybe<ProjectCheckPointWhereUniqueInput>;
-  distinct?: InputMaybe<ProjectCheckPointScalarFieldEnum>;
-  orderBy?: InputMaybe<ProjectCheckPointOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
-};
-
-export type ProjectDonationsArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<DonationScalarFieldEnum>;
-  orderBy?: InputMaybe<DonationOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
-};
-
-export type ProjectLikesArgs = {
-  cursor?: InputMaybe<UserWhereUniqueInput>;
-  distinct?: InputMaybe<UserScalarFieldEnum>;
-  orderBy?: InputMaybe<UserOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<UserWhereInput>;
-};
-
-export type ProjectRewardsArgs = {
-  cursor?: InputMaybe<RewardWhereUniqueInput>;
-  distinct?: InputMaybe<RewardScalarFieldEnum>;
-  orderBy?: InputMaybe<RewardOrderByWithRelationInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<RewardWhereInput>;
-};
-
-export type ProjectAvgAggregateOutputType = {
-  __typename?: 'ProjectAvgAggregateOutputType';
-  collectedAmount?: Maybe<Scalars['Float']>;
-  goal?: Maybe<Scalars['Float']>;
-};
-
-export type ProjectAvgOrderByAggregateInput = {
-  collectedAmount?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-};
-
-export type ProjectCheckPoint = {
-  __typename?: 'ProjectCheckPoint';
-  description?: Maybe<Scalars['String']>;
-  goal: Scalars['Int'];
-  id: Scalars['String'];
-  project: Project;
-  projectId: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCheckPointAvgAggregateOutputType = {
-  __typename?: 'ProjectCheckPointAvgAggregateOutputType';
-  goal?: Maybe<Scalars['Float']>;
-};
-
-export type ProjectCheckPointAvgOrderByAggregateInput = {
-  goal?: InputMaybe<SortOrder>;
-};
-
-export type ProjectCheckPointCountAggregateOutputType = {
-  __typename?: 'ProjectCheckPointCountAggregateOutputType';
+export type ProfileCountAggregateOutputType = {
+  __typename?: 'ProfileCountAggregateOutputType';
   _all: Scalars['Int'];
-  description: Scalars['Int'];
-  goal: Scalars['Int'];
+  avatar: Scalars['Int'];
+  bio: Scalars['Int'];
   id: Scalars['Int'];
-  projectId: Scalars['Int'];
-  title: Scalars['Int'];
+  jobTitle: Scalars['Int'];
+  name: Scalars['Int'];
+  surname: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
-export type ProjectCheckPointCountOrderByAggregateInput = {
-  description?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
+export type ProfileCountOrderByAggregateInput = {
+  avatar?: InputMaybe<SortOrder>;
+  bio?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  jobTitle?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  surname?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type ProjectCheckPointCreateInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
+export type ProfileCreateInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  project: ProjectCreateNestedOneWithoutCheckpointsInput;
-  title: Scalars['String'];
+  jobTitle?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  surname?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  user: UserCreateNestedOneWithoutProfileInput;
 };
 
-export type ProjectCheckPointCreateManyInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
+export type ProfileCreateManyInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  title: Scalars['String'];
+  jobTitle?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  surname?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
 };
 
-export type ProjectCheckPointCreateManyProjectInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
+export type ProfileCreateNestedOneWithoutUserInput = {
+  connect?: InputMaybe<ProfileWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
+  create?: InputMaybe<ProfileUncheckedCreateWithoutUserInput>;
+};
+
+export type ProfileCreateOrConnectWithoutUserInput = {
+  create: ProfileUncheckedCreateWithoutUserInput;
+  where: ProfileWhereUniqueInput;
+};
+
+export type ProfileCreateWithoutUserInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  jobTitle?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  surname?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type ProjectCheckPointCreateManyProjectInputEnvelope = {
-  data: ProjectCheckPointCreateManyProjectInput;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type ProjectCheckPointCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateWithoutProjectInput>>
-  >;
-  createMany?: InputMaybe<ProjectCheckPointCreateManyProjectInputEnvelope>;
-};
-
-export type ProjectCheckPointCreateOrConnectWithoutProjectInput = {
-  create: ProjectCheckPointUncheckedCreateWithoutProjectInput;
-  where: ProjectCheckPointWhereUniqueInput;
-};
-
-export type ProjectCheckPointCreateWithoutProjectInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
-};
-
-export type ProjectCheckPointListRelationFilter = {
-  every?: InputMaybe<ProjectCheckPointWhereInput>;
-  none?: InputMaybe<ProjectCheckPointWhereInput>;
-  some?: InputMaybe<ProjectCheckPointWhereInput>;
-};
-
-export type ProjectCheckPointMaxAggregateOutputType = {
-  __typename?: 'ProjectCheckPointMaxAggregateOutputType';
-  description?: Maybe<Scalars['String']>;
-  goal?: Maybe<Scalars['Int']>;
+export type ProfileMaxAggregateOutputType = {
+  __typename?: 'ProfileMaxAggregateOutputType';
+  avatar?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  projectId?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type ProjectCheckPointMaxOrderByAggregateInput = {
-  description?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
+export type ProfileMaxOrderByAggregateInput = {
+  avatar?: InputMaybe<SortOrder>;
+  bio?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  jobTitle?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  surname?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type ProjectCheckPointMinAggregateOutputType = {
-  __typename?: 'ProjectCheckPointMinAggregateOutputType';
-  description?: Maybe<Scalars['String']>;
-  goal?: Maybe<Scalars['Int']>;
+export type ProfileMinAggregateOutputType = {
+  __typename?: 'ProfileMinAggregateOutputType';
+  avatar?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  projectId?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  jobTitle?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
-export type ProjectCheckPointMinOrderByAggregateInput = {
-  description?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
+export type ProfileMinOrderByAggregateInput = {
+  avatar?: InputMaybe<SortOrder>;
+  bio?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  jobTitle?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  surname?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type ProjectCheckPointOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type ProjectCheckPointOrderByWithAggregationInput = {
-  _avg?: InputMaybe<ProjectCheckPointAvgOrderByAggregateInput>;
-  _count?: InputMaybe<ProjectCheckPointCountOrderByAggregateInput>;
-  _max?: InputMaybe<ProjectCheckPointMaxOrderByAggregateInput>;
-  _min?: InputMaybe<ProjectCheckPointMinOrderByAggregateInput>;
-  _sum?: InputMaybe<ProjectCheckPointSumOrderByAggregateInput>;
-  description?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
+export type ProfileOrderByWithAggregationInput = {
+  _count?: InputMaybe<ProfileCountOrderByAggregateInput>;
+  _max?: InputMaybe<ProfileMaxOrderByAggregateInput>;
+  _min?: InputMaybe<ProfileMinOrderByAggregateInput>;
+  avatar?: InputMaybe<SortOrder>;
+  bio?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  jobTitle?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  surname?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export type ProjectCheckPointOrderByWithRelationInput = {
-  description?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
+export type ProfileOrderByWithRelationInput = {
+  avatar?: InputMaybe<SortOrder>;
+  bio?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  project?: InputMaybe<ProjectOrderByWithRelationInput>;
-  projectId?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
+  jobTitle?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  surname?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
 };
 
-export enum ProjectCheckPointScalarFieldEnum {
-  Description = 'description',
-  Goal = 'goal',
+export type ProfileRelationFilter = {
+  is?: InputMaybe<ProfileWhereInput>;
+  isNot?: InputMaybe<ProfileWhereInput>;
+};
+
+export enum ProfileScalarFieldEnum {
+  Avatar = 'avatar',
+  Bio = 'bio',
   Id = 'id',
-  ProjectId = 'projectId',
-  Title = 'title',
+  JobTitle = 'jobTitle',
+  Name = 'name',
+  Surname = 'surname',
+  UpdatedAt = 'updatedAt',
+  UserId = 'userId'
 }
 
-export type ProjectCheckPointScalarWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarWhereInput>>>;
-  description?: InputMaybe<StringNullableFilter>;
-  goal?: InputMaybe<IntFilter>;
-  id?: InputMaybe<StringFilter>;
-  projectId?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
-};
-
-export type ProjectCheckPointScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointScalarWhereWithAggregatesInput>>
-  >;
-  NOT?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointScalarWhereWithAggregatesInput>>
-  >;
-  OR?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointScalarWhereWithAggregatesInput>>
-  >;
-  description?: InputMaybe<StringNullableWithAggregatesFilter>;
-  goal?: InputMaybe<IntWithAggregatesFilter>;
+export type ProfileScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<ProfileScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ProfileScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ProfileScalarWhereWithAggregatesInput>>>;
+  avatar?: InputMaybe<StringNullableWithAggregatesFilter>;
+  bio?: InputMaybe<StringNullableWithAggregatesFilter>;
   id?: InputMaybe<StringWithAggregatesFilter>;
-  projectId?: InputMaybe<StringWithAggregatesFilter>;
-  title?: InputMaybe<StringWithAggregatesFilter>;
+  jobTitle?: InputMaybe<StringNullableWithAggregatesFilter>;
+  name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  surname?: InputMaybe<StringNullableWithAggregatesFilter>;
+  updatedAt?: InputMaybe<DateTimeWithAggregatesFilter>;
+  userId?: InputMaybe<StringWithAggregatesFilter>;
 };
 
-export type ProjectCheckPointSumAggregateOutputType = {
-  __typename?: 'ProjectCheckPointSumAggregateOutputType';
-  goal?: Maybe<Scalars['Int']>;
-};
-
-export type ProjectCheckPointSumOrderByAggregateInput = {
-  goal?: InputMaybe<SortOrder>;
-};
-
-export type ProjectCheckPointUncheckedCreateInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
+export type ProfileUncheckedCreateInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  projectId: Scalars['String'];
-  title: Scalars['String'];
+  jobTitle?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  surname?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  userId: Scalars['String'];
 };
 
-export type ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateWithoutProjectInput>>
-  >;
-  createMany?: InputMaybe<ProjectCheckPointCreateManyProjectInputEnvelope>;
+export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
+  connect?: InputMaybe<ProfileWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
+  create?: InputMaybe<ProfileUncheckedCreateWithoutUserInput>;
 };
 
-export type ProjectCheckPointUncheckedCreateWithoutProjectInput = {
-  description?: InputMaybe<Scalars['String']>;
-  goal: Scalars['Int'];
+export type ProfileUncheckedCreateWithoutUserInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  jobTitle?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  surname?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
-export type ProjectCheckPointUncheckedUpdateInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUncheckedUpdateInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type ProjectCheckPointUncheckedUpdateManyInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUncheckedUpdateManyInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  userId?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type ProjectCheckPointUncheckedUpdateManyWithoutCheckpointsInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUncheckedUpdateOneWithoutUserNestedInput = {
+  connect?: InputMaybe<ProfileWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
+  create?: InputMaybe<ProfileUncheckedCreateWithoutUserInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ProfileUncheckedUpdateWithoutUserInput>;
+  upsert?: InputMaybe<ProfileUpsertWithoutUserInput>;
+};
+
+export type ProfileUncheckedUpdateWithoutUserInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateWithoutProjectInput>>
-  >;
-  createMany?: InputMaybe<ProjectCheckPointCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type ProjectCheckPointUncheckedUpdateWithoutProjectInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUpdateInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  user?: InputMaybe<UserUpdateOneRequiredWithoutProfileNestedInput>;
 };
 
-export type ProjectCheckPointUpdateInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUpdateManyMutationInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutCheckpointsNestedInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ProjectCheckPointUpdateManyMutationInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
+export type ProfileUpdateOneWithoutUserNestedInput = {
+  connect?: InputMaybe<ProfileWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ProfileCreateOrConnectWithoutUserInput>;
+  create?: InputMaybe<ProfileUncheckedCreateWithoutUserInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<ProfileUncheckedUpdateWithoutUserInput>;
+  upsert?: InputMaybe<ProfileUpsertWithoutUserInput>;
+};
+
+export type ProfileUpdateWithoutUserInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
 };
 
-export type ProjectCheckPointUpdateManyWithWhereWithoutProjectInput = {
-  data: ProjectCheckPointUncheckedUpdateManyWithoutCheckpointsInput;
-  where: ProjectCheckPointScalarWhereInput;
+export type ProfileUpsertWithoutUserInput = {
+  create: ProfileUncheckedCreateWithoutUserInput;
+  update: ProfileUncheckedUpdateWithoutUserInput;
 };
 
-export type ProjectCheckPointUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointCreateWithoutProjectInput>>
-  >;
-  createMany?: InputMaybe<ProjectCheckPointCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type ProjectCheckPointUpdateWithWhereUniqueWithoutProjectInput = {
-  data: ProjectCheckPointUncheckedUpdateWithoutProjectInput;
-  where: ProjectCheckPointWhereUniqueInput;
-};
-
-export type ProjectCheckPointUpdateWithoutProjectInput = {
-  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectCheckPointUpsertWithWhereUniqueWithoutProjectInput = {
-  create: ProjectCheckPointUncheckedCreateWithoutProjectInput;
-  update: ProjectCheckPointUncheckedUpdateWithoutProjectInput;
-  where: ProjectCheckPointWhereUniqueInput;
-};
-
-export type ProjectCheckPointWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProjectCheckPointWhereInput>>>;
-  description?: InputMaybe<StringNullableFilter>;
-  goal?: InputMaybe<IntFilter>;
+export type ProfileWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<ProfileWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<ProfileWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<ProfileWhereInput>>>;
+  avatar?: InputMaybe<StringNullableFilter>;
+  bio?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<StringFilter>;
-  project?: InputMaybe<ProjectWhereInput>;
-  projectId?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
+  jobTitle?: InputMaybe<StringNullableFilter>;
+  name?: InputMaybe<StringNullableFilter>;
+  surname?: InputMaybe<StringNullableFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserWhereInput>;
+  userId?: InputMaybe<StringFilter>;
 };
 
-export type ProjectCheckPointWhereUniqueInput = {
+export type ProfileWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
-};
-
-export type ProjectCountAggregateOutputType = {
-  __typename?: 'ProjectCountAggregateOutputType';
-  _all: Scalars['Int'];
-  collectedAmount: Scalars['Int'];
-  content: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  dueDate: Scalars['Int'];
-  goal: Scalars['Int'];
-  id: Scalars['Int'];
-  kidId: Scalars['Int'];
-  ownerId: Scalars['Int'];
-  promo_media: Scalars['Int'];
-  published: Scalars['Int'];
-  short_description: Scalars['Int'];
-  title: Scalars['Int'];
-};
-
-export type ProjectCountOrderByAggregateInput = {
-  collectedAmount?: InputMaybe<SortOrder>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  dueDate?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  kidId?: InputMaybe<SortOrder>;
-  ownerId?: InputMaybe<SortOrder>;
-  promo_media?: InputMaybe<SortOrder>;
-  published?: InputMaybe<SortOrder>;
-  short_description?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
-};
-
-export type ProjectCountOutputType = {
-  __typename?: 'ProjectCountOutputType';
-  categories: Scalars['Int'];
-  checkpoints: Scalars['Int'];
-  donations: Scalars['Int'];
-  likes: Scalars['Int'];
-  rewards: Scalars['Int'];
-};
-
-export type ProjectCreateInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateManyInput = {
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateManyKidInput = {
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateManyKidInputEnvelope = {
-  data: ProjectCreateManyKidInput;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type ProjectCreateManyOwnerInput = {
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateManyOwnerInputEnvelope = {
-  data: ProjectCreateManyOwnerInput;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type ProjectCreateNestedManyWithoutCategoriesInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutCategoriesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutCategoriesInput>>>;
-};
-
-export type ProjectCreateNestedManyWithoutKidInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutKidInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutKidInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyKidInputEnvelope>;
-};
-
-export type ProjectCreateNestedManyWithoutLikesInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutLikesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutLikesInput>>>;
-};
-
-export type ProjectCreateNestedManyWithoutOwnerInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutOwnerInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutOwnerInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyOwnerInputEnvelope>;
-};
-
-export type ProjectCreateNestedOneWithoutCheckpointsInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutCheckpointsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutCheckpointsInput>;
-};
-
-export type ProjectCreateNestedOneWithoutDonationsInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutDonationsInput>;
-};
-
-export type ProjectCreateNestedOneWithoutRewardsInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutRewardsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutRewardsInput>;
-};
-
-export type ProjectCreateOrConnectWithoutCategoriesInput = {
-  create: ProjectUncheckedCreateWithoutCategoriesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutCheckpointsInput = {
-  create: ProjectUncheckedCreateWithoutCheckpointsInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutDonationsInput = {
-  create: ProjectUncheckedCreateWithoutDonationsInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutKidInput = {
-  create: ProjectUncheckedCreateWithoutKidInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutLikesInput = {
-  create: ProjectUncheckedCreateWithoutLikesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutOwnerInput = {
-  create: ProjectUncheckedCreateWithoutOwnerInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateOrConnectWithoutRewardsInput = {
-  create: ProjectUncheckedCreateWithoutRewardsInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectCreateWithoutCategoriesInput = {
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutCheckpointsInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutDonationsInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutKidInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutLikesInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutOwnerInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectCreateWithoutRewardsInput = {
-  categories?: InputMaybe<CategoryCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kid: KidCreateNestedOneWithoutProjectsInput;
-  likes?: InputMaybe<UserCreateNestedManyWithoutLikedInput>;
-  owner: UserCreateNestedOneWithoutProjectsInput;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectListRelationFilter = {
-  every?: InputMaybe<ProjectWhereInput>;
-  none?: InputMaybe<ProjectWhereInput>;
-  some?: InputMaybe<ProjectWhereInput>;
-};
-
-export type ProjectMaxAggregateOutputType = {
-  __typename?: 'ProjectMaxAggregateOutputType';
-  collectedAmount?: Maybe<Scalars['Int']>;
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  dueDate?: Maybe<Scalars['DateTime']>;
-  goal?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  kidId?: Maybe<Scalars['String']>;
-  ownerId?: Maybe<Scalars['String']>;
-  promo_media?: Maybe<Scalars['String']>;
-  published?: Maybe<Scalars['Boolean']>;
-  short_description?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type ProjectMaxOrderByAggregateInput = {
-  collectedAmount?: InputMaybe<SortOrder>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  dueDate?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  kidId?: InputMaybe<SortOrder>;
-  ownerId?: InputMaybe<SortOrder>;
-  promo_media?: InputMaybe<SortOrder>;
-  published?: InputMaybe<SortOrder>;
-  short_description?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
-};
-
-export type ProjectMinAggregateOutputType = {
-  __typename?: 'ProjectMinAggregateOutputType';
-  collectedAmount?: Maybe<Scalars['Int']>;
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['DateTime']>;
-  dueDate?: Maybe<Scalars['DateTime']>;
-  goal?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  kidId?: Maybe<Scalars['String']>;
-  ownerId?: Maybe<Scalars['String']>;
-  promo_media?: Maybe<Scalars['String']>;
-  published?: Maybe<Scalars['Boolean']>;
-  short_description?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type ProjectMinOrderByAggregateInput = {
-  collectedAmount?: InputMaybe<SortOrder>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  dueDate?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  kidId?: InputMaybe<SortOrder>;
-  ownerId?: InputMaybe<SortOrder>;
-  promo_media?: InputMaybe<SortOrder>;
-  published?: InputMaybe<SortOrder>;
-  short_description?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
-};
-
-export type ProjectOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type ProjectOrderByWithAggregationInput = {
-  _avg?: InputMaybe<ProjectAvgOrderByAggregateInput>;
-  _count?: InputMaybe<ProjectCountOrderByAggregateInput>;
-  _max?: InputMaybe<ProjectMaxOrderByAggregateInput>;
-  _min?: InputMaybe<ProjectMinOrderByAggregateInput>;
-  _sum?: InputMaybe<ProjectSumOrderByAggregateInput>;
-  collectedAmount?: InputMaybe<SortOrder>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  dueDate?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  kidId?: InputMaybe<SortOrder>;
-  ownerId?: InputMaybe<SortOrder>;
-  promo_media?: InputMaybe<SortOrder>;
-  published?: InputMaybe<SortOrder>;
-  short_description?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
-};
-
-export type ProjectOrderByWithRelationInput = {
-  categories?: InputMaybe<CategoryOrderByRelationAggregateInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointOrderByRelationAggregateInput>;
-  collectedAmount?: InputMaybe<SortOrder>;
-  content?: InputMaybe<SortOrder>;
-  createdAt?: InputMaybe<SortOrder>;
-  donations?: InputMaybe<DonationOrderByRelationAggregateInput>;
-  dueDate?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  kid?: InputMaybe<KidOrderByWithRelationInput>;
-  kidId?: InputMaybe<SortOrder>;
-  likes?: InputMaybe<UserOrderByRelationAggregateInput>;
-  owner?: InputMaybe<UserOrderByWithRelationInput>;
-  ownerId?: InputMaybe<SortOrder>;
-  promo_media?: InputMaybe<SortOrder>;
-  published?: InputMaybe<SortOrder>;
-  rewards?: InputMaybe<RewardOrderByRelationAggregateInput>;
-  short_description?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrder>;
-};
-
-export type ProjectRelationFilter = {
-  is?: InputMaybe<ProjectWhereInput>;
-  isNot?: InputMaybe<ProjectWhereInput>;
-};
-
-export enum ProjectScalarFieldEnum {
-  CollectedAmount = 'collectedAmount',
-  Content = 'content',
-  CreatedAt = 'createdAt',
-  DueDate = 'dueDate',
-  Goal = 'goal',
-  Id = 'id',
-  KidId = 'kidId',
-  OwnerId = 'ownerId',
-  PromoMedia = 'promo_media',
-  Published = 'published',
-  ShortDescription = 'short_description',
-  Title = 'title',
-}
-
-export type ProjectScalarWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  collectedAmount?: InputMaybe<IntFilter>;
-  content?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  dueDate?: InputMaybe<DateTimeFilter>;
-  goal?: InputMaybe<IntFilter>;
-  id?: InputMaybe<StringFilter>;
-  kidId?: InputMaybe<StringFilter>;
-  ownerId?: InputMaybe<StringFilter>;
-  promo_media?: InputMaybe<StringFilter>;
-  published?: InputMaybe<BoolFilter>;
-  short_description?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
-};
-
-export type ProjectScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProjectScalarWhereWithAggregatesInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<ProjectScalarWhereWithAggregatesInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProjectScalarWhereWithAggregatesInput>>>;
-  collectedAmount?: InputMaybe<IntWithAggregatesFilter>;
-  content?: InputMaybe<StringNullableWithAggregatesFilter>;
-  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
-  dueDate?: InputMaybe<DateTimeWithAggregatesFilter>;
-  goal?: InputMaybe<IntWithAggregatesFilter>;
-  id?: InputMaybe<StringWithAggregatesFilter>;
-  kidId?: InputMaybe<StringWithAggregatesFilter>;
-  ownerId?: InputMaybe<StringWithAggregatesFilter>;
-  promo_media?: InputMaybe<StringWithAggregatesFilter>;
-  published?: InputMaybe<BoolWithAggregatesFilter>;
-  short_description?: InputMaybe<StringWithAggregatesFilter>;
-  title?: InputMaybe<StringWithAggregatesFilter>;
-};
-
-export type ProjectSumAggregateOutputType = {
-  __typename?: 'ProjectSumAggregateOutputType';
-  collectedAmount?: Maybe<Scalars['Int']>;
-  goal?: Maybe<Scalars['Int']>;
-};
-
-export type ProjectSumOrderByAggregateInput = {
-  collectedAmount?: InputMaybe<SortOrder>;
-  goal?: InputMaybe<SortOrder>;
-};
-
-export type ProjectUncheckedCreateInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateNestedManyWithoutCategoriesInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutCategoriesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutCategoriesInput>>>;
-};
-
-export type ProjectUncheckedCreateNestedManyWithoutKidInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutKidInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutKidInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyKidInputEnvelope>;
-};
-
-export type ProjectUncheckedCreateNestedManyWithoutLikesInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutLikesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutLikesInput>>>;
-};
-
-export type ProjectUncheckedCreateNestedManyWithoutOwnerInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutOwnerInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutOwnerInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyOwnerInputEnvelope>;
-};
-
-export type ProjectUncheckedCreateWithoutCategoriesInput = {
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutCheckpointsInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutDonationsInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutKidInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutLikesInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutOwnerInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  rewards?: InputMaybe<RewardUncheckedCreateNestedManyWithoutProjectInput>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedCreateWithoutRewardsInput = {
-  categories?: InputMaybe<CategoryUncheckedCreateNestedManyWithoutProjectsInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedCreateNestedManyWithoutProjectInput>;
-  collectedAmount?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutProjectInput>;
-  dueDate: Scalars['DateTime'];
-  goal: Scalars['Int'];
-  id?: InputMaybe<Scalars['String']>;
-  kidId: Scalars['String'];
-  likes?: InputMaybe<UserUncheckedCreateNestedManyWithoutLikedInput>;
-  ownerId: Scalars['String'];
-  promo_media: Scalars['String'];
-  published?: InputMaybe<Scalars['Boolean']>;
-  short_description: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type ProjectUncheckedUpdateInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateManyInput = {
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateManyWithoutCategoriesNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutCategoriesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutCategoriesInput>>>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutCategoriesInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutCategoriesInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutCategoriesInput>>
-  >;
-};
-
-export type ProjectUncheckedUpdateManyWithoutKidNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutKidInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutKidInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyKidInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutKidInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutKidInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutKidInput>>
-  >;
-};
-
-export type ProjectUncheckedUpdateManyWithoutLikedInput = {
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateManyWithoutLikesNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutLikesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutLikesInput>>>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutLikesInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutLikesInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutLikesInput>>
-  >;
-};
-
-export type ProjectUncheckedUpdateManyWithoutOwnerNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutOwnerInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutOwnerInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyOwnerInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutOwnerInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutOwnerInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutOwnerInput>>
-  >;
-};
-
-export type ProjectUncheckedUpdateManyWithoutProjectsInput = {
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutCategoriesInput = {
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutCheckpointsInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutDonationsInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutKidInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutLikesInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutOwnerInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUncheckedUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUncheckedUpdateWithoutRewardsInput = {
-  categories?: InputMaybe<CategoryUncheckedUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUncheckedUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kidId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUncheckedUpdateManyWithoutLikedNestedInput>;
-  ownerId?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateManyMutationInput = {
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateManyWithWhereWithoutCategoriesInput = {
-  data: ProjectUncheckedUpdateManyWithoutProjectsInput;
-  where: ProjectScalarWhereInput;
-};
-
-export type ProjectUpdateManyWithWhereWithoutKidInput = {
-  data: ProjectUncheckedUpdateManyWithoutProjectsInput;
-  where: ProjectScalarWhereInput;
-};
-
-export type ProjectUpdateManyWithWhereWithoutLikesInput = {
-  data: ProjectUncheckedUpdateManyWithoutLikedInput;
-  where: ProjectScalarWhereInput;
-};
-
-export type ProjectUpdateManyWithWhereWithoutOwnerInput = {
-  data: ProjectUncheckedUpdateManyWithoutProjectsInput;
-  where: ProjectScalarWhereInput;
-};
-
-export type ProjectUpdateManyWithoutCategoriesNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutCategoriesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutCategoriesInput>>>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutCategoriesInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutCategoriesInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutCategoriesInput>>
-  >;
-};
-
-export type ProjectUpdateManyWithoutKidNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutKidInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutKidInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyKidInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutKidInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutKidInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutKidInput>>
-  >;
-};
-
-export type ProjectUpdateManyWithoutLikesNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutLikesInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutLikesInput>>>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutLikesInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutLikesInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutLikesInput>>
-  >;
-};
-
-export type ProjectUpdateManyWithoutOwnerNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<ProjectCreateOrConnectWithoutOwnerInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<ProjectCreateWithoutOwnerInput>>>;
-  createMany?: InputMaybe<ProjectCreateManyOwnerInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<ProjectScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<ProjectWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateWithWhereUniqueWithoutOwnerInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<ProjectUpdateManyWithWhereWithoutOwnerInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<ProjectUpsertWithWhereUniqueWithoutOwnerInput>>
-  >;
-};
-
-export type ProjectUpdateOneRequiredWithoutCheckpointsNestedInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutCheckpointsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutCheckpointsInput>;
-  update?: InputMaybe<ProjectUncheckedUpdateWithoutCheckpointsInput>;
-  upsert?: InputMaybe<ProjectUpsertWithoutCheckpointsInput>;
-};
-
-export type ProjectUpdateOneRequiredWithoutDonationsNestedInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutDonationsInput>;
-  update?: InputMaybe<ProjectUncheckedUpdateWithoutDonationsInput>;
-  upsert?: InputMaybe<ProjectUpsertWithoutDonationsInput>;
-};
-
-export type ProjectUpdateOneRequiredWithoutRewardsNestedInput = {
-  connect?: InputMaybe<ProjectWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ProjectCreateOrConnectWithoutRewardsInput>;
-  create?: InputMaybe<ProjectUncheckedCreateWithoutRewardsInput>;
-  update?: InputMaybe<ProjectUncheckedUpdateWithoutRewardsInput>;
-  upsert?: InputMaybe<ProjectUpsertWithoutRewardsInput>;
-};
-
-export type ProjectUpdateWithWhereUniqueWithoutCategoriesInput = {
-  data: ProjectUncheckedUpdateWithoutCategoriesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpdateWithWhereUniqueWithoutKidInput = {
-  data: ProjectUncheckedUpdateWithoutKidInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpdateWithWhereUniqueWithoutLikesInput = {
-  data: ProjectUncheckedUpdateWithoutLikesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpdateWithWhereUniqueWithoutOwnerInput = {
-  data: ProjectUncheckedUpdateWithoutOwnerInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpdateWithoutCategoriesInput = {
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutCheckpointsInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutDonationsInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutKidInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutLikesInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutOwnerInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  rewards?: InputMaybe<RewardUpdateManyWithoutProjectNestedInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpdateWithoutRewardsInput = {
-  categories?: InputMaybe<CategoryUpdateManyWithoutProjectsNestedInput>;
-  checkpoints?: InputMaybe<ProjectCheckPointUpdateManyWithoutProjectNestedInput>;
-  collectedAmount?: InputMaybe<IntFieldUpdateOperationsInput>;
-  content?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutProjectNestedInput>;
-  dueDate?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
-  goal?: InputMaybe<IntFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  kid?: InputMaybe<KidUpdateOneRequiredWithoutProjectsNestedInput>;
-  likes?: InputMaybe<UserUpdateManyWithoutLikedNestedInput>;
-  owner?: InputMaybe<UserUpdateOneRequiredWithoutProjectsNestedInput>;
-  promo_media?: InputMaybe<StringFieldUpdateOperationsInput>;
-  published?: InputMaybe<BoolFieldUpdateOperationsInput>;
-  short_description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type ProjectUpsertWithWhereUniqueWithoutCategoriesInput = {
-  create: ProjectUncheckedCreateWithoutCategoriesInput;
-  update: ProjectUncheckedUpdateWithoutCategoriesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpsertWithWhereUniqueWithoutKidInput = {
-  create: ProjectUncheckedCreateWithoutKidInput;
-  update: ProjectUncheckedUpdateWithoutKidInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpsertWithWhereUniqueWithoutLikesInput = {
-  create: ProjectUncheckedCreateWithoutLikesInput;
-  update: ProjectUncheckedUpdateWithoutLikesInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpsertWithWhereUniqueWithoutOwnerInput = {
-  create: ProjectUncheckedCreateWithoutOwnerInput;
-  update: ProjectUncheckedUpdateWithoutOwnerInput;
-  where: ProjectWhereUniqueInput;
-};
-
-export type ProjectUpsertWithoutCheckpointsInput = {
-  create: ProjectUncheckedCreateWithoutCheckpointsInput;
-  update: ProjectUncheckedUpdateWithoutCheckpointsInput;
-};
-
-export type ProjectUpsertWithoutDonationsInput = {
-  create: ProjectUncheckedCreateWithoutDonationsInput;
-  update: ProjectUncheckedUpdateWithoutDonationsInput;
-};
-
-export type ProjectUpsertWithoutRewardsInput = {
-  create: ProjectUncheckedCreateWithoutRewardsInput;
-  update: ProjectUncheckedUpdateWithoutRewardsInput;
-};
-
-export type ProjectWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<ProjectWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<ProjectWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<ProjectWhereInput>>>;
-  categories?: InputMaybe<CategoryListRelationFilter>;
-  checkpoints?: InputMaybe<ProjectCheckPointListRelationFilter>;
-  collectedAmount?: InputMaybe<IntFilter>;
-  content?: InputMaybe<StringNullableFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  donations?: InputMaybe<DonationListRelationFilter>;
-  dueDate?: InputMaybe<DateTimeFilter>;
-  goal?: InputMaybe<IntFilter>;
-  id?: InputMaybe<StringFilter>;
-  kid?: InputMaybe<KidWhereInput>;
-  kidId?: InputMaybe<StringFilter>;
-  likes?: InputMaybe<UserListRelationFilter>;
-  owner?: InputMaybe<UserWhereInput>;
-  ownerId?: InputMaybe<StringFilter>;
-  promo_media?: InputMaybe<StringFilter>;
-  published?: InputMaybe<BoolFilter>;
-  rewards?: InputMaybe<RewardListRelationFilter>;
-  short_description?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
-};
-
-export type ProjectWhereUniqueInput = {
-  id?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   aggregateCategory?: Maybe<AggregateCategory>;
-  aggregateDonation?: Maybe<AggregateDonation>;
-  aggregateKid?: Maybe<AggregateKid>;
-  aggregateProject?: Maybe<AggregateProject>;
-  aggregateProjectCheckPoint?: Maybe<AggregateProjectCheckPoint>;
-  aggregateReward?: Maybe<AggregateReward>;
+  aggregateChat?: Maybe<AggregateChat>;
+  aggregateEvent?: Maybe<AggregateEvent>;
+  aggregateMessage?: Maybe<AggregateMessage>;
+  aggregateProfile?: Maybe<AggregateProfile>;
+  aggregateRoom?: Maybe<AggregateRoom>;
   aggregateUser?: Maybe<AggregateUser>;
   findFirstCategory?: Maybe<Category>;
-  findFirstDonation?: Maybe<Donation>;
-  findFirstKid?: Maybe<Kid>;
-  findFirstProject?: Maybe<Project>;
-  findFirstProjectCheckPoint?: Maybe<ProjectCheckPoint>;
-  findFirstReward?: Maybe<Reward>;
+  findFirstChat?: Maybe<Chat>;
+  findFirstEvent?: Maybe<Event>;
+  findFirstMessage?: Maybe<Message>;
+  findFirstProfile?: Maybe<Profile>;
+  findFirstRoom?: Maybe<Room>;
   findFirstUser?: Maybe<User>;
   findManyCategory: Array<Category>;
   findManyCategoryCount: Scalars['Int'];
-  findManyDonation: Array<Donation>;
-  findManyDonationCount: Scalars['Int'];
-  findManyKid: Array<Kid>;
-  findManyKidCount: Scalars['Int'];
-  findManyProject: Array<Project>;
-  findManyProjectCheckPoint: Array<ProjectCheckPoint>;
-  findManyProjectCheckPointCount: Scalars['Int'];
-  findManyProjectCount: Scalars['Int'];
-  findManyReward: Array<Reward>;
-  findManyRewardCount: Scalars['Int'];
+  findManyChat: Array<Chat>;
+  findManyChatCount: Scalars['Int'];
+  findManyEvent: Array<Event>;
+  findManyEventCount: Scalars['Int'];
+  findManyMessage: Array<Message>;
+  findManyMessageCount: Scalars['Int'];
+  findManyProfile: Array<Profile>;
+  findManyProfileCount: Scalars['Int'];
+  findManyRoom: Array<Room>;
+  findManyRoomCount: Scalars['Int'];
   findManyUser: Array<User>;
   findManyUserCount: Scalars['Int'];
   findUniqueCategory?: Maybe<Category>;
-  findUniqueDonation?: Maybe<Donation>;
-  findUniqueKid?: Maybe<Kid>;
-  findUniqueProject?: Maybe<Project>;
-  findUniqueProjectCheckPoint?: Maybe<ProjectCheckPoint>;
-  findUniqueReward?: Maybe<Reward>;
+  findUniqueChat?: Maybe<Chat>;
+  findUniqueEvent?: Maybe<Event>;
+  findUniqueMessage?: Maybe<Message>;
+  findUniqueProfile?: Maybe<Profile>;
+  findUniqueRoom?: Maybe<Room>;
   findUniqueUser?: Maybe<User>;
   me: User;
-  projectsFeed: Array<Project>;
-  recentProjects: Array<Project>;
-  trendingProjects: Array<Project>;
 };
+
 
 export type QueryAggregateCategoryArgs = {
   cursor?: InputMaybe<CategoryWhereUniqueInput>;
@@ -3658,47 +3237,51 @@ export type QueryAggregateCategoryArgs = {
   where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type QueryAggregateDonationArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<InputMaybe<DonationOrderByWithRelationInput>>>;
+
+export type QueryAggregateChatArgs = {
+  cursor?: InputMaybe<ChatWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<ChatOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type QueryAggregateKidArgs = {
-  cursor?: InputMaybe<KidWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<InputMaybe<KidOrderByWithRelationInput>>>;
+
+export type QueryAggregateEventArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<EventOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<KidWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type QueryAggregateProjectArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<InputMaybe<ProjectOrderByWithRelationInput>>>;
+
+export type QueryAggregateMessageArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<MessageOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type QueryAggregateProjectCheckPointArgs = {
-  cursor?: InputMaybe<ProjectCheckPointWhereUniqueInput>;
-  orderBy?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointOrderByWithRelationInput>>
-  >;
+
+export type QueryAggregateProfileArgs = {
+  cursor?: InputMaybe<ProfileWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<ProfileOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type QueryAggregateRewardArgs = {
-  cursor?: InputMaybe<RewardWhereUniqueInput>;
-  orderBy?: InputMaybe<Array<InputMaybe<RewardOrderByWithRelationInput>>>;
+
+export type QueryAggregateRoomArgs = {
+  cursor?: InputMaybe<RoomWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<InputMaybe<RoomOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<RewardWhereInput>;
+  where?: InputMaybe<RoomWhereInput>;
 };
+
 
 export type QueryAggregateUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -3707,6 +3290,7 @@ export type QueryAggregateUserArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<UserWhereInput>;
 };
+
 
 export type QueryFindFirstCategoryArgs = {
   cursor?: InputMaybe<CategoryWhereUniqueInput>;
@@ -3717,52 +3301,56 @@ export type QueryFindFirstCategoryArgs = {
   where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type QueryFindFirstDonationArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<DonationScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<DonationOrderByWithRelationInput>>>;
+
+export type QueryFindFirstChatArgs = {
+  cursor?: InputMaybe<ChatWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ChatScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ChatOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type QueryFindFirstKidArgs = {
-  cursor?: InputMaybe<KidWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<KidScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<KidOrderByWithRelationInput>>>;
+
+export type QueryFindFirstEventArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<EventScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<EventOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<KidWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type QueryFindFirstProjectArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<ProjectOrderByWithRelationInput>>>;
+
+export type QueryFindFirstMessageArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<MessageScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<MessageOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type QueryFindFirstProjectCheckPointArgs = {
-  cursor?: InputMaybe<ProjectCheckPointWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarFieldEnum>>>;
-  orderBy?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointOrderByWithRelationInput>>
-  >;
+
+export type QueryFindFirstProfileArgs = {
+  cursor?: InputMaybe<ProfileWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ProfileScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ProfileOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type QueryFindFirstRewardArgs = {
-  cursor?: InputMaybe<RewardWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<RewardScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<RewardOrderByWithRelationInput>>>;
+
+export type QueryFindFirstRoomArgs = {
+  cursor?: InputMaybe<RoomWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<RoomScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<RoomOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<RewardWhereInput>;
+  where?: InputMaybe<RoomWhereInput>;
 };
+
 
 export type QueryFindFirstUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -3773,6 +3361,7 @@ export type QueryFindFirstUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
 export type QueryFindManyCategoryArgs = {
   cursor?: InputMaybe<CategoryWhereUniqueInput>;
   distinct?: InputMaybe<Array<InputMaybe<CategoryScalarFieldEnum>>>;
@@ -3781,6 +3370,7 @@ export type QueryFindManyCategoryArgs = {
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CategoryWhereInput>;
 };
+
 
 export type QueryFindManyCategoryCountArgs = {
   cursor?: InputMaybe<CategoryWhereUniqueInput>;
@@ -3791,99 +3381,106 @@ export type QueryFindManyCategoryCountArgs = {
   where?: InputMaybe<CategoryWhereInput>;
 };
 
-export type QueryFindManyDonationArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<DonationScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<DonationOrderByWithRelationInput>>>;
+
+export type QueryFindManyChatArgs = {
+  cursor?: InputMaybe<ChatWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ChatScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ChatOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type QueryFindManyDonationCountArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<DonationScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<DonationOrderByWithRelationInput>>>;
+
+export type QueryFindManyChatCountArgs = {
+  cursor?: InputMaybe<ChatWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ChatScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ChatOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type QueryFindManyKidArgs = {
-  cursor?: InputMaybe<KidWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<KidScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<KidOrderByWithRelationInput>>>;
+
+export type QueryFindManyEventArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<EventScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<EventOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<KidWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type QueryFindManyKidCountArgs = {
-  cursor?: InputMaybe<KidWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<KidScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<KidOrderByWithRelationInput>>>;
+
+export type QueryFindManyEventCountArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<EventScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<EventOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<KidWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type QueryFindManyProjectArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<ProjectOrderByWithRelationInput>>>;
+
+export type QueryFindManyMessageArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<MessageScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<MessageOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type QueryFindManyProjectCheckPointArgs = {
-  cursor?: InputMaybe<ProjectCheckPointWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarFieldEnum>>>;
-  orderBy?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointOrderByWithRelationInput>>
-  >;
+
+export type QueryFindManyMessageCountArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<MessageScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<MessageOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
-export type QueryFindManyProjectCheckPointCountArgs = {
-  cursor?: InputMaybe<ProjectCheckPointWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectCheckPointScalarFieldEnum>>>;
-  orderBy?: InputMaybe<
-    Array<InputMaybe<ProjectCheckPointOrderByWithRelationInput>>
-  >;
+
+export type QueryFindManyProfileArgs = {
+  cursor?: InputMaybe<ProfileWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ProfileScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ProfileOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectCheckPointWhereInput>;
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type QueryFindManyProjectCountArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<ProjectScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<ProjectOrderByWithRelationInput>>>;
+
+export type QueryFindManyProfileCountArgs = {
+  cursor?: InputMaybe<ProfileWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<ProfileScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<ProfileOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<ProfileWhereInput>;
 };
 
-export type QueryFindManyRewardArgs = {
-  cursor?: InputMaybe<RewardWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<RewardScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<RewardOrderByWithRelationInput>>>;
+
+export type QueryFindManyRoomArgs = {
+  cursor?: InputMaybe<RoomWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<RoomScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<RoomOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<RewardWhereInput>;
+  where?: InputMaybe<RoomWhereInput>;
 };
 
-export type QueryFindManyRewardCountArgs = {
-  cursor?: InputMaybe<RewardWhereUniqueInput>;
-  distinct?: InputMaybe<Array<InputMaybe<RewardScalarFieldEnum>>>;
-  orderBy?: InputMaybe<Array<InputMaybe<RewardOrderByWithRelationInput>>>;
+
+export type QueryFindManyRoomCountArgs = {
+  cursor?: InputMaybe<RoomWhereUniqueInput>;
+  distinct?: InputMaybe<Array<InputMaybe<RoomScalarFieldEnum>>>;
+  orderBy?: InputMaybe<Array<InputMaybe<RoomOrderByWithRelationInput>>>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<RewardWhereInput>;
+  where?: InputMaybe<RoomWhereInput>;
 };
+
 
 export type QueryFindManyUserArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
@@ -3894,6 +3491,7 @@ export type QueryFindManyUserArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
 export type QueryFindManyUserCountArgs = {
   cursor?: InputMaybe<UserWhereUniqueInput>;
   distinct?: InputMaybe<Array<InputMaybe<UserScalarFieldEnum>>>;
@@ -3903,29 +3501,36 @@ export type QueryFindManyUserCountArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
 export type QueryFindUniqueCategoryArgs = {
   where: CategoryWhereUniqueInput;
 };
 
-export type QueryFindUniqueDonationArgs = {
-  where: DonationWhereUniqueInput;
+
+export type QueryFindUniqueChatArgs = {
+  where: ChatWhereUniqueInput;
 };
 
-export type QueryFindUniqueKidArgs = {
-  where: KidWhereUniqueInput;
+
+export type QueryFindUniqueEventArgs = {
+  where: EventWhereUniqueInput;
 };
 
-export type QueryFindUniqueProjectArgs = {
-  where: ProjectWhereUniqueInput;
+
+export type QueryFindUniqueMessageArgs = {
+  where: MessageWhereUniqueInput;
 };
 
-export type QueryFindUniqueProjectCheckPointArgs = {
-  where: ProjectCheckPointWhereUniqueInput;
+
+export type QueryFindUniqueProfileArgs = {
+  where: ProfileWhereUniqueInput;
 };
 
-export type QueryFindUniqueRewardArgs = {
-  where: RewardWhereUniqueInput;
+
+export type QueryFindUniqueRoomArgs = {
+  where: RoomWhereUniqueInput;
 };
+
 
 export type QueryFindUniqueUserArgs = {
   where: UserWhereUniqueInput;
@@ -3933,485 +3538,286 @@ export type QueryFindUniqueUserArgs = {
 
 export enum QueryMode {
   Default = 'default',
-  Insensitive = 'insensitive',
+  Insensitive = 'insensitive'
 }
 
-export type Reward = {
-  __typename?: 'Reward';
-  _count: RewardCountOutputType;
-  deliveryFrom?: Maybe<Scalars['String']>;
-  description: Scalars['String'];
-  donations: Array<Donation>;
+export type Room = {
+  __typename?: 'Room';
+  _count: RoomCountOutputType;
+  description?: Maybe<Scalars['String']>;
+  events: Array<Event>;
+  gallery: Array<Scalars['String']>;
   id: Scalars['String'];
-  price: Scalars['Int'];
-  project: Project;
-  projectId: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardDonationsArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<DonationScalarFieldEnum>;
-  orderBy?: InputMaybe<DonationOrderByWithRelationInput>;
+
+export type RoomEventsArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<EventScalarFieldEnum>;
+  orderBy?: InputMaybe<EventOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type RewardAvgAggregateOutputType = {
-  __typename?: 'RewardAvgAggregateOutputType';
-  price?: Maybe<Scalars['Float']>;
-};
-
-export type RewardAvgOrderByAggregateInput = {
-  price?: InputMaybe<SortOrder>;
-};
-
-export type RewardCountAggregateOutputType = {
-  __typename?: 'RewardCountAggregateOutputType';
+export type RoomCountAggregateOutputType = {
+  __typename?: 'RoomCountAggregateOutputType';
   _all: Scalars['Int'];
-  deliveryFrom: Scalars['Int'];
   description: Scalars['Int'];
+  gallery: Scalars['Int'];
   id: Scalars['Int'];
-  price: Scalars['Int'];
-  projectId: Scalars['Int'];
+  image: Scalars['Int'];
   title: Scalars['Int'];
 };
 
-export type RewardCountOrderByAggregateInput = {
-  deliveryFrom?: InputMaybe<SortOrder>;
+export type RoomCountOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
+  gallery?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type RewardCountOutputType = {
-  __typename?: 'RewardCountOutputType';
-  donations: Scalars['Int'];
+export type RoomCountOutputType = {
+  __typename?: 'RoomCountOutputType';
+  events: Scalars['Int'];
 };
 
-export type RewardCreateInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  donations?: InputMaybe<DonationCreateNestedManyWithoutRewardInput>;
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  project: ProjectCreateNestedOneWithoutRewardsInput;
+export type RoomCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  events?: InputMaybe<EventCreateNestedManyWithoutRoomInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardCreateManyInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  projectId: Scalars['String'];
+export type RoomCreateManyInput = {
+  description?: InputMaybe<Scalars['String']>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardCreateManyProjectInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
+export type RoomCreateNestedOneWithoutEventsInput = {
+  connect?: InputMaybe<RoomWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<RoomCreateOrConnectWithoutEventsInput>;
+  create?: InputMaybe<RoomUncheckedCreateWithoutEventsInput>;
+};
+
+export type RoomCreateOrConnectWithoutEventsInput = {
+  create: RoomUncheckedCreateWithoutEventsInput;
+  where: RoomWhereUniqueInput;
+};
+
+export type RoomCreateWithoutEventsInput = {
+  description?: InputMaybe<Scalars['String']>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardCreateManyProjectInputEnvelope = {
-  data: RewardCreateManyProjectInput;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+export type RoomCreategalleryInput = {
+  set: Scalars['String'];
 };
 
-export type RewardCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<RewardCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<RewardCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<RewardCreateManyProjectInputEnvelope>;
-};
-
-export type RewardCreateNestedOneWithoutDonationsInput = {
-  connect?: InputMaybe<RewardWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<RewardCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<RewardUncheckedCreateWithoutDonationsInput>;
-};
-
-export type RewardCreateOrConnectWithoutDonationsInput = {
-  create: RewardUncheckedCreateWithoutDonationsInput;
-  where: RewardWhereUniqueInput;
-};
-
-export type RewardCreateOrConnectWithoutProjectInput = {
-  create: RewardUncheckedCreateWithoutProjectInput;
-  where: RewardWhereUniqueInput;
-};
-
-export type RewardCreateWithoutDonationsInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  project: ProjectCreateNestedOneWithoutRewardsInput;
-  title: Scalars['String'];
-};
-
-export type RewardCreateWithoutProjectInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  donations?: InputMaybe<DonationCreateNestedManyWithoutRewardInput>;
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  title: Scalars['String'];
-};
-
-export type RewardListRelationFilter = {
-  every?: InputMaybe<RewardWhereInput>;
-  none?: InputMaybe<RewardWhereInput>;
-  some?: InputMaybe<RewardWhereInput>;
-};
-
-export type RewardMaxAggregateOutputType = {
-  __typename?: 'RewardMaxAggregateOutputType';
-  deliveryFrom?: Maybe<Scalars['String']>;
+export type RoomMaxAggregateOutputType = {
+  __typename?: 'RoomMaxAggregateOutputType';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
-  projectId?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
-export type RewardMaxOrderByAggregateInput = {
-  deliveryFrom?: InputMaybe<SortOrder>;
+export type RoomMaxOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type RewardMinAggregateOutputType = {
-  __typename?: 'RewardMinAggregateOutputType';
-  deliveryFrom?: Maybe<Scalars['String']>;
+export type RoomMinAggregateOutputType = {
+  __typename?: 'RoomMinAggregateOutputType';
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
-  projectId?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
-export type RewardMinOrderByAggregateInput = {
-  deliveryFrom?: InputMaybe<SortOrder>;
+export type RoomMinOrderByAggregateInput = {
   description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type RewardOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type RewardOrderByWithAggregationInput = {
-  _avg?: InputMaybe<RewardAvgOrderByAggregateInput>;
-  _count?: InputMaybe<RewardCountOrderByAggregateInput>;
-  _max?: InputMaybe<RewardMaxOrderByAggregateInput>;
-  _min?: InputMaybe<RewardMinOrderByAggregateInput>;
-  _sum?: InputMaybe<RewardSumOrderByAggregateInput>;
-  deliveryFrom?: InputMaybe<SortOrder>;
+export type RoomOrderByWithAggregationInput = {
+  _count?: InputMaybe<RoomCountOrderByAggregateInput>;
+  _max?: InputMaybe<RoomMaxOrderByAggregateInput>;
+  _min?: InputMaybe<RoomMinOrderByAggregateInput>;
   description?: InputMaybe<SortOrder>;
+  gallery?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  projectId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type RewardOrderByWithRelationInput = {
-  deliveryFrom?: InputMaybe<SortOrder>;
+export type RoomOrderByWithRelationInput = {
   description?: InputMaybe<SortOrder>;
-  donations?: InputMaybe<DonationOrderByRelationAggregateInput>;
+  events?: InputMaybe<EventOrderByRelationAggregateInput>;
+  gallery?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  project?: InputMaybe<ProjectOrderByWithRelationInput>;
-  projectId?: InputMaybe<SortOrder>;
+  image?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
 
-export type RewardRelationFilter = {
-  is?: InputMaybe<RewardWhereInput>;
-  isNot?: InputMaybe<RewardWhereInput>;
+export type RoomRelationFilter = {
+  is?: InputMaybe<RoomWhereInput>;
+  isNot?: InputMaybe<RoomWhereInput>;
 };
 
-export enum RewardScalarFieldEnum {
-  DeliveryFrom = 'deliveryFrom',
+export enum RoomScalarFieldEnum {
   Description = 'description',
+  Gallery = 'gallery',
   Id = 'id',
-  Price = 'price',
-  ProjectId = 'projectId',
-  Title = 'title',
+  Image = 'image',
+  Title = 'title'
 }
 
-export type RewardScalarWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<RewardScalarWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<RewardScalarWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<RewardScalarWhereInput>>>;
-  deliveryFrom?: InputMaybe<StringNullableFilter>;
-  description?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
-  price?: InputMaybe<IntFilter>;
-  projectId?: InputMaybe<StringFilter>;
-  title?: InputMaybe<StringFilter>;
-};
-
-export type RewardScalarWhereWithAggregatesInput = {
-  AND?: InputMaybe<Array<InputMaybe<RewardScalarWhereWithAggregatesInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<RewardScalarWhereWithAggregatesInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<RewardScalarWhereWithAggregatesInput>>>;
-  deliveryFrom?: InputMaybe<StringNullableWithAggregatesFilter>;
-  description?: InputMaybe<StringWithAggregatesFilter>;
+export type RoomScalarWhereWithAggregatesInput = {
+  AND?: InputMaybe<Array<InputMaybe<RoomScalarWhereWithAggregatesInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<RoomScalarWhereWithAggregatesInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<RoomScalarWhereWithAggregatesInput>>>;
+  description?: InputMaybe<StringNullableWithAggregatesFilter>;
+  gallery?: InputMaybe<StringNullableListFilter>;
   id?: InputMaybe<StringWithAggregatesFilter>;
-  price?: InputMaybe<IntWithAggregatesFilter>;
-  projectId?: InputMaybe<StringWithAggregatesFilter>;
+  image?: InputMaybe<StringNullableWithAggregatesFilter>;
   title?: InputMaybe<StringWithAggregatesFilter>;
 };
 
-export type RewardSumAggregateOutputType = {
-  __typename?: 'RewardSumAggregateOutputType';
-  price?: Maybe<Scalars['Int']>;
-};
-
-export type RewardSumOrderByAggregateInput = {
-  price?: InputMaybe<SortOrder>;
-};
-
-export type RewardUncheckedCreateInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutRewardInput>;
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  projectId: Scalars['String'];
+export type RoomUncheckedCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  events?: InputMaybe<EventUncheckedCreateNestedManyWithoutRoomInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardUncheckedCreateNestedManyWithoutProjectInput = {
-  connect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<RewardCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<RewardCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<RewardCreateManyProjectInputEnvelope>;
-};
-
-export type RewardUncheckedCreateWithoutDonationsInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  projectId: Scalars['String'];
+export type RoomUncheckedCreateWithoutEventsInput = {
+  description?: InputMaybe<Scalars['String']>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
-export type RewardUncheckedCreateWithoutProjectInput = {
-  deliveryFrom?: InputMaybe<Scalars['String']>;
-  description: Scalars['String'];
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutRewardInput>;
-  id?: InputMaybe<Scalars['String']>;
-  price: Scalars['Int'];
-  title: Scalars['String'];
-};
-
-export type RewardUncheckedUpdateInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutRewardNestedInput>;
+export type RoomUncheckedUpdateInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  events?: InputMaybe<EventUncheckedUpdateManyWithoutRoomNestedInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUncheckedUpdateManyInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type RoomUncheckedUpdateManyInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUncheckedUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<RewardCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<RewardCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<RewardCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<RewardScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<RewardUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<RewardUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<RewardUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type RewardUncheckedUpdateManyWithoutRewardsInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type RoomUncheckedUpdateWithoutEventsInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUncheckedUpdateWithoutDonationsInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type RoomUpdateInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  events?: InputMaybe<EventUpdateManyWithoutRoomNestedInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  projectId?: InputMaybe<StringFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUncheckedUpdateWithoutProjectInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutRewardNestedInput>;
+export type RoomUpdateManyMutationInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUpdateInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutRewardNestedInput>;
+export type RoomUpdateOneRequiredWithoutEventsNestedInput = {
+  connect?: InputMaybe<RoomWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<RoomCreateOrConnectWithoutEventsInput>;
+  create?: InputMaybe<RoomUncheckedCreateWithoutEventsInput>;
+  update?: InputMaybe<RoomUncheckedUpdateWithoutEventsInput>;
+  upsert?: InputMaybe<RoomUpsertWithoutEventsInput>;
+};
+
+export type RoomUpdateWithoutEventsInput = {
+  description?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutRewardsNestedInput>;
+  image?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   title?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type RewardUpdateManyMutationInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type RoomUpdategalleryInput = {
+  push?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  set?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type RewardUpdateManyWithWhereWithoutProjectInput = {
-  data: RewardUncheckedUpdateManyWithoutRewardsInput;
-  where: RewardScalarWhereInput;
+export type RoomUpsertWithoutEventsInput = {
+  create: RoomUncheckedCreateWithoutEventsInput;
+  update: RoomUncheckedUpdateWithoutEventsInput;
 };
 
-export type RewardUpdateManyWithoutProjectNestedInput = {
-  connect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<RewardCreateOrConnectWithoutProjectInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<RewardCreateWithoutProjectInput>>>;
-  createMany?: InputMaybe<RewardCreateManyProjectInputEnvelope>;
-  delete?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  deleteMany?: InputMaybe<Array<InputMaybe<RewardScalarWhereInput>>>;
-  disconnect?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  set?: InputMaybe<Array<InputMaybe<RewardWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<RewardUpdateWithWhereUniqueWithoutProjectInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<RewardUpdateManyWithWhereWithoutProjectInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<RewardUpsertWithWhereUniqueWithoutProjectInput>>
-  >;
-};
-
-export type RewardUpdateOneWithoutDonationsNestedInput = {
-  connect?: InputMaybe<RewardWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<RewardCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<RewardUncheckedCreateWithoutDonationsInput>;
-  delete?: InputMaybe<Scalars['Boolean']>;
-  disconnect?: InputMaybe<Scalars['Boolean']>;
-  update?: InputMaybe<RewardUncheckedUpdateWithoutDonationsInput>;
-  upsert?: InputMaybe<RewardUpsertWithoutDonationsInput>;
-};
-
-export type RewardUpdateWithWhereUniqueWithoutProjectInput = {
-  data: RewardUncheckedUpdateWithoutProjectInput;
-  where: RewardWhereUniqueInput;
-};
-
-export type RewardUpdateWithoutDonationsInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  project?: InputMaybe<ProjectUpdateOneRequiredWithoutRewardsNestedInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type RewardUpdateWithoutProjectInput = {
-  deliveryFrom?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  description?: InputMaybe<StringFieldUpdateOperationsInput>;
-  donations?: InputMaybe<DonationUpdateManyWithoutRewardNestedInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  price?: InputMaybe<IntFieldUpdateOperationsInput>;
-  title?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type RewardUpsertWithWhereUniqueWithoutProjectInput = {
-  create: RewardUncheckedCreateWithoutProjectInput;
-  update: RewardUncheckedUpdateWithoutProjectInput;
-  where: RewardWhereUniqueInput;
-};
-
-export type RewardUpsertWithoutDonationsInput = {
-  create: RewardUncheckedCreateWithoutDonationsInput;
-  update: RewardUncheckedUpdateWithoutDonationsInput;
-};
-
-export type RewardWhereInput = {
-  AND?: InputMaybe<Array<InputMaybe<RewardWhereInput>>>;
-  NOT?: InputMaybe<Array<InputMaybe<RewardWhereInput>>>;
-  OR?: InputMaybe<Array<InputMaybe<RewardWhereInput>>>;
-  deliveryFrom?: InputMaybe<StringNullableFilter>;
-  description?: InputMaybe<StringFilter>;
-  donations?: InputMaybe<DonationListRelationFilter>;
+export type RoomWhereInput = {
+  AND?: InputMaybe<Array<InputMaybe<RoomWhereInput>>>;
+  NOT?: InputMaybe<Array<InputMaybe<RoomWhereInput>>>;
+  OR?: InputMaybe<Array<InputMaybe<RoomWhereInput>>>;
+  description?: InputMaybe<StringNullableFilter>;
+  events?: InputMaybe<EventListRelationFilter>;
+  gallery?: InputMaybe<StringNullableListFilter>;
   id?: InputMaybe<StringFilter>;
-  price?: InputMaybe<IntFilter>;
-  project?: InputMaybe<ProjectWhereInput>;
-  projectId?: InputMaybe<StringFilter>;
+  image?: InputMaybe<StringNullableFilter>;
   title?: InputMaybe<StringFilter>;
 };
 
-export type RewardWhereUniqueInput = {
+export type RoomWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']>;
 };
 
+export type SendMessageInput = {
+  chatId: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type SignInInput = {
-  email: Scalars['String'];
   password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type SignUpInput = {
-  email: Scalars['String'];
-  name: Scalars['String'];
   password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -4492,6 +3898,16 @@ export type StringWithAggregatesFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  chat?: Maybe<Message>;
+};
+
+
+export type SubscriptionChatArgs = {
+  chatId: Scalars['String'];
+};
+
 export type Token = {
   __typename?: 'Token';
   token?: Maybe<Scalars['String']>;
@@ -4501,148 +3917,338 @@ export enum TransactionIsolationLevel {
   ReadCommitted = 'ReadCommitted',
   ReadUncommitted = 'ReadUncommitted',
   RepeatableRead = 'RepeatableRead',
-  Serializable = 'Serializable',
+  Serializable = 'Serializable'
 }
 
 export type User = {
   __typename?: 'User';
   _count: UserCountOutputType;
-  donations: Array<Donation>;
-  email: Scalars['String'];
+  chats: Array<Chat>;
+  child?: Maybe<User>;
+  createdAt: Scalars['DateTime'];
+  eventsIssued: Array<Event>;
+  eventsParticipating: Array<Event>;
+  eventsResponsible: Array<Event>;
   id: Scalars['String'];
-  liked: Array<Project>;
-  name?: Maybe<Scalars['String']>;
+  messages: Array<Message>;
+  parent?: Maybe<User>;
+  parentId?: Maybe<Scalars['String']>;
   password: Scalars['String'];
-  projects: Array<Project>;
+  profile?: Maybe<Profile>;
+  role: UserRole;
+  username: Scalars['String'];
 };
 
-export type UserDonationsArgs = {
-  cursor?: InputMaybe<DonationWhereUniqueInput>;
-  distinct?: InputMaybe<DonationScalarFieldEnum>;
-  orderBy?: InputMaybe<DonationOrderByWithRelationInput>;
+
+export type UserChatsArgs = {
+  cursor?: InputMaybe<ChatWhereUniqueInput>;
+  distinct?: InputMaybe<ChatScalarFieldEnum>;
+  orderBy?: InputMaybe<ChatOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<DonationWhereInput>;
+  where?: InputMaybe<ChatWhereInput>;
 };
 
-export type UserLikedArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<ProjectScalarFieldEnum>;
-  orderBy?: InputMaybe<ProjectOrderByWithRelationInput>;
+
+export type UserEventsIssuedArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<EventScalarFieldEnum>;
+  orderBy?: InputMaybe<EventOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
 };
 
-export type UserProjectsArgs = {
-  cursor?: InputMaybe<ProjectWhereUniqueInput>;
-  distinct?: InputMaybe<ProjectScalarFieldEnum>;
-  orderBy?: InputMaybe<ProjectOrderByWithRelationInput>;
+
+export type UserEventsParticipatingArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<EventScalarFieldEnum>;
+  orderBy?: InputMaybe<EventOrderByWithRelationInput>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<ProjectWhereInput>;
+  where?: InputMaybe<EventWhereInput>;
+};
+
+
+export type UserEventsResponsibleArgs = {
+  cursor?: InputMaybe<EventWhereUniqueInput>;
+  distinct?: InputMaybe<EventScalarFieldEnum>;
+  orderBy?: InputMaybe<EventOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<EventWhereInput>;
+};
+
+
+export type UserMessagesArgs = {
+  cursor?: InputMaybe<MessageWhereUniqueInput>;
+  distinct?: InputMaybe<MessageScalarFieldEnum>;
+  orderBy?: InputMaybe<MessageOrderByWithRelationInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<MessageWhereInput>;
 };
 
 export type UserCountAggregateOutputType = {
   __typename?: 'UserCountAggregateOutputType';
   _all: Scalars['Int'];
-  email: Scalars['Int'];
+  createdAt: Scalars['Int'];
   id: Scalars['Int'];
-  name: Scalars['Int'];
+  parentId: Scalars['Int'];
   password: Scalars['Int'];
+  role: Scalars['Int'];
+  username: Scalars['Int'];
 };
 
 export type UserCountOrderByAggregateInput = {
-  email?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  parentId?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
+  role?: InputMaybe<SortOrder>;
+  username?: InputMaybe<SortOrder>;
 };
 
 export type UserCountOutputType = {
   __typename?: 'UserCountOutputType';
-  donations: Scalars['Int'];
-  liked: Scalars['Int'];
-  projects: Scalars['Int'];
+  chats: Scalars['Int'];
+  eventsIssued: Scalars['Int'];
+  eventsParticipating: Scalars['Int'];
+  eventsResponsible: Scalars['Int'];
+  messages: Scalars['Int'];
 };
 
 export type UserCreateInput = {
-  donations?: InputMaybe<DonationCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
   id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
   password: Scalars['String'];
-  projects?: InputMaybe<ProjectCreateNestedManyWithoutOwnerInput>;
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
 };
 
 export type UserCreateManyInput = {
-  email: Scalars['String'];
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  parentId?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
+  role: UserRole;
+  username: Scalars['String'];
 };
 
-export type UserCreateNestedManyWithoutLikedInput = {
+export type UserCreateNestedManyWithoutChatsInput = {
   connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<UserCreateOrConnectWithoutLikedInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutLikedInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutChatsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutChatsInput>>>;
 };
 
-export type UserCreateNestedOneWithoutDonationsInput = {
+export type UserCreateNestedManyWithoutEventsParticipatingInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsParticipatingInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsParticipatingInput>>>;
+};
+
+export type UserCreateNestedManyWithoutEventsResponsibleInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsResponsibleInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsResponsibleInput>>>;
+};
+
+export type UserCreateNestedOneWithoutChildInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<UserUncheckedCreateWithoutDonationsInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutChildInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutChildInput>;
 };
 
-export type UserCreateNestedOneWithoutProjectsInput = {
+export type UserCreateNestedOneWithoutEventsIssuedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProjectsInput>;
-  create?: InputMaybe<UserUncheckedCreateWithoutProjectsInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutEventsIssuedInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutEventsIssuedInput>;
 };
 
-export type UserCreateOrConnectWithoutDonationsInput = {
-  create: UserUncheckedCreateWithoutDonationsInput;
+export type UserCreateNestedOneWithoutMessagesInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutMessagesInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutMessagesInput>;
+};
+
+export type UserCreateNestedOneWithoutParentInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutParentInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutParentInput>;
+};
+
+export type UserCreateNestedOneWithoutProfileInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProfileInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutProfileInput>;
+};
+
+export type UserCreateOrConnectWithoutChatsInput = {
+  create: UserUncheckedCreateWithoutChatsInput;
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateOrConnectWithoutLikedInput = {
-  create: UserUncheckedCreateWithoutLikedInput;
+export type UserCreateOrConnectWithoutChildInput = {
+  create: UserUncheckedCreateWithoutChildInput;
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateOrConnectWithoutProjectsInput = {
-  create: UserUncheckedCreateWithoutProjectsInput;
+export type UserCreateOrConnectWithoutEventsIssuedInput = {
+  create: UserUncheckedCreateWithoutEventsIssuedInput;
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateWithoutDonationsInput = {
-  email: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
-  password: Scalars['String'];
-  projects?: InputMaybe<ProjectCreateNestedManyWithoutOwnerInput>;
+export type UserCreateOrConnectWithoutEventsParticipatingInput = {
+  create: UserUncheckedCreateWithoutEventsParticipatingInput;
+  where: UserWhereUniqueInput;
 };
 
-export type UserCreateWithoutLikedInput = {
-  donations?: InputMaybe<DonationCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  password: Scalars['String'];
-  projects?: InputMaybe<ProjectCreateNestedManyWithoutOwnerInput>;
+export type UserCreateOrConnectWithoutEventsResponsibleInput = {
+  create: UserUncheckedCreateWithoutEventsResponsibleInput;
+  where: UserWhereUniqueInput;
 };
 
-export type UserCreateWithoutProjectsInput = {
-  donations?: InputMaybe<DonationCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
+export type UserCreateOrConnectWithoutMessagesInput = {
+  create: UserUncheckedCreateWithoutMessagesInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateOrConnectWithoutParentInput = {
+  create: UserUncheckedCreateWithoutParentInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateOrConnectWithoutProfileInput = {
+  create: UserUncheckedCreateWithoutProfileInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateWithoutChatsInput = {
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
   id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
   password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutChildInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutEventsIssuedInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutEventsParticipatingInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutEventsResponsibleInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutMessagesInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutParentInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserCreateWithoutProfileInput = {
+  chats?: InputMaybe<ChatCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageCreateNestedManyWithoutSenderInput>;
+  parent?: InputMaybe<UserCreateNestedOneWithoutChildInput>;
+  password: Scalars['String'];
+  role: UserRole;
+  username: Scalars['String'];
 };
 
 export type UserListRelationFilter = {
@@ -4653,32 +4259,40 @@ export type UserListRelationFilter = {
 
 export type UserMaxAggregateOutputType = {
   __typename?: 'UserMaxAggregateOutputType';
-  email?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
+  role?: Maybe<UserRole>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type UserMaxOrderByAggregateInput = {
-  email?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  parentId?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
+  role?: InputMaybe<SortOrder>;
+  username?: InputMaybe<SortOrder>;
 };
 
 export type UserMinAggregateOutputType = {
   __typename?: 'UserMinAggregateOutputType';
-  email?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
+  role?: Maybe<UserRole>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type UserMinOrderByAggregateInput = {
-  email?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  parentId?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
+  role?: InputMaybe<SortOrder>;
+  username?: InputMaybe<SortOrder>;
 };
 
 export type UserOrderByRelationAggregateInput = {
@@ -4689,20 +4303,29 @@ export type UserOrderByWithAggregationInput = {
   _count?: InputMaybe<UserCountOrderByAggregateInput>;
   _max?: InputMaybe<UserMaxOrderByAggregateInput>;
   _min?: InputMaybe<UserMinOrderByAggregateInput>;
-  email?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
+  parentId?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
+  role?: InputMaybe<SortOrder>;
+  username?: InputMaybe<SortOrder>;
 };
 
 export type UserOrderByWithRelationInput = {
-  donations?: InputMaybe<DonationOrderByRelationAggregateInput>;
-  email?: InputMaybe<SortOrder>;
+  chats?: InputMaybe<ChatOrderByRelationAggregateInput>;
+  child?: InputMaybe<UserOrderByWithRelationInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  eventsIssued?: InputMaybe<EventOrderByRelationAggregateInput>;
+  eventsParticipating?: InputMaybe<EventOrderByRelationAggregateInput>;
+  eventsResponsible?: InputMaybe<EventOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
-  liked?: InputMaybe<ProjectOrderByRelationAggregateInput>;
-  name?: InputMaybe<SortOrder>;
+  messages?: InputMaybe<MessageOrderByRelationAggregateInput>;
+  parent?: InputMaybe<UserOrderByWithRelationInput>;
+  parentId?: InputMaybe<SortOrder>;
   password?: InputMaybe<SortOrder>;
-  projects?: InputMaybe<ProjectOrderByRelationAggregateInput>;
+  profile?: InputMaybe<ProfileOrderByWithRelationInput>;
+  role?: InputMaybe<SortOrder>;
+  username?: InputMaybe<SortOrder>;
 };
 
 export type UserRelationFilter = {
@@ -4710,315 +4333,785 @@ export type UserRelationFilter = {
   isNot?: InputMaybe<UserWhereInput>;
 };
 
+export enum UserRole {
+  Dean = 'Dean',
+  Parent = 'Parent',
+  Staff = 'Staff',
+  Student = 'Student'
+}
+
 export enum UserScalarFieldEnum {
-  Email = 'email',
+  CreatedAt = 'createdAt',
   Id = 'id',
-  Name = 'name',
+  ParentId = 'parentId',
   Password = 'password',
+  Role = 'role',
+  Username = 'username'
 }
 
 export type UserScalarWhereInput = {
   AND?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
   OR?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
-  email?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
-  name?: InputMaybe<StringNullableFilter>;
+  parentId?: InputMaybe<StringNullableFilter>;
   password?: InputMaybe<StringFilter>;
+  role?: InputMaybe<EnumUserRoleFilter>;
+  username?: InputMaybe<StringFilter>;
 };
 
 export type UserScalarWhereWithAggregatesInput = {
   AND?: InputMaybe<Array<InputMaybe<UserScalarWhereWithAggregatesInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<UserScalarWhereWithAggregatesInput>>>;
   OR?: InputMaybe<Array<InputMaybe<UserScalarWhereWithAggregatesInput>>>;
-  email?: InputMaybe<StringWithAggregatesFilter>;
+  createdAt?: InputMaybe<DateTimeWithAggregatesFilter>;
   id?: InputMaybe<StringWithAggregatesFilter>;
-  name?: InputMaybe<StringNullableWithAggregatesFilter>;
+  parentId?: InputMaybe<StringNullableWithAggregatesFilter>;
   password?: InputMaybe<StringWithAggregatesFilter>;
+  role?: InputMaybe<EnumUserRoleWithAggregatesFilter>;
+  username?: InputMaybe<StringWithAggregatesFilter>;
 };
 
 export type UserUncheckedCreateInput = {
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
   id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
-  projects?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutOwnerInput>;
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
 };
 
-export type UserUncheckedCreateNestedManyWithoutLikedInput = {
+export type UserUncheckedCreateNestedManyWithoutChatsInput = {
   connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<UserCreateOrConnectWithoutLikedInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutLikedInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutChatsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutChatsInput>>>;
 };
 
-export type UserUncheckedCreateWithoutDonationsInput = {
-  email: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
-  password: Scalars['String'];
-  projects?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutOwnerInput>;
+export type UserUncheckedCreateNestedManyWithoutEventsParticipatingInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsParticipatingInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsParticipatingInput>>>;
 };
 
-export type UserUncheckedCreateWithoutLikedInput = {
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  password: Scalars['String'];
-  projects?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutOwnerInput>;
+export type UserUncheckedCreateNestedManyWithoutEventsResponsibleInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsResponsibleInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsResponsibleInput>>>;
 };
 
-export type UserUncheckedCreateWithoutProjectsInput = {
-  donations?: InputMaybe<DonationUncheckedCreateNestedManyWithoutSenderInput>;
-  email: Scalars['String'];
+export type UserUncheckedCreateNestedOneWithoutParentInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutParentInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutParentInput>;
+};
+
+export type UserUncheckedCreateWithoutChatsInput = {
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
   id?: InputMaybe<Scalars['String']>;
-  liked?: InputMaybe<ProjectUncheckedCreateNestedManyWithoutLikesInput>;
-  name?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutChildInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutEventsIssuedInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutEventsParticipatingInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutEventsResponsibleInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutMessagesInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutParentInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  password: Scalars['String'];
+  profile?: InputMaybe<ProfileUncheckedCreateNestedOneWithoutUserInput>;
+  role: UserRole;
+  username: Scalars['String'];
+};
+
+export type UserUncheckedCreateWithoutProfileInput = {
+  chats?: InputMaybe<ChatUncheckedCreateNestedManyWithoutMembersInput>;
+  child?: InputMaybe<UserUncheckedCreateNestedOneWithoutParentInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  eventsIssued?: InputMaybe<EventUncheckedCreateNestedManyWithoutIssuedByInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedCreateNestedManyWithoutParticipantsInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedCreateNestedManyWithoutResponsiblesInput>;
+  id?: InputMaybe<Scalars['String']>;
+  messages?: InputMaybe<MessageUncheckedCreateNestedManyWithoutSenderInput>;
+  parentId?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  role: UserRole;
+  username: Scalars['String'];
 };
 
 export type UserUncheckedUpdateInput = {
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUncheckedUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUncheckedUpdateManyWithoutOwnerNestedInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type UserUncheckedUpdateManyInput = {
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type UserUncheckedUpdateManyWithoutLikedNestedInput = {
+export type UserUncheckedUpdateManyWithoutChatsNestedInput = {
   connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<UserCreateOrConnectWithoutLikedInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutLikedInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutChatsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutChatsInput>>>;
   delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
   deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
   disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
   set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<UserUpdateWithWhereUniqueWithoutLikedInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<UserUpdateManyWithWhereWithoutLikedInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<UserUpsertWithWhereUniqueWithoutLikedInput>>
-  >;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutChatsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutChatsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutChatsInput>>>;
 };
 
-export type UserUncheckedUpdateManyWithoutLikesInput = {
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type UserUncheckedUpdateManyWithoutEventsParticipatingNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsParticipatingInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsParticipatingInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutEventsParticipatingInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutEventsParticipatingInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutEventsParticipatingInput>>>;
 };
 
-export type UserUncheckedUpdateWithoutDonationsInput = {
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUncheckedUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUncheckedUpdateManyWithoutOwnerNestedInput>;
+export type UserUncheckedUpdateManyWithoutEventsResponsibleNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsResponsibleInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsResponsibleInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutEventsResponsibleInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutEventsResponsibleInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutEventsResponsibleInput>>>;
 };
 
-export type UserUncheckedUpdateWithoutLikedInput = {
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type UserUncheckedUpdateManyWithoutMembersInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUncheckedUpdateManyWithoutOwnerNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type UserUncheckedUpdateWithoutProjectsInput = {
-  donations?: InputMaybe<DonationUncheckedUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+export type UserUncheckedUpdateManyWithoutParticipantsInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUncheckedUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateManyWithoutResponsiblesInput = {
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateOneWithoutParentNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutParentInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutParentInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutParentInput>;
+  upsert?: InputMaybe<UserUpsertWithoutParentInput>;
+};
+
+export type UserUncheckedUpdateWithoutChatsInput = {
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutChildInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutEventsIssuedInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutEventsParticipatingInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutEventsResponsibleInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutMessagesInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutParentInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUncheckedUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUncheckedUpdateWithoutProfileInput = {
+  chats?: InputMaybe<ChatUncheckedUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUncheckedUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUncheckedUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUncheckedUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUncheckedUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUncheckedUpdateManyWithoutSenderNestedInput>;
+  parentId?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateInput = {
-  donations?: InputMaybe<DonationUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUpdateManyWithoutOwnerNestedInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
 export type UserUpdateManyMutationInput = {
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
   id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
   password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
 };
 
-export type UserUpdateManyWithWhereWithoutLikedInput = {
-  data: UserUncheckedUpdateManyWithoutLikesInput;
+export type UserUpdateManyWithWhereWithoutChatsInput = {
+  data: UserUncheckedUpdateManyWithoutMembersInput;
   where: UserScalarWhereInput;
 };
 
-export type UserUpdateManyWithoutLikedNestedInput = {
+export type UserUpdateManyWithWhereWithoutEventsParticipatingInput = {
+  data: UserUncheckedUpdateManyWithoutParticipantsInput;
+  where: UserScalarWhereInput;
+};
+
+export type UserUpdateManyWithWhereWithoutEventsResponsibleInput = {
+  data: UserUncheckedUpdateManyWithoutResponsiblesInput;
+  where: UserScalarWhereInput;
+};
+
+export type UserUpdateManyWithoutChatsNestedInput = {
   connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  connectOrCreate?: InputMaybe<
-    Array<InputMaybe<UserCreateOrConnectWithoutLikedInput>>
-  >;
-  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutLikedInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutChatsInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutChatsInput>>>;
   delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
   deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
   disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
   set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
-  update?: InputMaybe<
-    Array<InputMaybe<UserUpdateWithWhereUniqueWithoutLikedInput>>
-  >;
-  updateMany?: InputMaybe<
-    Array<InputMaybe<UserUpdateManyWithWhereWithoutLikedInput>>
-  >;
-  upsert?: InputMaybe<
-    Array<InputMaybe<UserUpsertWithWhereUniqueWithoutLikedInput>>
-  >;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutChatsInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutChatsInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutChatsInput>>>;
 };
 
-export type UserUpdateOneRequiredWithoutDonationsNestedInput = {
+export type UserUpdateManyWithoutEventsParticipatingNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsParticipatingInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsParticipatingInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutEventsParticipatingInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutEventsParticipatingInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutEventsParticipatingInput>>>;
+};
+
+export type UserUpdateManyWithoutEventsResponsibleNestedInput = {
+  connect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  connectOrCreate?: InputMaybe<Array<InputMaybe<UserCreateOrConnectWithoutEventsResponsibleInput>>>;
+  create?: InputMaybe<Array<InputMaybe<UserCreateWithoutEventsResponsibleInput>>>;
+  delete?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  deleteMany?: InputMaybe<Array<InputMaybe<UserScalarWhereInput>>>;
+  disconnect?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  set?: InputMaybe<Array<InputMaybe<UserWhereUniqueInput>>>;
+  update?: InputMaybe<Array<InputMaybe<UserUpdateWithWhereUniqueWithoutEventsResponsibleInput>>>;
+  updateMany?: InputMaybe<Array<InputMaybe<UserUpdateManyWithWhereWithoutEventsResponsibleInput>>>;
+  upsert?: InputMaybe<Array<InputMaybe<UserUpsertWithWhereUniqueWithoutEventsResponsibleInput>>>;
+};
+
+export type UserUpdateOneRequiredWithoutMessagesNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutDonationsInput>;
-  create?: InputMaybe<UserUncheckedCreateWithoutDonationsInput>;
-  update?: InputMaybe<UserUncheckedUpdateWithoutDonationsInput>;
-  upsert?: InputMaybe<UserUpsertWithoutDonationsInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutMessagesInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutMessagesInput>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutMessagesInput>;
+  upsert?: InputMaybe<UserUpsertWithoutMessagesInput>;
 };
 
-export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
+export type UserUpdateOneRequiredWithoutProfileNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProjectsInput>;
-  create?: InputMaybe<UserUncheckedCreateWithoutProjectsInput>;
-  update?: InputMaybe<UserUncheckedUpdateWithoutProjectsInput>;
-  upsert?: InputMaybe<UserUpsertWithoutProjectsInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutProfileInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutProfileInput>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutProfileInput>;
+  upsert?: InputMaybe<UserUpsertWithoutProfileInput>;
 };
 
-export type UserUpdateWithWhereUniqueWithoutLikedInput = {
-  data: UserUncheckedUpdateWithoutLikedInput;
+export type UserUpdateOneWithoutChildNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutChildInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutChildInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutChildInput>;
+  upsert?: InputMaybe<UserUpsertWithoutChildInput>;
+};
+
+export type UserUpdateOneWithoutEventsIssuedNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutEventsIssuedInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutEventsIssuedInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutEventsIssuedInput>;
+  upsert?: InputMaybe<UserUpsertWithoutEventsIssuedInput>;
+};
+
+export type UserUpdateOneWithoutParentNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutParentInput>;
+  create?: InputMaybe<UserUncheckedCreateWithoutParentInput>;
+  delete?: InputMaybe<Scalars['Boolean']>;
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  update?: InputMaybe<UserUncheckedUpdateWithoutParentInput>;
+  upsert?: InputMaybe<UserUpsertWithoutParentInput>;
+};
+
+export type UserUpdateWithWhereUniqueWithoutChatsInput = {
+  data: UserUncheckedUpdateWithoutChatsInput;
   where: UserWhereUniqueInput;
 };
 
-export type UserUpdateWithoutDonationsInput = {
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUpdateManyWithoutOwnerNestedInput>;
-};
-
-export type UserUpdateWithoutLikedInput = {
-  donations?: InputMaybe<DonationUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  password?: InputMaybe<StringFieldUpdateOperationsInput>;
-  projects?: InputMaybe<ProjectUpdateManyWithoutOwnerNestedInput>;
-};
-
-export type UserUpdateWithoutProjectsInput = {
-  donations?: InputMaybe<DonationUpdateManyWithoutSenderNestedInput>;
-  email?: InputMaybe<StringFieldUpdateOperationsInput>;
-  id?: InputMaybe<StringFieldUpdateOperationsInput>;
-  liked?: InputMaybe<ProjectUpdateManyWithoutLikesNestedInput>;
-  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
-  password?: InputMaybe<StringFieldUpdateOperationsInput>;
-};
-
-export type UserUpsertWithWhereUniqueWithoutLikedInput = {
-  create: UserUncheckedCreateWithoutLikedInput;
-  update: UserUncheckedUpdateWithoutLikedInput;
+export type UserUpdateWithWhereUniqueWithoutEventsParticipatingInput = {
+  data: UserUncheckedUpdateWithoutEventsParticipatingInput;
   where: UserWhereUniqueInput;
 };
 
-export type UserUpsertWithoutDonationsInput = {
-  create: UserUncheckedCreateWithoutDonationsInput;
-  update: UserUncheckedUpdateWithoutDonationsInput;
+export type UserUpdateWithWhereUniqueWithoutEventsResponsibleInput = {
+  data: UserUncheckedUpdateWithoutEventsResponsibleInput;
+  where: UserWhereUniqueInput;
 };
 
-export type UserUpsertWithoutProjectsInput = {
-  create: UserUncheckedCreateWithoutProjectsInput;
-  update: UserUncheckedUpdateWithoutProjectsInput;
+export type UserUpdateWithoutChatsInput = {
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutChildInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutEventsIssuedInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutEventsParticipatingInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutEventsResponsibleInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutMessagesInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutParentInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  profile?: InputMaybe<ProfileUpdateOneWithoutUserNestedInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpdateWithoutProfileInput = {
+  chats?: InputMaybe<ChatUpdateManyWithoutMembersNestedInput>;
+  child?: InputMaybe<UserUpdateOneWithoutParentNestedInput>;
+  createdAt?: InputMaybe<DateTimeFieldUpdateOperationsInput>;
+  eventsIssued?: InputMaybe<EventUpdateManyWithoutIssuedByNestedInput>;
+  eventsParticipating?: InputMaybe<EventUpdateManyWithoutParticipantsNestedInput>;
+  eventsResponsible?: InputMaybe<EventUpdateManyWithoutResponsiblesNestedInput>;
+  id?: InputMaybe<StringFieldUpdateOperationsInput>;
+  messages?: InputMaybe<MessageUpdateManyWithoutSenderNestedInput>;
+  parent?: InputMaybe<UserUpdateOneWithoutChildNestedInput>;
+  password?: InputMaybe<StringFieldUpdateOperationsInput>;
+  role?: InputMaybe<EnumUserRoleFieldUpdateOperationsInput>;
+  username?: InputMaybe<StringFieldUpdateOperationsInput>;
+};
+
+export type UserUpsertWithWhereUniqueWithoutChatsInput = {
+  create: UserUncheckedCreateWithoutChatsInput;
+  update: UserUncheckedUpdateWithoutChatsInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserUpsertWithWhereUniqueWithoutEventsParticipatingInput = {
+  create: UserUncheckedCreateWithoutEventsParticipatingInput;
+  update: UserUncheckedUpdateWithoutEventsParticipatingInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserUpsertWithWhereUniqueWithoutEventsResponsibleInput = {
+  create: UserUncheckedCreateWithoutEventsResponsibleInput;
+  update: UserUncheckedUpdateWithoutEventsResponsibleInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserUpsertWithoutChildInput = {
+  create: UserUncheckedCreateWithoutChildInput;
+  update: UserUncheckedUpdateWithoutChildInput;
+};
+
+export type UserUpsertWithoutEventsIssuedInput = {
+  create: UserUncheckedCreateWithoutEventsIssuedInput;
+  update: UserUncheckedUpdateWithoutEventsIssuedInput;
+};
+
+export type UserUpsertWithoutMessagesInput = {
+  create: UserUncheckedCreateWithoutMessagesInput;
+  update: UserUncheckedUpdateWithoutMessagesInput;
+};
+
+export type UserUpsertWithoutParentInput = {
+  create: UserUncheckedCreateWithoutParentInput;
+  update: UserUncheckedUpdateWithoutParentInput;
+};
+
+export type UserUpsertWithoutProfileInput = {
+  create: UserUncheckedCreateWithoutProfileInput;
+  update: UserUncheckedUpdateWithoutProfileInput;
 };
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
   NOT?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
   OR?: InputMaybe<Array<InputMaybe<UserWhereInput>>>;
-  donations?: InputMaybe<DonationListRelationFilter>;
-  email?: InputMaybe<StringFilter>;
+  chats?: InputMaybe<ChatListRelationFilter>;
+  child?: InputMaybe<UserWhereInput>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  eventsIssued?: InputMaybe<EventListRelationFilter>;
+  eventsParticipating?: InputMaybe<EventListRelationFilter>;
+  eventsResponsible?: InputMaybe<EventListRelationFilter>;
   id?: InputMaybe<StringFilter>;
-  liked?: InputMaybe<ProjectListRelationFilter>;
-  name?: InputMaybe<StringNullableFilter>;
+  messages?: InputMaybe<MessageListRelationFilter>;
+  parent?: InputMaybe<UserWhereInput>;
+  parentId?: InputMaybe<StringNullableFilter>;
   password?: InputMaybe<StringFilter>;
-  projects?: InputMaybe<ProjectListRelationFilter>;
+  profile?: InputMaybe<ProfileWhereInput>;
+  role?: InputMaybe<EnumUserRoleFilter>;
+  username?: InputMaybe<StringFilter>;
 };
 
 export type UserWhereUniqueInput = {
-  email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  parentId?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginMutationVariables = Exact<{
-  data?: InputMaybe<SignInInput>;
+  data: SignInInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login?: { __typename?: 'Token'; token?: string | null } | null;
-};
 
-export type ShowUsersQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ShowUsersQuery = {
-  __typename?: 'Query';
-  findManyUser: Array<{
-    __typename?: 'User';
-    name?: string | null;
-    email: string;
-  }>;
-};
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Token', token?: string | null } };
 
 export type SignupMutationVariables = Exact<{
   data: SignUpInput;
 }>;
 
-export type SignupMutation = {
-  __typename?: 'Mutation';
-  signup: { __typename?: 'Token'; token?: string | null };
-};
+
+export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'Token', token?: string | null } };
+
+export type FindUniqueRoomQueryVariables = Exact<{
+  roomId: Scalars['String'];
+}>;
+
+
+export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string>, events: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> } | null };
+
 
 export const LoginDocument = gql`
-  mutation login($data: SignInInput) {
-    login(data: $data) {
-      token
-    }
+    mutation login($data: SignInInput!) {
+  login(data: $data) {
+    token
   }
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
  * __useLoginMutation__
@@ -5037,91 +5130,21 @@ export type LoginMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options,
-  );
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
-export const ShowUsersDocument = gql`
-  query showUsers {
-    findManyUser {
-      name
-      email
-    }
-  }
-`;
-
-/**
- * __useShowUsersQuery__
- *
- * To run a query within a React component, call `useShowUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useShowUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useShowUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useShowUsersQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    ShowUsersQuery,
-    ShowUsersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ShowUsersQuery, ShowUsersQueryVariables>(
-    ShowUsersDocument,
-    options,
-  );
-}
-export function useShowUsersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ShowUsersQuery,
-    ShowUsersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ShowUsersQuery, ShowUsersQueryVariables>(
-    ShowUsersDocument,
-    options,
-  );
-}
-export type ShowUsersQueryHookResult = ReturnType<typeof useShowUsersQuery>;
-export type ShowUsersLazyQueryHookResult = ReturnType<
-  typeof useShowUsersLazyQuery
->;
-export type ShowUsersQueryResult = Apollo.QueryResult<
-  ShowUsersQuery,
-  ShowUsersQueryVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const SignupDocument = gql`
-  mutation signup($data: SignUpInput!) {
-    signup(data: $data) {
-      token
-    }
+    mutation signup($data: SignUpInput!) {
+  signup(data: $data) {
+    token
   }
-`;
-export type SignupMutationFn = Apollo.MutationFunction<
-  SignupMutation,
-  SignupMutationVariables
->;
+}
+    `;
+export type SignupMutationFn = Apollo.MutationFunction<SignupMutation, SignupMutationVariables>;
 
 /**
  * __useSignupMutation__
@@ -5140,21 +5163,55 @@ export type SignupMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSignupMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SignupMutation,
-    SignupMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SignupMutation, SignupMutationVariables>(
-    SignupDocument,
-    options,
-  );
-}
+export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<SignupMutation, SignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignupMutation, SignupMutationVariables>(SignupDocument, options);
+      }
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
-export type SignupMutationOptions = Apollo.BaseMutationOptions<
-  SignupMutation,
-  SignupMutationVariables
->;
+export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const FindUniqueRoomDocument = gql`
+    query findUniqueRoom($roomId: String!) {
+  findUniqueRoom(where: {id: $roomId}) {
+    title
+    image
+    description
+    gallery
+    events {
+      id
+      title
+      image
+      shortDescription
+      description
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUniqueRoomQuery__
+ *
+ * To run a query within a React component, call `useFindUniqueRoomQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUniqueRoomQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUniqueRoomQuery({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useFindUniqueRoomQuery(baseOptions: Apollo.QueryHookOptions<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>(FindUniqueRoomDocument, options);
+      }
+export function useFindUniqueRoomLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>(FindUniqueRoomDocument, options);
+        }
+export type FindUniqueRoomQueryHookResult = ReturnType<typeof useFindUniqueRoomQuery>;
+export type FindUniqueRoomLazyQueryHookResult = ReturnType<typeof useFindUniqueRoomLazyQuery>;
+export type FindUniqueRoomQueryResult = Apollo.QueryResult<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>;

@@ -1,0 +1,19 @@
+query findUniqueRoom($roomId: String!) {
+  findUniqueRoom(
+    where: {
+      id: $roomId
+    }
+  ) {
+    title
+    image
+    description
+    gallery
+    events {
+      id
+      title
+      image
+      shortDescription
+      description
+    }
+  }
+}

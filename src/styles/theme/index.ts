@@ -7,7 +7,7 @@ export interface ThemeState {
 }
 
 const lightTheme = {
-  primary: '#3044F9',
+  primary: '#2388FF',
   text: '#000',
   textParagraph: '#0000007A',
   background: '#f8f8f8',
