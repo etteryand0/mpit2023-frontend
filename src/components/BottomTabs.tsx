@@ -19,9 +19,9 @@ const Container = styled.div`
   padding-inline: 20px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  margin-top: auto;
-  /* position: absolute;
-  bottom: 0; */
+  /* margin-top: auto; */
+  position: absolute;
+  bottom: 0;
 `;
 
 interface BottomTabsProps {

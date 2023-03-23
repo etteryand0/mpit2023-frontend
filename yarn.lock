@@ -6264,6 +6264,11 @@ react-use-gesture@^8.0.1:
   resolved "https://registry.yarnpkg.com/react-use-gesture/-/react-use-gesture-8.0.1.tgz#4360c0f7c9e26baf9fbe58f63fc9de7ef699c17f"
   integrity sha512-CXzUNkulUdgouaAlvAsC5ZVo0fi9KGSBSk81WrE4kOIcJccpANe9zZkAYr5YZZhqpicIFxitsrGVS4wmoMun9A==
 
+react-zoom-pan-pinch@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-3.0.4.tgz#c771fb1f3da549616dd64cd275c57c11638f2020"
+  integrity sha512-HsGEUQY0g8A3SfQLgZT09rI9e01ywUp08XQj23FLUyA/ZIBXVyztmvTkXTwzwug1ZfH/fLCgeMh2urzi0J8RWw==
+
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"

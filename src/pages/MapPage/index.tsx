@@ -4,19 +4,22 @@ import styled from 'styled-components';
 import { bottomSheetOpenAtom } from './atom';
 import BottomTabs from '@/components/BottomTabs';
 import RoomClick from './RoomClick';
+import Map from './Map';
 
 const Container = styled.div`
-  background-color: #9ac8ff;
+  background-color: #d8d8d8;
   position: relative;
   height: 100svh;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: url('/bg.jpg');
+  background-repeat: repeat;
 `;
 
 const Logo = styled.div`
   position: 'absolute';
-  top: 0;
+  top: 15px;
   left: 0;
   right: 0;
 
@@ -33,6 +36,7 @@ const MapPage = () => {
       <Logo>
         <img alt="" src="/logo.png" />
       </Logo>
+      <Map />
       <BottomTabs activeTab={0} />
       <BottomSheet
         open={bottomSheetOpen}
