@@ -7,6 +7,7 @@ import { GlobalStyle } from './styles/global-styles';
 // import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import MapPage from './pages/MapPage';
+import BottomTabs from './components/BottomTabs';
 
 const router = createBrowserRouter([
   {

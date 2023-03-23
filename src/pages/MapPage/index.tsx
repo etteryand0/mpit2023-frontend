@@ -61,11 +61,11 @@ const MapPage = () => {
   };
 
   return (
-    <Container>
+    <Container style={{ height: '100svh' }}>
       <Logo>
         <img alt="" src="/logo.png" />
       </Logo>
-      <BottomTabs />
+      <BottomTabs activeTab={0} />
       <BottomSheet
         open={bottomSheetOpen}
         onDismiss={() => setBottomSheetOpen(false)}
