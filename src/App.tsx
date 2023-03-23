@@ -7,12 +7,26 @@ import { GlobalStyle } from './styles/global-styles';
 // import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
 import MapPage from './pages/MapPage';
-import BottomTabs from './components/BottomTabs';
+import Login from './pages/LoginPage';
+import Profile from './pages/ProfilePage';
+import SignUp from './pages/SignupPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MapPage />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
   },
   {
     path: '*',

@@ -16,6 +16,7 @@ const Events = ({ events }: EventsProps) => {
       {events.map(({ id, title, shortDescription, image }, i) => (
         <Card
           id={id}
+          key={id + title}
           title={title}
           shortDescription={shortDescription}
           cancelButton={i === 0}

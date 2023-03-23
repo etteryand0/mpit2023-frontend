@@ -2417,6 +2417,7 @@ export type Mutation = {
   updateManyProfile: BatchPayload;
   updateManyRoom: BatchPayload;
   updateManyUser: BatchPayload;
+  updateMyProfile: Profile;
   updateOneCategory: Category;
   updateOneChat: Chat;
   updateOneEvent: Event;
@@ -2608,6 +2609,11 @@ export type MutationUpdateManyRoomArgs = {
 export type MutationUpdateManyUserArgs = {
   data: UserUpdateManyMutationInput;
   where?: InputMaybe<UserWhereInput>;
+};
+
+
+export type MutationUpdateMyProfileArgs = {
+  data: UpdateMyProfileInput;
 };
 
 
@@ -3920,6 +3926,14 @@ export enum TransactionIsolationLevel {
   Serializable = 'Serializable'
 }
 
+export type UpdateMyProfileInput = {
+  avatar?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  bio?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  jobTitle?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  name?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+  surname?: InputMaybe<NullableStringFieldUpdateOperationsInput>;
+};
+
 export type User = {
   __typename?: 'User';
   _count: UserCountOutputType;
@@ -5103,6 +5117,13 @@ export type FindUniqueRoomQueryVariables = Exact<{
 
 export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string>, events: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> } | null };
 
+export type UpdateMyProfileMutationVariables = Exact<{
+  data: UpdateMyProfileInput;
+}>;
+
+
+export type UpdateMyProfileMutation = { __typename?: 'Mutation', updateMyProfile: { __typename?: 'Profile', id: string } };
+
 
 export const LoginDocument = gql`
     mutation login($data: SignInInput!) {
@@ -5215,3 +5236,36 @@ export function useFindUniqueRoomLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type FindUniqueRoomQueryHookResult = ReturnType<typeof useFindUniqueRoomQuery>;
 export type FindUniqueRoomLazyQueryHookResult = ReturnType<typeof useFindUniqueRoomLazyQuery>;
 export type FindUniqueRoomQueryResult = Apollo.QueryResult<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>;
+export const UpdateMyProfileDocument = gql`
+    mutation updateMyProfile($data: UpdateMyProfileInput!) {
+  updateMyProfile(data: $data) {
+    id
+  }
+}
+    `;
+export type UpdateMyProfileMutationFn = Apollo.MutationFunction<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
+
+/**
+ * __useUpdateMyProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateMyProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateMyProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateMyProfileMutation, { data, loading, error }] = useUpdateMyProfileMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateMyProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>(UpdateMyProfileDocument, options);
+      }
+export type UpdateMyProfileMutationHookResult = ReturnType<typeof useUpdateMyProfileMutation>;
+export type UpdateMyProfileMutationResult = Apollo.MutationResult<UpdateMyProfileMutation>;
+export type UpdateMyProfileMutationOptions = Apollo.BaseMutationOptions<UpdateMyProfileMutation, UpdateMyProfileMutationVariables>;
