@@ -17,7 +17,7 @@ const Container = styled.div`
   background-repeat: repeat;
 `;
 
-const Logo = styled.div`
+const Logo = styled.img`
   position: 'absolute';
   top: 15px;
   left: 0;
@@ -32,10 +32,8 @@ const MapPage = () => {
   const [bottomSheetOpen, setBottomSheetOpen] = useAtom(bottomSheetOpenAtom);
 
   return (
-    <Container style={{ height: '100svh' }}>
-      <Logo>
-        <img alt="" src="/logo.png" />
-      </Logo>
+    <Container style={{ height: '100svh', position: 'relative' }}>
+      <Logo src="/logo.png" />
       <Map />
       <BottomTabs activeTab={0} />
       <BottomSheet
