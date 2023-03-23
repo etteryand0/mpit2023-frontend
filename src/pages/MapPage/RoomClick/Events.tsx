@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import Typography from '@/components/Typography';
-import Card from '../components/Card';
+import { CardWithButton } from '../components/Card';
+import UniqueEvent from './UniqueEvent';
+import { selectedEventAtom } from './atom';
+import { useAtomValue } from 'jotai';
 
 interface EventsProps {
   events: {
@@ -11,10 +15,16 @@ interface EventsProps {
 }
 
 const Events = ({ events }: EventsProps) => {
+  const selectedEvent = useAtomValue(selectedEventAtom);
+
+  if (selectedEvent) {
+    return <UniqueEvent eventId={selectedEvent} />;
+  }
+
   return (
     <div style={{ width: '100%' }}>
       {events.map(({ id, title, shortDescription, image }, i) => (
-        <Card
+        <CardWithButton
           id={id}
           key={id + title}
           title={title}

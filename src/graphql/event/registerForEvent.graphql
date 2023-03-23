@@ -1,0 +1,10 @@
+mutation registerForEvent($eventId: String!, $username: String!) {
+  updateOneEvent(data: {
+    participants: {connect: { username: $username }}
+  }, where: { id: $eventId}) {
+    title
+    participants {
+      username
+    }
+  }
+}

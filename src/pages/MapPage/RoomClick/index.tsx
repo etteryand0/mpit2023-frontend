@@ -45,8 +45,8 @@ const RoomClick = () => {
           )}
         </CarouselItem>
         <CarouselItem>
-          {!loading && data?.findUniqueRoom ? (
-            <Events events={data.findUniqueRoom.events} />
+          {!loading && data?.findManyEvent ? (
+            <Events events={data.findManyEvent} />
           ) : (
             <Spin size="large" />
           )}

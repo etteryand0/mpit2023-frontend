@@ -5110,12 +5110,27 @@ export type SignupMutationVariables = Exact<{
 
 export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'Token', token?: string | null } };
 
+export type FindUniqueEventQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type FindUniqueEventQuery = { __typename?: 'Query', findUniqueEvent?: { __typename?: 'Event', title: string, description: string, shortDescription: string, date: any, image?: string | null, categories: Array<{ __typename?: 'Category', title: string }>, responsibles: Array<{ __typename?: 'User', profile?: { __typename?: 'Profile', name?: string | null, jobTitle?: string | null } | null }> } | null };
+
+export type RegisterForEventMutationVariables = Exact<{
+  eventId: Scalars['String'];
+  username: Scalars['String'];
+}>;
+
+
+export type RegisterForEventMutation = { __typename?: 'Mutation', updateOneEvent: { __typename?: 'Event', title: string, participants: Array<{ __typename?: 'User', username: string }> } };
+
 export type FindUniqueRoomQueryVariables = Exact<{
   roomId: Scalars['String'];
 }>;
 
 
-export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string>, events: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> } | null };
+export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string> } | null, findManyEvent: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> };
 
 export type UpdateMyProfileMutationVariables = Exact<{
   data: UpdateMyProfileInput;
@@ -5191,6 +5206,94 @@ export function useSignupMutation(baseOptions?: Apollo.MutationHookOptions<Signu
 export type SignupMutationHookResult = ReturnType<typeof useSignupMutation>;
 export type SignupMutationResult = Apollo.MutationResult<SignupMutation>;
 export type SignupMutationOptions = Apollo.BaseMutationOptions<SignupMutation, SignupMutationVariables>;
+export const FindUniqueEventDocument = gql`
+    query findUniqueEvent($id: String!) {
+  findUniqueEvent(where: {id: $id}) {
+    title
+    description
+    shortDescription
+    date
+    image
+    categories {
+      title
+    }
+    responsibles {
+      profile {
+        name
+        jobTitle
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUniqueEventQuery__
+ *
+ * To run a query within a React component, call `useFindUniqueEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUniqueEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUniqueEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindUniqueEventQuery(baseOptions: Apollo.QueryHookOptions<FindUniqueEventQuery, FindUniqueEventQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUniqueEventQuery, FindUniqueEventQueryVariables>(FindUniqueEventDocument, options);
+      }
+export function useFindUniqueEventLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUniqueEventQuery, FindUniqueEventQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUniqueEventQuery, FindUniqueEventQueryVariables>(FindUniqueEventDocument, options);
+        }
+export type FindUniqueEventQueryHookResult = ReturnType<typeof useFindUniqueEventQuery>;
+export type FindUniqueEventLazyQueryHookResult = ReturnType<typeof useFindUniqueEventLazyQuery>;
+export type FindUniqueEventQueryResult = Apollo.QueryResult<FindUniqueEventQuery, FindUniqueEventQueryVariables>;
+export const RegisterForEventDocument = gql`
+    mutation registerForEvent($eventId: String!, $username: String!) {
+  updateOneEvent(
+    data: {participants: {connect: {username: $username}}}
+    where: {id: $eventId}
+  ) {
+    title
+    participants {
+      username
+    }
+  }
+}
+    `;
+export type RegisterForEventMutationFn = Apollo.MutationFunction<RegisterForEventMutation, RegisterForEventMutationVariables>;
+
+/**
+ * __useRegisterForEventMutation__
+ *
+ * To run a mutation, you first call `useRegisterForEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterForEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerForEventMutation, { data, loading, error }] = useRegisterForEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useRegisterForEventMutation(baseOptions?: Apollo.MutationHookOptions<RegisterForEventMutation, RegisterForEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterForEventMutation, RegisterForEventMutationVariables>(RegisterForEventDocument, options);
+      }
+export type RegisterForEventMutationHookResult = ReturnType<typeof useRegisterForEventMutation>;
+export type RegisterForEventMutationResult = Apollo.MutationResult<RegisterForEventMutation>;
+export type RegisterForEventMutationOptions = Apollo.BaseMutationOptions<RegisterForEventMutation, RegisterForEventMutationVariables>;
 export const FindUniqueRoomDocument = gql`
     query findUniqueRoom($roomId: String!) {
   findUniqueRoom(where: {id: $roomId}) {
@@ -5198,13 +5301,13 @@ export const FindUniqueRoomDocument = gql`
     image
     description
     gallery
-    events {
-      id
-      title
-      image
-      shortDescription
-      description
-    }
+  }
+  findManyEvent(where: {roomId: {equals: $roomId}, approved: {equals: true}}) {
+    id
+    title
+    image
+    shortDescription
+    description
   }
 }
     `;

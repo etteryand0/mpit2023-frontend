@@ -1,9 +1,8 @@
 import { Theme } from '@/styles/theme';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface ButtonProps {
-  size?: 'large' | 'small';
+  type?: 'long' | 'short';
   color?: keyof Theme;
 }
 
@@ -15,11 +14,17 @@ const Button = styled.div<ButtonProps>`
   justify-content: center;
   color: #fff;
   padding: 12px 60px;
-  border-radius: 100vw;
+  ${({ type }) => {
+    if (type === 'short') {
+      return 'padding: 12px;';
+    }
+    return 'padding: 12px 60px';
+  }}
   font-size: 20px;
   border: 1px solid transparent;
   font-weight: 500;
   text-decoration: none;
+  border-radius: 100vw;
 
   outline: none;
   position: relative;

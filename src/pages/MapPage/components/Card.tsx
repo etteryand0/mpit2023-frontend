@@ -1,12 +1,10 @@
-import {
-  bottomSheetOpenAtom,
-  bottomSheetOpenEventAtom,
-} from '@/pages/MapPage/atom';
+import { bottomSheetOpenAtom } from '@/pages/MapPage/atom';
 import { useSetAtom } from 'jotai';
 import styled from 'styled-components';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
 import { Col, Row } from 'antd';
+import { selectedEventAtom } from '../RoomClick/atom';
 
 export const Header = styled.header`
   display: flex;
@@ -21,7 +19,7 @@ export const EventImage = styled.img`
   display: block;
 `;
 
-const Category = styled.div`
+export const Category = styled.div`
   background-color: #ff912c;
   color: #fff;
   font-weight: 500;
@@ -31,7 +29,7 @@ const Category = styled.div`
   /* white-space: normal; */
 `;
 
-const CategoryList = styled.div`
+export const CategoryList = styled.div`
   display: flex;
   flex-direction: row;
   gap: 12px;
@@ -41,32 +39,47 @@ const CategoryList = styled.div`
 `;
 
 interface CardProps {
-  id: string;
   title: string;
   shortDescription: string;
   image?: string | null;
   cancelButton?: boolean;
 }
 
-const Card = ({
-  id,
+type CardWithButtonProps = { id: string } & CardProps;
+
+export const CardWithButton = (props: CardWithButtonProps) => {
+  const setSelectedEvent = useSetAtom(selectedEventAtom);
+  const onClick = () => {
+    setSelectedEvent(props.id);
+  };
+
+  return (
+    <div>
+      <Card {...props} />
+      <CategoryList>
+        <Category>Дизайн</Category>
+        <Category>Разработка</Category>
+        <Category>Продакт-менеджмент</Category>
+        <Category>Софт скиллы</Category>
+      </CategoryList>
+
+      <Typography.Paragraph>Lorem ipsum dolor sit amet</Typography.Paragraph>
+
+      <Button onClick={onClick}>Перейти</Button>
+    </div>
+  );
+};
+
+export const Card = ({
   shortDescription,
   title,
   image,
   cancelButton = false,
 }: CardProps) => {
   const setBottomSheetOpen = useSetAtom(bottomSheetOpenAtom);
-  const setBottomSheetOpenEvent = useSetAtom(bottomSheetOpenEventAtom);
   if (!image?.startsWith('/')) {
     image = 'https://sergin.space/static/' + image;
   }
-
-  const onClick = () => {
-    setBottomSheetOpenEvent({
-      type: 'uniquePage',
-      payload: id,
-    });
-  };
 
   return (
     <div>
@@ -88,24 +101,6 @@ const Card = ({
       </Header>
       <Typography.Paragraph>{shortDescription}</Typography.Paragraph>
       <EventImage src={image} />
-
-      <CategoryList>
-        <Category>Дизайн</Category>
-        <Category>Разработка</Category>
-        <Category>Продакт-менеджмент</Category>
-        <Category>Софт скиллы</Category>
-      </CategoryList>
-
-      <Typography.Paragraph
-        dangerouslySetInnerHTML={{
-          __html:
-            'Lorem ipsum dolor sit amet consectetur. Interdum sit ut pulvinar vulputate quis pellentesque.',
-        }}
-      />
-
-      <Button onClick={onClick}>Перейти</Button>
     </div>
   );
 };
-
-export default Card;

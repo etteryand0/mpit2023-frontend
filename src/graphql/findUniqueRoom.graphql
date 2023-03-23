@@ -8,12 +8,15 @@ query findUniqueRoom($roomId: String!) {
     image
     description
     gallery
-    events {
-      id
-      title
-      image
-      shortDescription
-      description
-    }
+  }
+
+  findManyEvent(
+    where: { roomId: { equals: $roomId }, approved: { equals: true } }
+  ) {
+    id
+    title
+    image
+    shortDescription
+    description
   }
 }

@@ -1,0 +1,20 @@
+query findUniqueEvent($id: String!) {
+  findUniqueEvent(where: {
+    id: $id
+  }) {
+    title
+    description
+    shortDescription
+    date
+    image
+    categories {
+      title
+    }
+    responsibles {
+      profile {
+        name
+        jobTitle
+      }
+    }
+  }
+}
