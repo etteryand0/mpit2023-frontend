@@ -6,6 +6,9 @@ import BottomTabs from '@/components/BottomTabs';
 import RoomClick from './RoomClick';
 import Map from './Map';
 import TabClick from './TabClick';
+import React from 'react';
+import { userAtom } from '../LoginPage/atom';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: #d8d8d8;
@@ -41,7 +44,15 @@ const Type = () => {
 };
 
 const MapPage = () => {
+  const navigate = useNavigate();
   const [bottomSheetOpen, setBottomSheetOpen] = useAtom(bottomSheetOpenAtom);
+  const user = useAtomValue(userAtom);
+
+  React.useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   return (
     <Container style={{ height: '100svh', position: 'relative' }}>
