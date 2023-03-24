@@ -13,7 +13,7 @@ import 'sanitize.css/sanitize.css';
 import 'react-spring-bottom-sheet/dist/style.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://localhost:4000/api/graphql',
   credentials: 'same-origin',
 });
 
