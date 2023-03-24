@@ -22,7 +22,11 @@ const SignUp = () => {
 
     if (data?.signup?.token) {
       localStorage.setItem('token', data.signup.token);
-      setUser({ username });
+      setUser({
+        username,
+        id: data.signup.user.id,
+        role: data.signup.user.role,
+      });
       navigate('/');
     }
   };

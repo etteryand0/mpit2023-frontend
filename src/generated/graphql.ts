@@ -2547,10 +2547,10 @@ export type Mutation = {
   deleteOneUser?: Maybe<User>;
   generateShortLink: Scalars['String'];
   issueEvent: Event;
-  login: Token;
+  login: UserAndToken;
   registerForEvent: Event;
   sendMessage: Message;
-  signup: Token;
+  signup: UserAndToken;
   unsignFromEvent: Event;
   updateManyCategory: BatchPayload;
   updateManyChat: BatchPayload;
@@ -4386,9 +4386,7 @@ export type ShortLinkWhereInput = {
 };
 
 export type ShortLinkWhereUniqueInput = {
-  eventId?: InputMaybe<Scalars['String']>;
   path?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type SignInInput = {
@@ -4494,11 +4492,6 @@ export type SubscriptionChatArgs = {
   chatId: Scalars['String'];
 };
 
-export type Token = {
-  __typename?: 'Token';
-  token?: Maybe<Scalars['String']>;
-};
-
 export enum TransactionIsolationLevel {
   ReadCommitted = 'ReadCommitted',
   ReadUncommitted = 'ReadUncommitted',
@@ -4592,6 +4585,12 @@ export type UserShortLinksArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ShortLinkWhereInput>;
+};
+
+export type UserAndToken = {
+  __typename?: 'UserAndToken';
+  token: Scalars['String'];
+  user: User;
 };
 
 export type UserCountAggregateOutputType = {
@@ -5819,14 +5818,14 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Token', token?: string | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserAndToken', token: string, user: { __typename?: 'User', id: string, username: string, role: UserRole } } };
 
 export type SignupMutationVariables = Exact<{
   data: SignUpInput;
 }>;
 
 
-export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'Token', token?: string | null } };
+export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'UserAndToken', token: string, user: { __typename?: 'User', id: string, username: string, role: UserRole } } };
 
 export type FindMyRegisteredEventsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5874,6 +5873,13 @@ export type FindUniqueRoomQueryVariables = Exact<{
 
 export type FindUniqueRoomQuery = { __typename?: 'Query', findUniqueRoom?: { __typename?: 'Room', title: string, image?: string | null, description?: string | null, gallery: Array<string> } | null, findManyEvent: Array<{ __typename?: 'Event', id: string, title: string, image?: string | null, shortDescription: string, description: string }> };
 
+export type FindUniqueShortLinkQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
+
+
+export type FindUniqueShortLinkQuery = { __typename?: 'Query', findUniqueShortLink?: { __typename?: 'ShortLink', event: { __typename?: 'Event', id: string, title: string }, user: { __typename?: 'User', username: string, profile?: { __typename?: 'Profile', name?: string | null, surname?: string | null } | null } } | null };
+
 export type GenerateShortLinkMutationVariables = Exact<{
   eventId: Scalars['String'];
 }>;
@@ -5893,6 +5899,11 @@ export const LoginDocument = gql`
     mutation login($data: SignInInput!) {
   login(data: $data) {
     token
+    user {
+      id
+      username
+      role
+    }
   }
 }
     `;
@@ -5926,6 +5937,11 @@ export const SignupDocument = gql`
     mutation signup($data: SignUpInput!) {
   signup(data: $data) {
     token
+    user {
+      id
+      username
+      role
+    }
   }
 }
     `;
@@ -6238,6 +6254,51 @@ export function useFindUniqueRoomLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type FindUniqueRoomQueryHookResult = ReturnType<typeof useFindUniqueRoomQuery>;
 export type FindUniqueRoomLazyQueryHookResult = ReturnType<typeof useFindUniqueRoomLazyQuery>;
 export type FindUniqueRoomQueryResult = Apollo.QueryResult<FindUniqueRoomQuery, FindUniqueRoomQueryVariables>;
+export const FindUniqueShortLinkDocument = gql`
+    query findUniqueShortLink($path: String!) {
+  findUniqueShortLink(where: {path: $path}) {
+    event {
+      id
+      title
+    }
+    user {
+      username
+      profile {
+        name
+        surname
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindUniqueShortLinkQuery__
+ *
+ * To run a query within a React component, call `useFindUniqueShortLinkQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUniqueShortLinkQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindUniqueShortLinkQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useFindUniqueShortLinkQuery(baseOptions: Apollo.QueryHookOptions<FindUniqueShortLinkQuery, FindUniqueShortLinkQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindUniqueShortLinkQuery, FindUniqueShortLinkQueryVariables>(FindUniqueShortLinkDocument, options);
+      }
+export function useFindUniqueShortLinkLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUniqueShortLinkQuery, FindUniqueShortLinkQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindUniqueShortLinkQuery, FindUniqueShortLinkQueryVariables>(FindUniqueShortLinkDocument, options);
+        }
+export type FindUniqueShortLinkQueryHookResult = ReturnType<typeof useFindUniqueShortLinkQuery>;
+export type FindUniqueShortLinkLazyQueryHookResult = ReturnType<typeof useFindUniqueShortLinkLazyQuery>;
+export type FindUniqueShortLinkQueryResult = Apollo.QueryResult<FindUniqueShortLinkQuery, FindUniqueShortLinkQueryVariables>;
 export const GenerateShortLinkDocument = gql`
     mutation generateShortLink($eventId: String!) {
   generateShortLink(eventId: $eventId)

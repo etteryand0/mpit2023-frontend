@@ -10,6 +10,7 @@ type Props = {
 };
 
 const QR = ({ value, toggle }: Props) => {
+  console.log(value);
   return (
     <div>
       <div style={{ width: '100%', paddingInline: 40 }}>

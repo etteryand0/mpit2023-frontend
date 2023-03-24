@@ -22,7 +22,7 @@ const Login = () => {
 
     if (data?.login?.token) {
       localStorage.setItem('token', data.login.token);
-      setUser({ username });
+      setUser({ username, id: data.login.user.id, role: data.login.user.role });
       navigate('/');
     }
   };

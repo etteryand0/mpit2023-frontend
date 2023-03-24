@@ -1,0 +1,17 @@
+query findUniqueShortLink($path: String!) {
+  findUniqueShortLink(where: {
+    path: $path
+  }) {
+    event {
+      id
+      title
+    }
+    user {
+      username
+      profile {
+        name
+        surname
+      }
+    }
+  }
+}

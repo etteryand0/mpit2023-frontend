@@ -1,5 +1,10 @@
 mutation signup ($data: SignUpInput!) {
   signup(data: $data) {
     token
+    user {
+      id
+      username
+      role
+    }
   }
 }

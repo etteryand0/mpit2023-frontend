@@ -1,3 +1,10 @@
+import { UserRole } from '@/generated/graphql';
 import { atom } from 'jotai';
 
-export const userAtom = atom<null | { username: string }>(null);
+type UserAtom = {
+  id: string;
+  username: string;
+  role: UserRole;
+} | null;
+
+export const userAtom = atom<UserAtom>(null);

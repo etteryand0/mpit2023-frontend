@@ -1,5 +1,10 @@
 mutation login($data: SignInInput!) {
   login(data: $data) {
     token
+    user {
+      id
+      username
+      role
+    }
   }
 }

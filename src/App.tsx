@@ -10,6 +10,7 @@ import MapPage from './pages/MapPage';
 import Login from './pages/LoginPage';
 import Profile from './pages/ProfilePage';
 import SignUp from './pages/SignupPage';
+import ShortLink from './pages/ShortLink';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SignUp />,
+  },
+  {
+    path: '/p/:path',
+    element: <ShortLink />,
   },
   {
     path: '/profile',
