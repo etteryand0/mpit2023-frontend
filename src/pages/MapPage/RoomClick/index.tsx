@@ -26,6 +26,8 @@ const RoomClick = () => {
     setBottomSheetPage(newIndex);
   };
 
+  console.log(error);
+
   return (
     <div>
       <Nav navItems={navItems} />
